@@ -13,8 +13,6 @@ weight: 1300
 **Recently tested with GigaSpaces version**: XAP.NET 9.7.0 x64<br/>
 **Last Update:** April 2014<br/>
 
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
-
 {% endtip %}
 
 
@@ -23,19 +21,19 @@ weight: 1300
 
 Almost every large enterprise system includes legacy applications or backend systems that are communicating with the enterprise main database system for reporting, batch processing, data mining, OLAP and other processing activity. These applications might not need to access the data grid to improve their performance or scalability. They will be using the database directly. Once these systems perform data updates , removing data or add new records to the database, these updates might need to be reflected within the data grid. This synchronization activity ensures the data grid is consistent and up to date with the enterprise main database server.
 
-<!--iframe width="640" height="390" src="//www.youtube.com/embed/EOyDg-mI3z0" frameborder="0" allowfullscreen></iframe-->
-
 The Delta Server described with this pattern responsible for getting notifications from the database for any user activity (excluding data grid updates) and delegate these to the data grid. You may specify the exact data set updates to be delegated to the data grid by specifying a SQL Query that will indicate which records updates / removal / addition should be reflected within the data grid.
 
 # Scenario
-
+{%section%}
+{%column width=80% %}
 We have an In Memory Data Grid (IMDG) that is used for querying information. The initial load of the IMDG was performed from an SQL Server Database. The IMDG is not used as a system of record in this case - in other words, any changes to the objects in the IMDG are not propagated back into the Database and instead Data-Grid Non-Aware Clients are updating the Database. These updates (insert,update and delete) need to be reflected in the IMDG.
+{%endcolumn%}
+{%column width=20% %}
+{%popup /attachment_files/sqlserver-delta-server.jpg%}
+{%endcolumn%}
+{%endsection%}
 
-{%align center%}
-[<img src="/pics/sqlserver-delta-server.png" width="400" height="300">](/pics/sqlserver-delta-server.png)
-{%endalign%}
-
-We will show you how you can implement this scenario with XAP. A fully functional example is available on [GitHub](https://github.com/Gigaspaces/xxxxx).
+We will show you how you can implement this scenario with XAP. A fully functional example is available [here](/download_files/sqldeltaserver.zip).
 
 
 # Change Data Capture (CDC)
@@ -44,27 +42,35 @@ Change Data Capture is a new feature in SQL Server 2008 that records insert, upd
 
 Change data capture records insert, update, and delete activity that is applied to a SQL Server table. This makes the details of the changes available in an easily consumed relational format. Column information and the metadata that is required to apply the changes to a target environment is captured for the modified rows and stored in change tables that mirror the column structure of the tracked source tables. Table-valued functions are provided to allow systematic access to the change data by consumers.
 
-For further information please consult the Microsoft [documentation] (http://technet.microsoft.com/en-us/library/bb522489(v=sql.105).aspx).
+For further information please consult the Microsoft [documentation](http://technet.microsoft.com/en-us/library/bb522489(v=sql.105).aspx).
 In our example we will only demonstrate the notifications for INSERT, UPDATE and Delete.
 
 ## Change Data Capture (CDC) Setup And Configuration
 Note:-Make Sure Sql-Server Agent is enabled. Also, please ensure that you have run
-a.	Gs-agent
-b.	Created a space (e.g) - gs-cli deploy-space -cluster total_members=1,1 mydatagrid
-          Keep this grid name handy as you will be using it later on.
-1)	Create a database first (right click and create a new DB)
 
-{%align center%}
-[<img src="/pics/pic1.png" width="400" height="300">](/pics/pic1.png)
-{%endalign%}
+a.	Gs-agent{%wbr%}
+b.	Created a space (e.g)
+{%highlight bash%}
+- gs-cli deploy-space -cluster total_members=1,1 mydatagrid
+{%endhighlight%}
+
+Keep this grid name handy as you will be using it later on.
+
+#### Step 1:
+Create a database first (right click and create a new DB)
+
+
+![](/attachment_files/sqlserver-pic1.png)
+
 
 You will see the following:
 
-{%align center%}
-[<img src="/pics/pic2.png" width="400" height="300">](/pics/pic2.png)
-{%endalign%}
+![](/attachment_files/sqlserver-pic2.png)
 
-2)	Once a database is created, create a table (for our example, let’s use Person, with columns, ID, Firstname, Lastname, Age):
+
+#### Step 2:
+Once a database is created, create a table (for our example, let’s use Person, with columns, ID, Firstname, Lastname, Age):
+{%highlight sql%}
 USE [datagrid]
 GO
 
@@ -87,50 +93,71 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
+{%endhighlight%}
 
-3)	CDC must be enabled at the database level (it is disabled by default).  To enable CDC you must be a member of the sysadmin fixed server role.  You can enable CDC ONLY on any user database (not on system databases).  Execute the following T-SQL script in the database of your choice (e.g. datagrid in the following screenshots):
+#### Step 3:
+CDC must be enabled at the database level (it is disabled by default).  To enable CDC you must be a member of the sysadmin fixed server role.  You can enable CDC ONLY on any user database (not on system databases).  Execute the following T-SQL script in the database of your choice (e.g. datagrid in the following screenshots):
+
+{%highlight sql%}
 declare @rc int
 exec @rc = sys.sp_cdc_enable_db
 select @rc
 -- you will find that a new column is added to sys.databases: is_cdc_enabled
 select name, is_cdc_enabled from sys.databases
+{%endhighlight%}
   
+
+![](/attachment_files/sqlserver-pic3.png)
+
   
-{%align center%}
-[<img src="/pics/pic3.png" width="400" height="300">](/pics/pic3.png)
-{%endalign%}
-  
-(notice that datagrid has is_cdc_enabled column = 1)
+**(notice that datagrid has is_cdc_enabled column = 1)**
 
 
 
-4)	Now, you have to enable CDC for the table in question (in our case, Person table). Execute the following system stored procedure to enable CDC for the Person table:
-exec sys.sp_cdc_enable_table 
+#### Step 4:
+Now, you have to enable CDC for the table in question (in our case, Person table). Execute the following system stored procedure to enable CDC for the Person table:
+{%highlight sql%}
+exec sys.sp_cdc_enable_table
     @source_schema = 'dbo', 
     @source_name = 'Person' ,
     @role_name = 'CDCRole',
     @supports_net_changes = 1
-5)	Verify that CDC is enabled for that table:
+{%endhighlight%}
+
+#### Step 5:
+
+Verify that CDC is enabled for that table:
+
+{%highlight sql%}
 select name, type, type_desc, is_tracked_by_cdc from sys.tables
+{%endhighlight%}
 
-{%align center%}
-[<img src="/pics/pic4.png" width="400" height="300">](/pics/pic4.png)
-{%endalign%}
 
-6)	From what you have done so far, enabling CDC at the database and table levels will create certain tables, jobs, stored procedures and functions in the CDC-enabled database. In our case, this is the datagrid table.  
+![](/attachment_files/sqlserver-pic4.png)
+
+
+#### Step 6:
+From what you have done so far, enabling CDC at the database and table levels will create certain tables, jobs, stored procedures and functions in the CDC-enabled database. In our case, this is the datagrid table.
 You will see a message that two SQL Agent jobs were created; e.g. cdc.datagrid_capture which scans the database transaction log to handle changes to the tables that have CDC enabled, and cdc.datagrid_cleanup which purges the change tables periodically.  
 
 You can examine the schema objects created by running the following T-SQL script:
+{%highlight sql%}
 select o.name, o.type, o.type_desc from sys.objects o
 join sys.schemas  s on s.schema_id = o.schema_id
 where s.name = 'cdc'
+{%endhighlight%}
 
-7)	Now, create another table so we can track the last LSN we (the DeltaServer) are processing:
+#### Step 7:
+Now, create another table so we can track the last LSN we (the DeltaServer) are processing:
+
+{%highlight sql%}
 create table dbo.Person_lsn (last_lsn binary(10))
+{%endhighlight%}
 
-
-8)	Now, create a function to get the last person LSN thus:
-   create function dbo.get_last_Person_lsn() 
+#### Step 8:
+Now, create a function to get the last person LSN thus:
+{%highlight sql%}
+   create function dbo.get_last_Person_lsn()
          returns binary(10)
              as
            begin
@@ -139,16 +166,19 @@ create table dbo.Person_lsn (last_lsn binary(10))
    select @last_lsn = isnull(@last_lsn, sys.fn_cdc_get_min_lsn('dbo_Person'))
       return @last_lsn
       end
+{%endhighlight%}
 
 What you have done is that you have created a Scalar-valued Function. Double check this function by right clicking on Programmability->Functions->Scalar Valued Functions
  
-{%align center%}
-[<img src="/pics/pic5.png" width="400" height="300">](/pics/pic5.png)
-{%endalign%}
+
+![](/attachment_files/sqlserver-pic5.png)
 
 
-9)	Now, let’s create a stored procedure that will capture as soon as next person changes are executed:
 
+#### Step 9:
+Now, let’s create a stored procedure that will capture as soon as next person changes are executed:
+
+{%highlight bash%}
 -- ================================================
 -- Template generated from Template Explorer using:
 -- Create Procedure (New Menu).SQL
@@ -193,9 +223,12 @@ BEGIN
 
 END
 GO
+{%endhighlight%}
 
-10)	You can test what you have done by some simple statements like:
+#### Step 10:
+You can test what you have done by some simple statements like:
 
+{%highlight sql%}
 insert Person values (1, 'abc', 'md', 99) 
 update Person set age = 199 where id = 1 
 delete from Person where id = 1 
@@ -217,25 +250,27 @@ select @end_lsn = sys.fn_cdc_get_max_lsn()
 select * from cdc.fn_cdc_get_net_changes_dbo_Person( @begin_lsn, @end_lsn, 'all'); 
 -- get individual changes in the range
 select * from cdc.fn_cdc_get_all_changes_dbo_Person(@begin_lsn, @end_lsn, 'all');
+{%endhighlight%}
 
 
 
-{%align center%}
-[<img src="/pics/pic6.png" width="400" height="300">](/pics/pic6.png)
-{%endalign%}
+[<img src="/attachment_files/sqlserver-pic6.png" width="400" height="300">](/attachment_files/sqlserver-pic6.png)
 
 
 
-11)	Now, head on over to Visual Studio and open the project to make some customizations for your project.
+
+#### Step 11:
+Now, head on over to Visual Studio and open the project to make some customizations for your project.
 In program.cs, you will find values like string _connStr = "Data Source=YOUR-PC\\SQL2012;Initial Catalog=datagrid;Integrated Security=True";
 Please change them to reflect values according to your set up. You can easily copy this string from visual studio itself (if you have configured the database connection). Head over to Server explorer in Visual Studio, click on Data Connections->your database connection. On the right hand side, properties window you will see the connection string that you would need to copy/paste in _connStr.
 
-{%align center%}
-[<img src="/pics/pic7.png" width="400" height="300">](/pics/pic7.png)
-{%endalign%}
+
+![](/attachment_files/sqlserver-pic7.png)
 
 
-12)	Change your group or space connect string if you desire to. Currently, it is set to default
+
+#### Step 12:
+Change your group or space connect string if you desire to. Currently, it is set to default
 ISpaceProxy spaceProxy = GigaSpacesFactory.FindSpace("jini://*/*/mydatagrid?groups=XAP-9.7.0-ga-NET-4.0.30319-x64");
 Please note that this is the same grid name that you defined before (in first step)
 
@@ -346,10 +381,10 @@ static void ChangeCapture(object sender, ElapsedEventArgs e)
 
 # Running the example
 
-1. Download the example from [GitHub|https://github.com/Gigaspaces/XXXXXX].
+1. [Download the example](/download_files/sqldeltaserver.zip).
 2. Change the Database properties according to your environment:
 
-{%highlight java%}
+{%highlight xml%}
 # App.config
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
@@ -360,19 +395,22 @@ static void ChangeCapture(object sender, ElapsedEventArgs e)
 
 {%endhighlight%}
 
-13)	Now, you can build the solution and test it out. For this, you can either run it from Visual Studio (Ctrl+F5) or you can head over to DeltaServer\DeltaServer\bin\Debug and run the DeltaServer.exe. Or if you are creating a release version, you can run it from there. Upon running the program, you should be prompted to insert/update/delete or exit the program
-
-{%align center%}
-[<img src="/pics/pic8.png" width="400" height="300">](/pics/pic8.png)
-{%endalign%}
-
-14)	As you insert/update/delete, please note such changes in the gs-webgui.
-
-{%align center%}
-[<img src="/pics/pic9.png" width="400" height="300">](/pics/pic9.png)
-{%endalign%}
+#### Step 13:
+Now, you can build the solution and test it out. For this, you can either run it from Visual Studio (Ctrl+F5) or you can head over to DeltaServer\DeltaServer\bin\Debug and run the DeltaServer.exe. Or if you are creating a release version, you can run it from there. Upon running the program, you should be prompted to insert/update/delete or exit the program
 
 
-15)	If you would like to, you can change the frequency of updates thus (in program.cs)
+![](/attachment_files/sqlserver-pic8.png)
+
+
+#### Step 14:
+As you insert/update/delete, please note such changes in the gs-webgui.
+
+
+[<img src="/attachment_files/sqlserver-pic9.png" width="400" height="300">](/attachment_files/sqlserver-pic9.png)
+
+
+
+#### Step 15:
+If you would like to, you can change the frequency of updates thus (in program.cs)
 a.	timer.Interval = 5000; //set interval of polling here
 
