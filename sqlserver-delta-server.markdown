@@ -33,7 +33,7 @@ We have an In Memory Data Grid (IMDG) that is used for querying information. The
 {%endcolumn%}
 {%endsection%}
 
-We will show you how you can implement this scenario with XAP. A fully functional example is available [here](/download_files/sqldeltaserver.zip).
+We will show you how you can implement this scenario with XAP. A fully functional example is available [here](/download_files/SqlDeltaServer.zip).
 
 
 # Change Data Capture (CDC)
@@ -381,7 +381,7 @@ static void ChangeCapture(object sender, ElapsedEventArgs e)
 
 # Running the example
 
-1. [Download the example](/download_files/sqldeltaserver.zip).
+1. [Download the example](/download_files/SqlDeltaServer.zip).
 2. Change the Database properties according to your environment:
 
 {%highlight xml%}
