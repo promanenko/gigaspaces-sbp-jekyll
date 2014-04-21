@@ -54,7 +54,6 @@ The GUD support the following command line arguments:
 
 {: .table .table-bordered}
 |Switch|Description|Options|Default|
-|Switch|Description|Options|Default|
 |-command|deploy or undeploy PU listed at the config file location| deploy , undeploy| deploy|
 |-config|GUD config file location| | |
 |-locators|lookup service locators| | |
