@@ -46,56 +46,33 @@ For further information please consult the Microsoft [documentation](http://tech
 In our example we will only demonstrate the notifications for INSERT, UPDATE and Delete.
 
 ## Change Data Capture (CDC) Setup And Configuration
-Note:-Make Sure Sql-Server Agent is enabled. Also, please ensure that you have run:
 
-a.	Gs-agent{%wbr%} - This can be enabled via windows service or by running Gs-agent.exe.
-b.	Deploy a space (e.g)
+Note:- This setup is for XAP.NET. Please download it here (http://www.gigaspaces.com/xap-download). After downloading XAP.NET, please run the version appropriate for your platform (x86 or x64). Remember to copy the license you received via email to the appropriate location (e.g. C:\GigaSpaces\XAP.NET 9.7.0 x86\Runtime\gslicense.xml). Next, proceed with starting XAP.NET and monitoring it via the Web-GUI as follows:
+a.  Gs-agent{%wbr%} - This can be enabled via windows service or by running Gs-agent.exe thus:
 {%highlight bash%}
-- gs-cli deploy-space -cluster total_members=1,1 mydatagrid
+C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin\Gs-agent.exe
 {%endhighlight%}
+b.  Deploy a space (e.g)
+{%highlight bash%}
+C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin\Gs-cli deploy-space -cluster total_members=1,1 mydatagrid. Keep this grid name handy as you will be using it later on.
+{%endhighlight%}
+c.   Run 
+{%highlight bash%}
+C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin\Gs-webui.exe
+{%endhighlight%}
+ and once successful, login to view the UI (e.g at http://localhost:8099/). You can login with the default group XAP-9.7.0-ga-NET-4.0.30319-x86
 
 Keep this grid name (mydatagrid) handy as you will be using it later on.
 
+NOTE: If you would like to capture all the data available before CDC is enabled and the DeltaServer is run, you would need to preload data into the datagrid. 
+
 #### Step 1:
-Create a database first (right click and create a new DB)
+Note:-Make Sure Sql-Server Agent is enabled.
 
-
-![](/attachment_files/sqlserver-pic1.png)
-
-
-You will see the following:
-
-![](/attachment_files/sqlserver-pic2.png)
-
+a Create a database first (e.g. named datagrid)
+b Once a database is created, create a table - with our example, let’s use the **Person** table with columns: ID, Firstname(nvarchar 255), Lastname(nvarchar 255) and Age (int)
 
 #### Step 2:
-Once a database is created, create a table - with our example, let’s use the **Person** table with columns: ID, Firstname, Lastname and Age:
-{%highlight sql%}
-USE [datagrid]
-GO
-
-/****** Object:  Table [dbo].[Person]    ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[Person](
-	[Id] [int] NOT NULL,
-	[FirstName] [nvarchar](255) NULL,
-	[LastName] [nvarchar](255) NULL,
-	[Age] [int] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-{%endhighlight%}
-
-#### Step 3:
 CDC must be enabled at the database level (it is disabled by default).  To enable CDC you must be a member of the sysadmin fixed server role.  You can enable CDC ONLY on any user database (not on system databases).  Execute the following T-SQL script in the database of your choice (e.g. datagrid in the following screenshots):
 
 {%highlight sql%}
@@ -112,7 +89,7 @@ select name, is_cdc_enabled from sys.databases
   
 **(notice that datagrid has is_cdc_enabled column = 1)**
 
-#### Step 4:
+#### Step 3:
 Enable CDC for the Person table. Execute the following system stored procedure to enable CDC for the Person table:
 {%highlight sql%}
 exec sys.sp_cdc_enable_table
@@ -122,19 +99,8 @@ exec sys.sp_cdc_enable_table
     @supports_net_changes = 1
 {%endhighlight%}
 
-#### Step 5:
+#### Step 4:
 
-Verify that CDC is enabled for that table:
-
-{%highlight sql%}
-select name, type, type_desc, is_tracked_by_cdc from sys.tables
-{%endhighlight%}
-
-
-![](/attachment_files/sqlserver-pic4.png)
-
-
-#### Step 6:
 Enabling CDC at the database and table levels will create certain tables, jobs, stored procedures and functions in the CDC-enabled database. In our case, this is the datagrid table.
 You will see a message that two SQL Agent jobs were created; e.g. cdc.datagrid_capture which scans the database transaction log to handle changes to the tables that have CDC enabled, and cdc.datagrid_cleanup which purges the change tables periodically.  
 
@@ -145,15 +111,15 @@ join sys.schemas  s on s.schema_id = o.schema_id
 where s.name = 'cdc'
 {%endhighlight%}
 
-#### Step 7:
+#### Step 5:
 Create another table to track the last LSN the DeltaServer is processing:
 
 {%highlight sql%}
 create table dbo.Person_lsn (last_lsn binary(10))
 {%endhighlight%}
 
-#### Step 8:
-Now, create a function to get the last person LSN thus:
+#### Step 6:
+Next, create a function to get the last person LSN thus:
 {%highlight sql%}
    create function dbo.get_last_Person_lsn()
          returns binary(10)
@@ -173,215 +139,48 @@ You have created a Scalar-valued Function. Double check this function by right c
 
 
 
-#### Step 9:
-Create a stored procedure that will capture as soon as next person changes are executed:
+#### Step 7:
+Create a stored procedure that will capture data as soon as next person changes are executed:
 
 {%highlight bash%}
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[Capture]
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-	declare @begin_lsn binary(10), @end_lsn binary(10)
+  -- SET NOCOUNT ON added to prevent extra result sets from
+  -- interfering with SELECT statements.
+  SET NOCOUNT ON;
+  declare @begin_lsn binary(10), @end_lsn binary(10)
     -- get the next LSN for Person changes
-	select @begin_lsn = dbo.get_last_Person_lsn()
-	-- get the last LSN for Person changes
-	select @end_lsn = sys.fn_cdc_get_max_lsn()
+  select @begin_lsn = dbo.get_last_Person_lsn()
+  -- get the last LSN for Person changes
+  select @end_lsn = sys.fn_cdc_get_max_lsn()
 
 
-	-- get all individual changes in the range
-	select * from cdc.fn_cdc_get_all_changes_dbo_Person(
-	 @begin_lsn, @end_lsn, 'all'); 
-	-- save the end_lsn in the Person_lsn table
-	update dbo.Person_lsn
-	set last_lsn = @end_lsn
-	if @@ROWCOUNT = 0
-	insert into dbo.Person_lsn values(@end_lsn)
+  -- get all individual changes in the range
+  select * from cdc.fn_cdc_get_all_changes_dbo_Person(
+   @begin_lsn, @end_lsn, 'all'); 
+  -- save the end_lsn in the Person_lsn table
+  update dbo.Person_lsn
+  set last_lsn = @end_lsn
+  if @@ROWCOUNT = 0
+  insert into dbo.Person_lsn values(@end_lsn)
 
 END
 GO
 {%endhighlight%}
 
-#### Step 10:
-You can test what you have done by some simple statements like:
-
-{%highlight sql%}
-insert Person values (1, 'abc', 'md', 99) 
-update Person set age = 199 where id = 1 
-delete from Person where id = 1 
-insert Person values (2, 'xyz', 'de', 59) 
-update Person set age = 299 where id = 2
-delete from Person where id = 2 
-insert Person values (3, 'xox', 'va', 29) 
-update Person set age = 399 where id = 3 
-delete from Person where id = 3
-{%endhighlight%}
-
-And then, you can run:
-
-{%highlight sql%}
-declare @begin_lsn binary(10), @end_lsn binary(10)
--- get the first LSN for Person changes
-select @begin_lsn = sys.fn_cdc_get_min_lsn('dbo_Person')
--- get the last LSN for Person changes
-select @end_lsn = sys.fn_cdc_get_max_lsn()
--- get net changes; group changes in the range by the pk
-select * from cdc.fn_cdc_get_net_changes_dbo_Person( @begin_lsn, @end_lsn, 'all'); 
--- get individual changes in the range
-select * from cdc.fn_cdc_get_all_changes_dbo_Person(@begin_lsn, @end_lsn, 'all');
-{%endhighlight%}
-
-
-
-[<img src="/attachment_files/sqlserver-pic6.png" width="400" height="300">](/attachment_files/sqlserver-pic6.png)
-
-
-#### Step 11:
-Head on over to Visual Studio and open the project to make some customizations for your project.
-In program.cs, you will find values like:
-{%highlight java%}
-string _connStr = "Data Source=YOUR-PC\\SQL2012;Initial Catalog=datagrid;Integrated Security=True";
-{%endhighlight%}
-
-Please change them to reflect values according to your set up. You can easily copy this string from visual studio itself (if you have configured the database connection). Head over to Server explorer in Visual Studio, click on Data Connections->your database connection. On the right hand side, properties window you will see the connection string that you would need to copy/paste in **_connStr**.
-
-
-![](/attachment_files/sqlserver-pic7.png)
-
-
-
-#### Step 12:
-Change your group or space connect string if you desire to. Currently, it is set to use:
-{%highlight java%}
-ISpaceProxy spaceProxy = GigaSpacesFactory.FindSpace("jini://*/*/mydatagrid");
-{%endhighlight%}
-Please note that this is the same data grid name (mydatagrid) you have defined before (in first step).
-
-
-## Registering a listener, capturing data therefore
-Lets assume we have an **Employee** represented in a Person table in the database that we want to be notified when a record is inserted, updated or deleted so we can update the IMDG with the changes. Here is an example of an **ChangeNotificationListener**.
-
-{%highlight java%}
-static void ChangeCapture(object sender, ElapsedEventArgs e)
-        {
-         
-            ISpaceProxy spaceProxy = GigaSpacesFactory.FindSpace("jini://*/*/mydatagrid");
-
-            string _connStr = ConfigurationManager.ConnectionStrings["DBSTRING"].ConnectionString;
-            
-            SqlConnection con = new SqlConnection(_connStr);
-            con.Open();
-            SqlCommand cmd = new SqlCommand("Capture", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            // this will query your database and return the result to your datatable
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            //Insert Query starts
-            List<Employee> objEmployee2 = (from item in dt.AsEnumerable()
-		   where item.Field<int>("__$operation") == 2
-		   select new Employee()
-		   {
-		       Id = item.Field<int>("Id"),
-		       FirstName = item.Field<string>("FirstName"),
-		       LastName = item.Field<string>("LastName"),
-		       Age = item.Field<int>("Age")
-		   }).ToList();
-            var personarray = new Person[objEmployee2.Count];
-            for (int i = 0; i < objEmployee2.Count; i++) // Loop through List with for
-            {
-                personarray[i] = new Person
-                {
-                    Id = objEmployee2[i].Id,
-                    FirstName = objEmployee2[i].FirstName,
-                    LastName = objEmployee2[i].LastName,
-                    Age = objEmployee2[i].Age
-
-                };
-             
-            }
-            spaceProxy.WriteMultiple(personarray);
-            //Insert Query ends
-
-            //Update Query starts
-            List<Employee> objEmployee3 = (from item in dt.AsEnumerable()
-			   where item.Field<int>("__$operation") == 4
-			   select new Employee()
-			   {
-			       Id = item.Field<int>("Id"),
-			       FirstName = item.Field<string>("FirstName"),
-			       LastName = item.Field<string>("LastName"),
-			       Age = item.Field<int>("Age")
-			   }).ToList();
-
-            for (int i = 0; i < objEmployee3.Count; i++) // Loop through List with for
-            {
-                IdQuery<Person> idQuery = new IdQuery<Person>(objEmployee3[i].Id);
-                IChangeResult<Person> changeResult =
-                    spaceProxy.Change<Person>(idQuery,
-                    new ChangeSet().Set("FirstName", objEmployee3[i].FirstName).Set("LastName", objEmployee3[i].LastName).Set("Age", objEmployee3[i].Age));
-
-            }
-            //Update Query ends
-
-            //Delete Query starts
-            List<Employee> objEmployee1 = (from item in dt.AsEnumerable()
-			   where item.Field<int>("__$operation") == 1
-			   select new Employee()
-			   {
-			       Id = item.Field<int>("Id"),
-			       FirstName = item.Field<string>("FirstName"),
-			       LastName = item.Field<string>("LastName"),
-			       Age = item.Field<int>("Age")
-			   }).ToList();
-            var deltearray = new Person[objEmployee1.Count];
-            for (int i = 0; i < objEmployee1.Count; i++) // Loop through List with for
-            {
-
-                Person template = new Person();
-                template.Id = objEmployee1[i].Id;
-                spaceProxy.Take<Person>(template);
-            }
-
-            //Delete Query ends
-
-
-            da.Dispose();
-            con.Close();
-
-        }
-{%endhighlight%}
-
 
 # Running the Example
 
-1. [Download the example](/download_files/SqlDeltaServer.zip).
-2. Change the Database properties according to your environment:
+1. [Download the example](/download_files/SqlDeltaServer.zip). Extract the SqlDeltaServer.zip in a directory of your choice (e.g. C:\temp\). Open the project to make some customizations for your project.
+a. Change the Database properties according to your environment:
 
 {%highlight xml%}
-# App.config
+# References->App.config
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <connectionStrings>
@@ -391,23 +190,127 @@ static void ChangeCapture(object sender, ElapsedEventArgs e)
 
 {%endhighlight%}
 
-#### Step 13:
-Now, you can build the solution and test it out. For this, you can either run it from Visual Studio (Ctrl+F5) or you can head over to DeltaServer\DeltaServer\bin\Debug and run the DeltaServer.exe. Or if you are creating a release version, you can run it from there. Upon running the program, you should be prompted to insert/update/delete or exit the program
+Please change them to reflect values according to your set up. You can easily copy this string from visual studio itself (if you have configured the database connection). Head over to Server explorer in Visual Studio, click on Data Connections->your database connection. On the right hand side, properties window you will see the connection string that you would need to copy/paste in **DBSTRING**.
+
+
+![](/attachment_files/sqlserver-pic7.png)
+
+
+b. In Program.cs, change your group and/or space connect string if you desire to. Currently, it is set to use:
+{%highlight java%}
+ISpaceProxy spaceProxy = GigaSpacesFactory.FindSpace("jini://*/*/mydatagrid?groups=XAP-9.7.0-ga-NET-4.0.30319-x64");
+{%endhighlight%}
+Please note that this is the same data grid name (mydatagrid) you have defined before (in first step).
+
+c. If you would like to, you can change the frequency of updates thus (in program.cs) using:
+{%highlight java%}
+timer.Interval = 5000; //set interval of polling here
+{%endhighlight%}
+
+d. Now, you can build the solution and test it out. For this, you can either run it from Visual Studio (Ctrl+F5) or you can  run it from <extract directory>\DeltaServer\DeltaServer\bin\Debug(or Release) and run the DeltaServer.exe. Upon running the program, you should be prompted to insert/update/delete or exit the program
 
 
 ![](/attachment_files/sqlserver-pic8.png)
 
 
-#### Step 14:
-As you insert/update/delete, please note such changes in the gs-webgui.
+
+## Registering a listener, capturing data therefore
+Lets assume we have an **Employee** represented in a Person table in the database that we want to be notified when a record is inserted, updated or deleted so we can update the IMDG with the changes. Here is an example of an **ChangeNotificationListener**.
+
+{%highlight csharp%}
+static void ChangeCapture(object sender, ElapsedEventArgs e)
+{
+         
+    ISpaceProxy spaceProxy = GigaSpacesFactory.FindSpace("jini://*/*/mydatagrid?groups=XAP-9.7.0-ga-NET-4.0.30319-x64");
+
+    string _connStr = ConfigurationManager.ConnectionStrings["DBSTRING"].ConnectionString;
+            
+    SqlConnection con = new SqlConnection(_connStr);
+    con.Open();
+    SqlCommand cmd = new SqlCommand("Capture", con);
+    cmd.CommandType = CommandType.StoredProcedure;
+    SqlDataAdapter da = new SqlDataAdapter(cmd);
+    // this will query your database and return the result to your datatable
+    DataTable dt = new DataTable();
+    da.Fill(dt);
+
+    //Insert Query starts
+    List<Employee> objEmployee2 = (from item in dt.AsEnumerable()
+    where item.Field<int>("__$operation") == 2
+    select new Employee()
+    {
+        Id = item.Field<int>("Id"),
+        FirstName = item.Field<string>("FirstName"),
+        LastName = item.Field<string>("LastName"),
+        Age = item.Field<int>("Age")
+    }).ToList();
+
+    var personarray = new Person[objEmployee2.Count];
+    for (int i = 0; i < objEmployee2.Count; i++) // Loop through List with for
+    {
+        personarray[i] = new Person
+        {
+            Id = objEmployee2[i].Id,
+            FirstName = objEmployee2[i].FirstName,
+            LastName = objEmployee2[i].LastName,
+            Age = objEmployee2[i].Age
+        };
+             
+    }
+    spaceProxy.WriteMultiple(personarray);
+    //Insert Query ends
+
+    //Update Query starts
+    List<Employee> objEmployee3 = (from item in dt.AsEnumerable()
+    where item.Field<int>("__$operation") == 4
+    select new Employee()
+         {
+             Id = item.Field<int>("Id"),
+             FirstName = item.Field<string>("FirstName"),
+             LastName = item.Field<string>("LastName"),
+             Age = item.Field<int>("Age")
+         }).ToList();
+
+    for (int i = 0; i < objEmployee3.Count; i++) // Loop through List with for
+    {
+        IdQuery<Person> idQuery = new IdQuery<Person>(objEmployee3[i].Id);
+        IChangeResult<Person> changeResult =
+                    spaceProxy.Change<Person>(idQuery,
+                    new ChangeSet().Set("FirstName", objEmployee3[i].FirstName).Set("LastName", objEmployee3[i].LastName).Set("Age", objEmployee3[i].Age));
+    }
+    //Update Query ends
+
+    //Delete Query starts
+    List<Employee> objEmployee1 = (from item in dt.AsEnumerable()
+        where item.Field<int>("__$operation") == 1
+         select new Employee()
+         {
+             Id = item.Field<int>("Id"),
+             FirstName = item.Field<string>("FirstName"),
+             LastName = item.Field<string>("LastName"),
+             Age = item.Field<int>("Age")
+         }).ToList();
+
+    var deltearray = new Person[objEmployee1.Count];
+    for (int i = 0; i < objEmployee1.Count; i++) // Loop through List with for
+    {
+        Person template = new Person();
+        template.Id = objEmployee1[i].Id;
+        spaceProxy.Take<Person>(template);
+    }
+
+    //Delete Query ends
+    da.Dispose();
+    con.Close();
+}
+{%endhighlight%}
+
+
+
+#### Viewing Data Changes in XAP.NET:
+As you insert/update/delete, please note such changes in the XAP.NET Web UI.
 
 
 [<img src="/attachment_files/sqlserver-pic9.png" width="400" height="300">](/attachment_files/sqlserver-pic9.png)
 
-
-#### Step 15:
-If you would like to, you can change the frequency of updates thus (in program.cs) using:
-{%highlight java%}
-timer.Interval = 5000; //set interval of polling here
-{%endhighlight%}
 
