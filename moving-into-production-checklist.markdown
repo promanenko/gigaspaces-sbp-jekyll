@@ -417,7 +417,7 @@ In most cases, the applications using GigaSpaces are leveraging machines with ve
 Below represents the different XAP processes a virtual or a physical machine may run:
 [<img src="https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg" width="120" height="80">](https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg)
 
-- Agent - Very lightweight process in terms of its memory and CPU usage. This process does not require any tuning. You should have one per machine or in some cases one per Zone.
+- GSA - Very lightweight process in terms of its memory and CPU usage. This process does not require any tuning. You should have one per machine or in some cases one per Zone.
 - GSC - The runtime environment. This is where the data grid and the deployed processing units are running. This process requires the relevant tuning to address the memory capacity required. Number of GSCs should not exceed: `Total # of cores / 4`. With virtual machine setup you should have one GSC per VM. 
 - GSM - Lightweight process. Does not requre any tuning unless you have very large cluster (over 100 nodes). You should have two of these per XAP grid.
 - LUS - Lightweight process. Does not requre any tuning unless you have very large cluster (over 100 nodes). You should have two of these per XAP grid.
