@@ -40,7 +40,7 @@ The example includes four projects:
 
 # Building the Example
 Step 1:
-[Dwonload the example](https://dl.dropboxusercontent.com/u/7390820/Datagrid-SQLServer.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` folder. A new folder called `Datagrid-SQLServer` will be created.
+[Download the example](https://dl.dropboxusercontent.com/u/7390820/Datagrid-SQLServer.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` folder. A new folder called `Datagrid-SQLServer` will be created.
 
 Step 2:
 Browse to the example directory : `<GigaSpaces XAP .Net Root>\Examples\Datagrid-SQLServer`.
