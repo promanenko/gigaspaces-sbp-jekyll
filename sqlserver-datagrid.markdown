@@ -120,6 +120,7 @@ Run GigaSpaces UI: Go to <GigaSpaces Root>\Bin and run `Gs-ui.exe`. This will al
 
 # Important
 Before you deploy the data grid make sure you will have the `nHibernate.cfg.xml` and `Person.hbm.xml` located under the following folders:
-<GigaSpaces XAP .Net Root>\Deploy\datagrid\NHibernateCfg
-<GigaSpaces XAP .Net Root>\Deploy\mirror\NHibernateCfg
+
+- <GigaSpaces XAP .Net Root>\Deploy\datagrid\NHibernateCfg
+- <GigaSpaces XAP .Net Root>\Deploy\mirror\NHibernateCfg
  
