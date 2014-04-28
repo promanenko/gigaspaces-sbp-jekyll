@@ -92,20 +92,20 @@ Once deployed you should see the following within the GS-UI:
 
 The client application has several options:
 
-- `runWrite.bat` – will write 10 Person objects into the data grid and persist to SQL Server.
-- `runWriteMultiple.bat` – will write 100 Person objects (10 batches of 10 Person objects) into the data grid and persist to SQL Server.
-- `runRead.bat` – will read a Person object from the data grid.
-- `runReadMultiple.bat` – will read a 100 Person object from the data grid.
+1. `runWrite.bat` – will write 10 Person objects into the data grid and persist to SQL Server.
+2. `runWriteMultiple.bat` – will write 100 Person objects (10 batches of 10 Person objects) into the data grid and persist to SQL Server.
+3. `runRead.bat` – will read a Person object from the data grid.
+4. `runReadMultiple.bat` – will read a 100 Person object from the data grid.
  
 When you write objects into the data grid you should see these as well within the database in the `Person` table.
 
 # Opening .NET Solution with Microsoft Visual Studio
 
 1.  Double-click the `GigaSpaces.Examples.Datagrid.sln` file.
-2.  Choose Build > Build Solution menu. The project files and dependencies are created and copied to the release/directory.
+2.  Choose `Build > Build Solution` menu. The project files and dependencies are created and copied to the `release` directory.
  
 # Viewing the data within the Data Grid
-Run GigaSpaces UI: Go to <GigaSpaces Root>\Bin and run `Gs-ui.exe`. This will allow you to view the content of the data grid.
+Run GigaSpaces UI: Go to `<GigaSpaces Root>\Bin` and run `Gs-ui.exe`. This will allow you to view the content of the data grid.
  
 ## Viewing the data grid instances:
 [<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver006.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver006.jpg)
