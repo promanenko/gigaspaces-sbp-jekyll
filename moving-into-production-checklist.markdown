@@ -160,7 +160,7 @@ See below for examples of [Space URL]({%latestjavaurl%}/the-space-configuration.
 
 - "jini://localhost/*/space?groups=A,B" - this space URL means that together with searching for the lookup service on the localhost, we are using multicast discovery to search for all the lookup services associated with group A or B.
 
-- "jini://**/**/space" - this space URL means that searching for the lookup service is done only via multicast discovery.
+- "jini://*/*/space" - this space URL means that searching for the lookup service is done only via multicast discovery.
 
 - "/./space?groups=A,B" - this space URL means that the started space registers itself with group A and B. To access such a space via a remote client, it needs to use the following space URL:
 
@@ -701,7 +701,7 @@ GigaSpaces generates log files for each running component . This includes GSA, G
 # Hardware Selection
 The general rule when selecting the HW to run GigaSpaces would be: The faster the better. Multi-core machines with large amount of memory would be most cost effective since these will allow GigaSpaces to provide ultimate performance leveraging large JVM heap size handling simultaneous requests with minimal thread context switch overhead.
 
-Running production systems with 30G-50G heap size is doable with some JVM tuning when leveraging multi-core machines. The recommended HW is [Intel® Xeon® Processor 5600 Series](http://ark.intel.com/ProductCollection.aspx?series=47915). Here is an example for [recommended server configuration](http://www.cisco.com/en/US/products/ps10280/prod_models_comparison.html):
+Running production systems with 30G-50G heap size is doable with some JVM tuning when leveraging multi-core machines. The recommended HW is [Intel Xeon Processor 5600 Series](http://ark.intel.com/ProductCollection.aspx?series=47915). Here is an example for [recommended server configuration](http://www.cisco.com/en/US/products/ps10280/prod_models_comparison.html):
 
 {: .table .table-bordered}
 |Model|Cisco UCS B200 M2 Blade Server|Cisco UCS B250 M2 Extended Memory Blade Server|
@@ -754,7 +754,6 @@ Set the VM memory as the memory reservation. You can choose to set the memory re
 NUMA rules apply - you want to make sure that each socket on the server has at least 64GB of RAM to house this virtual machine, along with the vCPUs needed.
 
 
-
 ## 50% Memory Headroom
 If your application data consume 30GB per GSC , allow for 50% headroom for optimal performance. This implies the actual heap utilization for the GSC should not cross the 15GB. Set the memory reservation to 30GB. Setting a memory reservation directs that the reserved physical memory is made available by VMware ESX® or ESXi to the virtual machine when it starts. Do not overcommit memory. When sizing memory for XAP grid on one virtual machine, the total reserved memory for the virtual machine should not exceed what is available within one NUMA node for optimal performance. 
 
@@ -775,14 +774,19 @@ Do not allow vMotion operations with XAP lookup service as the latency introduce
 Use DRS clusters dedicated to XAP. If this is not an option and XAP has to run in a shared DRS cluster make sure that DRS rules are set up that will not use vMotion to migrate XAP virtual machines.
 
 In some cases a vMotion migration might not succeed and instead fails back due to a rapidly changing volatile memory space, which can be the case with Partitioned space cluster and in some cases of Replicated cluster. The failback is a fail-safe mechanism to the source virtual machine and it does not impact the source virtual machine. 
+
 vMotion makes this failback decision based on the time it takes to complete the iterative copy process that captures changes between the source virtual machine to the destination virtual machine. 
-If the changes are too rapid and vMotion is not able to complete the iterative copy within the default 100 seconds, it checks whether it can failsafe to the running source virtual machine without interruption. 
-Therefore, vMotion only transfers the source virtual machine to the destination if it is certain that it can complete the memory copy.
+
+If the changes are too rapid and vMotion is not able to complete the iterative copy within the default 100 seconds, it checks whether it can failsafe to the running source virtual machine without interruption. Therefore, vMotion only transfers the source virtual machine to the destination if it is certain that it can complete the memory copy.
 
 
 ## VMware HA and XAP
 VMware HA should be disabled on virtual machines running XAP. If this is a dedicated XAP Grid DRS cluster, you can disable HA across the cluster. However, if this is a shared cluster, it is important to exclude XAP virtual machines from HA. Set up anti-affinity rules between the XAP virtual machines that will not cause any two XAP GSC to run on the same ESX host within the DRS cluster.
 
+## References
+
+- [Enterprise Java Applications on VMware - Best Practices Guide](http://www.vmware.com/resources/techresources/1087)
+- [Workloads in vSphere VMs](http://www.vmware.com/resources/techresources/10220)
 
 # OS Considerations
 In general, GigaSpaces runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
