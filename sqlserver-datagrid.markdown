@@ -31,7 +31,7 @@ The example includes four projects:
 
 - `GigaSpaces.Examples.Datagrid.Commons` - contains the entities project (Person) used in the example and other common functionalities.
 - `GigaSpaces.Examples.Datagrid.Mirror` - The mirror service (write-behind service) as a Processing Unit.
-- `GigaSpaces.Examples.Datagrid` – The Data Grid processing unit (clustered space).
+- `GigaSpaces.Examples.Datagrid` - The Data Grid processing unit (clustered space).
 - `GigaSpaces.Examples.Datagrid.Client` - A client application performs write and read operations against the data grid.
 
 # Prerequisites
@@ -93,10 +93,10 @@ Once deployed you should see the following within the GS-UI:
 
 The client application has several options:
 
-1. `runWrite.bat` – will write 10 Person objects into the data grid and persist to SQL Server.
-2. `runWriteMultiple.bat` – will write 100 Person objects (10 batches of 10 Person objects) into the data grid and persist to SQL Server.
-3. `runRead.bat` – will read a Person object from the data grid.
-4. `runReadMultiple.bat` – will read a 100 Person object from the data grid.
+1. `runWrite.bat` - will write 10 Person objects into the data grid and persist to SQL Server.
+2. `runWriteMultiple.bat` - will write 100 Person objects (10 batches of 10 Person objects) into the data grid and persist to SQL Server.
+3. `runRead.bat` - will read a Person object from the data grid.
+4. `runReadMultiple.bat` - will read a 100 Person object from the data grid.
  
 When you write objects into the data grid you should see these as well within the database in the `Person` table.
 
