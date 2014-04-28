@@ -6,13 +6,11 @@ parent: data-access-patterns.html
 weight: 1250
 ---
 
- {% tip %}
- **Summary:** {% excerpt %}This pattern presents the DB2 Delta Server allowing the data grid to receive updates from the database conducted by applications that are not using the data grid as their system of record (Non-Aware Data-Grid Clients).{% endexcerpt %}<br/>
- **Author**:  Chris Roffler<br/>
- **Recently tested with GigaSpaces version**: XAP 9.6<br/>
- **Last Update:** Nov 2013<br/>
-
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
+{% summary page %}This pattern presents the DB2 Delta Server allowing the data grid to receive updates from the database conducted by applications that are not using the data grid as their system of record (Non-Aware Data-Grid Clients){% endsummary %}
+{% tip %}
+**Author**:  Chris Roffler<br/>
+**Recently tested with GigaSpaces version**: XAP 9.6<br/>
+**Last Update:** Nov 2013<br/>
 {% endtip %}
 
 

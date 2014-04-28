@@ -1,13 +1,13 @@
 ---
 layout: post
-title: MongoDB Data Grid
+title: XAP.NET MongoDB Data Grid
 categories: SBP
 parent: data-access-patterns.html
 weight: 1310
 ---
 
+{% summary page %}This pattern presents a Data Grid using MongoDB as its persistence layer.  Initial Load and Write behind are demonstrated with this best practice.{% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}This pattern presents a Data Grid using MongoDB as its persistence layer.  Initial Load and Write behind are demonstrated with this best practice. {% endexcerpt %}<br/>
 **Author**:  Shay Hassidim<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 9.7.0 x64<br/>
 **Last Update:** April 2014<br/>
@@ -53,9 +53,6 @@ Browse to the `Datagrid-MongoDb` folder
 
 Step 3: 
 Run the `BuildAll.bat` script to compile the example.
-
-# Viewing the data within the Data Grid
-Run GigaSpaces UI: Go to `<GigaSpaces Root>\Bin` and run `Gs-ui.exe`. This will allow you to view the content of the data grid.
 
 # Running the Data Grid
 

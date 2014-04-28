@@ -6,8 +6,8 @@ parent: data-access-patterns.html
 weight: 1305
 ---
 
+{% summary page %}This pattern presents a Data Grid using SQL Server as its persistence layer.  Initial Load and Write behind are demonstrated with this best practice.{% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}This pattern presents a Data Grid using SQL Server as its persistence layer.  Initial Load and Write behind are demonstrated with this best practice. {% endexcerpt %}<br/>
 **Author**:  Shay Hassidim<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 9.7.0 x64<br/>
 **Last Update:** April 2014<br/>
