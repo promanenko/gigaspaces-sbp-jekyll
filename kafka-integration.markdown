@@ -7,11 +7,10 @@ weight: 50
 ---
 
 {% summary page %}This pattern explains how to use Kafka with XAP.{% endsummary %}
- {% tip %}
- **Author**:Oleksiy Dyagilev<br/>
- **Recently tested with GigaSpaces version**: XAP 9.6<br/>
- **Last Update:** Feb 2014<br/>
-
+{% tip %}
+**Author**:Oleksiy Dyagilev<br/>
+**Recently tested with GigaSpaces version**: XAP 9.6<br/>
+**Last Update:** Feb 2014<br/>
 {% endtip %}
 
 # Introduction

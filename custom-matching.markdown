@@ -6,16 +6,11 @@ parent: data-access-patterns.html
 weight: 100
 ---
 
-
-
+{% summary page %}This article illustrates custom Matching Implementation.{% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}Custom Matching Implementation{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.0<br/>
 **Last Update:** January 2010<br/>
-
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
-
 {% endtip %}
 
 # Overview

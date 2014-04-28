@@ -1,6 +1,6 @@
 ---
 layout: post
-title: SQL Server Delta Server
+title: XAP.NET SQL Server Delta Server
 categories: SBP
 parent: data-access-patterns.html
 weight: 1300

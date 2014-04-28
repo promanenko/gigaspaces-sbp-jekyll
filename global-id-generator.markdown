@@ -6,16 +6,11 @@ parent: data-access-patterns.html
 weight: 700
 ---
 
-{% compositionsetup %}
-
+{% summary page %}Unique Global ID Generator{% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}Unique Global ID Generator{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1<br/>
 **Last Update:** Jan 2011<br/>
-
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
-
 {% endtip %}
 
 # Overview

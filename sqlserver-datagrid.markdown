@@ -1,6 +1,6 @@
 ---
 layout: post
-title: SQL Server Data Grid
+title: XAP.NET SQL Server Data Grid
 categories: SBP
 parent: data-access-patterns.html
 weight: 1305

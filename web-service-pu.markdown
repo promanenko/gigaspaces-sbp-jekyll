@@ -6,16 +6,11 @@ parent: data-access-patterns.html
 weight: 1800
 ---
 
-{% compositionsetup %}
-
+{% summary page %}Web Service Processing Unit{% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}Web Service Processing Unit{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.<br/>
 **Last Update:** May 2011<br/>
-
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
-
 {% endtip %}
 
 # Overview
