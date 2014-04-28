@@ -27,12 +27,10 @@ This best practice will demonstrate show to implement this with XAP.NET.
 # Structure
 
 The example includes four projects:
+
 - `GigaSpaces.Examples.Datagrid.Commons` - contains the entities project (Person) used in the example and other common functionalities.
-
 - `GigaSpaces.Examples.Datagrid.Mirror` - The mirror service (write-behind service) as a Processing Unit.
-
 - `GigaSpaces.Examples.Datagrid` – The Data Grid processing unit (clustered space).
-
 - `GigaSpaces.Examples.Datagrid.Client` - A client application performs write and read operations against the data grid.
 
 # Prerequisites
@@ -65,10 +63,9 @@ The example must be compiled before running (see Building the Example).
 
 Step 2: 
 Create a Database Named `datagrid`:
+
 - If its the first time you are running the example where the database and the `Person` table have not been created yet: 
-
 - Go to Microsoft Sql Server Management Studio , Right click on `Databases` and Choose `New Database`, in the Database name Enter: `datagrid` and press the **OK** button. 
-
 - To Create the database Tables run:  
 {% highlight java %}
 <GigaSpaces Root>\Examples\Datagrid-SQLServer\tools\SqlServerCreateDBTables.bat. 
@@ -94,6 +91,7 @@ Once deployed you should see the following within the GS-UI:
 # Running the Client Application
 
 The client application has several options:
+
 - `runWrite.bat` – will write 10 Person objects into the data grid and persist to SQL Server.
 - `runWriteMultiple.bat` – will write 100 Person objects (10 batches of 10 Person objects) into the data grid and persist to SQL Server.
 - `runRead.bat` – will read a Person object from the data grid.
