@@ -414,8 +414,14 @@ To avoid the need to load the same library into each PU instance classloader run
 # JVM Tuning
 In most cases, the applications using GigaSpaces are leveraging machines with very fast CPUs, where the amount of temporary objects created is relatively large for the JVM garbage collector to handle with its default settings. This means careful tuning of the JVM is very important to ensure stable and flawless behavior of the application.
 
-
+Below represents the different XAP processes a virtual or a physical machine may run:
 [<img src="https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg" width="120" height="80">](https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg)
+
+- Agent - Very lightweight process in terms of its memory and CPU usage. This process does not require any tuning. You should have one per machine or in some cases one per Zone.
+- GSC - The runtime environment. This is where the data grid and the deployed processing units are running. This process requires the relevant tuning to address the memory capacity required. Number of GSCs should not exceed: `Total # of cores / 4`. With virtual machine setup you should have one GSC per VM. 
+- GSM - Lightweight process. Does not requre any tuning unless you have very large cluster (over 100 nodes). You should have two of these per XAP grid.
+- LUS - Lightweight process. Does not requre any tuning unless you have very large cluster (over 100 nodes). You should have two of these per XAP grid.
+- ESM - Lightweight process. Does not requre any tuning unless you have very large cluster (over 100 nodes). You should have one of this per XAP grid.
 
 
 {% highlight java %}
@@ -428,18 +434,27 @@ JVM Memory for a GSC =
 JVM Max Heap (-Xmx value) + JVM Perm Size (-XX:MaxPermSize) + NumberOfConcurrentThreads * (-Xss) + “extra memory”
 {% endhighlight %}
 
+## Space Object Footprint
 
+In many cases you may need to calculate the Space Object Footprint. The object footprint within the IMDG is determined, based on:
+- The original object size - the number of object fields and their content size.
+- The JVM type (32 or 64 bit) - a 64 bit JVM might consume more memory due to the pointer address size.
+- The number of indexed fields - every indexed value means another copy of the value within the index list.
+- The number of different indexed values - more different values means a different index list.
+- The object UID size - the UID is a string-based field, and consumes about 35 characters. You might have the object UID based on your own unique ID.
+
+The actual footprint depends  on the amount of indexed fields and the data distribution. Each index consumes:
+{% highlight java %}
+120 Bytes  + index value size + (number of object instances  with this indexed value X 16)
+{% endhighlight %}
+
+## JVM Basic Settings
 See below examples of JVM settings recommended for applications that might generate large number of temporary objects. In such situations you afford long pauses due to garbage collection activity.
-
-{% tip %}
-In case your JVM is throwing an 'OutOfMemoryException', the JVM process should be restarted. you need to add this property to your JVM setting:
-SUN -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="kill -9 %p"
-JROCKIT -XXexitOnOutOfMemory
-{% endtip %}
 
 These settings are good for cases where you are running a IMDG or when the business logic and the IMDG are collocated. For example IMDG with collocated Polling /Notify containers, Task executors or Service remoting:
 
-JDK 1.6 - CMS mode - good for low latency scnearios:
+### JDK 1.6
+For JDK 1.6 - CMS mode - good for low latency scnearios:
 
 {% highlight java %}
 -server -Xms8g -Xmx8g -Xmn300m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
@@ -448,7 +463,9 @@ JDK 1.6 - CMS mode - good for low latency scnearios:
 -XX:+CMSClassUnloadingEnabled -XX:+CMSParallelRemarkEnabled
 {% endhighlight %}
 
-JDK 1.7/1.8 - g1 mode - good for low latency scenarios:
+### JDK 1.7/1.8
+
+For JDK 1.7/1.8 - g1 mode - good for low latency scenarios:
 {% highlight java %}
 -server -Xms8g -Xmx8g -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:InitiatingHeapOccupancyPercent=50 -XX:+UseCompressedOops
 {% endhighlight %}
@@ -459,8 +476,14 @@ Advanced options for JDK 1.7 with suggested values provided:
 -XX:G1ReservePercent=10 -XX:G1HeapRegionSize=32m
 {% endhighlight %}
 
+{% tip %}
+In case your JVM is throwing an 'OutOfMemoryException', the JVM process should be restarted. You need to add this property to your JVM setting:
+SUN -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="kill -9 %p"
+JROCKIT -XXexitOnOutOfMemory
+{% endtip %}
+
 ## Thread Stack Tuning (Xss)
-The threads stack size many times should be tuned. Its default size may be too high. In Java SE 6, the default on Sparc is 512k in the 32-bit VM, and 1024k in the 64-bit VM. On x86 Solaris/Linux it is 320k in the 32-bit VM and 1024k in the 64-bit VM.
+The threads stack size many times should be tuned. Its default size may be too high. In Java SE 6, the default on Sparc is 512k in the 32-bit VM, and `1024k` in the 64-bit VM. On x86 Solaris/Linux it is `320k` in the 32-bit VM and 1024k in the 64-bit VM.
 On Windows, the default thread stack size is read from the binary (java.exe). As of Java SE 6, this value is 320k in the 32-bit VM and 1024k in the 64-bit VM.
 You can reduce your stack size by running with the -Xss option. For example:
 {% highlight java %}
@@ -477,7 +500,7 @@ com.gs.transport_protocol.lrmi.maxBufferSize X com.gs.transport_protocol.lrmi.ma
 {% endhighlight %}
 
 
-For example - with default maxBufferSize size and 100 threads :
+For example - with default `maxBufferSize` size and 100 threads :
 {% highlight java %}
 64k X 100 = 6400KB = 6.4MB
 {% endhighlight %}
@@ -486,26 +509,25 @@ With large objects and batch operations (readMultiple , writeMultiple , Space It
 
 
 Some useful references:
-[Getting Started with the G1 Garbage Collector](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html)
-[jdk7 garbage collection and documentation](http://stackoverflow.com/questions/8111310/java-7-jdk-7-garbage-collection-and-documentation)
-[g1 cms java garbage collector](http://blog.sematext.com/2013/06/24/g1-cms-java-garbage-collector)
-[java7 g1 options](http://stackoverflow.com/questions/8262674/java7-g1-options)
-[large java heap with g1 collector part 1](http://mpouttuclarke.wordpress.com/2013/03/13/large-java-heap-with-g1-collector-part-1)
 
+- [Getting Started with the G1 Garbage Collector](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html)
+- [jdk7 garbage collection and documentation](http://stackoverflow.com/questions/8111310/java-7-jdk-7-garbage-collection-and-documentation)
+- [g1 cms java garbage collector](http://blog.sematext.com/2013/06/24/g1-cms-java-garbage-collector)
+- [java7 g1 options](http://stackoverflow.com/questions/8262674/java7-g1-options)
+- [large java heap with g1 collector part 1](http://mpouttuclarke.wordpress.com/2013/03/13/large-java-heap-with-g1-collector-part-1)
 
 {% tip %}
 It is highly recommended that you use the latest JDK release when using these options.
 {% endtip %}
 
-{% tip %}
-To capture the detailed information about garbage collection and how it is performing, you can add following parameters to JVM settings,
+## Capture Detailed Garbage Collection stats
+To capture the detailed information about garbage collection and how it is performing, add following parameters to JVM settings:
 
 {% highlight java %}
 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:/path/to/log/directory/gc-log-file.log
 {% endhighlight %}
 
 Modify the path and file names appropriately. You will need to use a different file name for each invocation in order to not overwrite the files from multiple processes.
-{% endtip %}
 
 {% include /COM/jconsolejmapwarning.markdown %}
 
