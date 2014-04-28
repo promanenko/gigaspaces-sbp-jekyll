@@ -414,6 +414,21 @@ To avoid the need to load the same library into each PU instance classloader run
 # JVM Tuning
 In most cases, the applications using GigaSpaces are leveraging machines with very fast CPUs, where the amount of temporary objects created is relatively large for the JVM garbage collector to handle with its default settings. This means careful tuning of the JVM is very important to ensure stable and flawless behavior of the application.
 
+
+[<img src="https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg" width="120" height="80">](https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg)
+
+
+{% highlight java %}
+XAP VM Memory size = 
+Guest OS Memory + JVM Memory for all GSCs + JVM Memory for GSM + JVM Memory for LUS + JVM Memory for ESM
+{% endhighlight %}
+
+{% highlight java %}
+JVM Memory for a GSC = 
+JVM Max Heap (-Xmx value) + JVM Perm Size (-XX:MaxPermSize) + NumberOfConcurrentThreads * (-Xss) + “extra memory”
+{% endhighlight %}
+
+
 See below examples of JVM settings recommended for applications that might generate large number of temporary objects. In such situations you afford long pauses due to garbage collection activity.
 
 {% tip %}
@@ -433,7 +448,7 @@ JDK 1.6 - CMS mode - good for low latency scnearios:
 -XX:+CMSClassUnloadingEnabled -XX:+CMSParallelRemarkEnabled
 {% endhighlight %}
 
-JDK 1.7 - g1 mode - good for low latency scenarios:
+JDK 1.7/1.8 - g1 mode - good for low latency scenarios:
 {% highlight java %}
 -server -Xms8g -Xmx8g -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:InitiatingHeapOccupancyPercent=50 -XX:+UseCompressedOops
 {% endhighlight %}
@@ -443,6 +458,32 @@ Advanced options for JDK 1.7 with suggested values provided:
 -XX:MaxTenuringThreshold=25 -XX:ParallelGCThreads=8 -XX:ConcGCThreads=8
 -XX:G1ReservePercent=10 -XX:G1HeapRegionSize=32m
 {% endhighlight %}
+
+## Thread Stack Tuning (Xss)
+The threads stack size many times should be tuned. Its default size may be too high. In Java SE 6, the default on Sparc is 512k in the 32-bit VM, and 1024k in the 64-bit VM. On x86 Solaris/Linux it is 320k in the 32-bit VM and 1024k in the 64-bit VM.
+On Windows, the default thread stack size is read from the binary (java.exe). As of Java SE 6, this value is 320k in the 32-bit VM and 1024k in the 64-bit VM.
+You can reduce your stack size by running with the -Xss option. For example:
+{% highlight java %}
+java -server -Xss64k
+{% endhighlight %}
+
+On some versions of Windows, the OS may round up thread stack sizes using very coarse granularity. If the requested size is less than the default size by 1K or more, the stack size is rounded up to the default; otherwise, the stack size is rounded up to a multiple of 1 MB. 64k is the least amount of stack space allowed per thread.
+
+## Extra Memory
+This is memory required for NIO direct memory buffers, JIT code cache, classloaders, Socket Buffers (receive/send), JNI, GC internal info.
+Direct memory buffers usage for Socket Buffers utilization on the GSC side :
+{% highlight java %}
+com.gs.transport_protocol.lrmi.maxBufferSize X com.gs.transport_protocol.lrmi.max-threads
+{% endhighlight %}
+
+
+For example - with default maxBufferSize size and 100 threads :
+{% highlight java %}
+64k X 100 = 6400KB = 6.4MB
+{% endhighlight %}
+
+With large objects and batch operations (readMultiple , writeMultiple , Space Iterator) increasing the maxBufferSize may improve the performance.
+
 
 Some useful references:
 [Getting Started with the G1 Garbage Collector](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html)
@@ -682,8 +723,70 @@ Since most of the application activities are conducted in-memory, the CPU speed 
 ## Disk
 Prior to XAP 7.1, GigaSpaces Data-Grid did not overflow to a disk, and does not require a large disk space to operate.  Still, log files are generated, and for these you need at least 100M of free disk size per machine running GSC(s). Make sure you delete old log files or move them to some backup location. XAP Data-Grid may overflow data to disk when there is a long replication disconnection or delay, the location of the work directory should be on a local storage at each node in order to make this replication back log data always available to the node, this storage should have enough space to store the replication back log as explained in [Controlling the Replication Redo Log]({%latestjavaurl%}/controlling-the-replication-redo-log.html) page.
 
+# Virtualized OS
+
+GigaSpaces supports VMWare vSphere 5+ running the following guest operating systems:
+- Windows 2008 Server SP2
+- Linux RHEL 5.x/6.x
+- Solaris 10
+
+Configuration
+- Only Type 1 Hypervisor is recommended for production use.
+- vCPU may be over-subscribed, if it is under-utilized (less than 50%). In environments with high CPU utilization, vCPU must be reserved (pinned).
+- Hyper-threading should be enabled.
+- vMEM must be reserved (pinned).
+
+Other considerations
+- Do not over-commit virtual memory
+- Reserve memory at the virtual machine level
+- When using asynchronous persistency with replication, use anti-affinity rules to ensure that primary and backup nodes do not share the same virtual machine host. For maximum reliability, ensure that no primary/backup pair is hosted on the same physical host machine.
+Reserve sufficient memory for the operating system (~2GB per VM)
+
+
+## VM Tuning Guidelines
+
+To determine the VM memory configuration, lets assume you are using Linux/Windows OS 64 Bit with no other significant process running on it (only XAP), where 2 XAP GSCs consume 60GB (30GB each) . The total configured memory for the virtual machine translates to:
+{% highlight java %}
+VM memory for XAP  VM = 2 X 30GB + 500MB = 60.5GB
+{% endhighlight %}
+
+Set the VM memory as the memory reservation. You can choose to set the memory reservation as 60.5GB , but over time you should monitor the active memory used by the virtual machine that houses XAP processes and adjust the memory reservation to the actual active memory value, which could be less than 60.GB.
+NUMA rules apply - you want to make sure that each socket on the server has at least 64GB of RAM to house this virtual machine, along with the vCPUs needed.
+
+
+
+## 50% Memory Headroom
+If your application data consume 30GB per GSC , allow for 50% headroom for optimal performance. This implies the actual heap utilization for the GSC should not cross the 15GB. Set the memory reservation to 30GB. Setting a memory reservation directs that the reserved physical memory is made available by VMware ESX® or ESXi to the virtual machine when it starts. Do not overcommit memory. When sizing memory for XAP grid on one virtual machine, the total reserved memory for the virtual machine should not exceed what is available within one NUMA node for optimal performance. 
+
+## XAP GSC JVM and VM Ratio
+Have one XAP GSC JVM instance per virtual machine. Typically, this is not a requirement. However, because XAP GSC JVMs can be quite large (up to 100-200GB), it is advisable to adhere to this rule in this case.
+
+Increasing the heap space to service more data demand is better than installing a second instance of a GSC JVM on a single virtual machine. If increasing the JVM heap size is not an option, then consider placing the second GSC JVM on a separate newly created virtual machine, thus promoting more effective horizontal scalability. As you increase the number of XAP GSC, also increase the number of virtual machines to maintain a 1:1 ratio among the XAP GSC JVM and the virtual machines.
+
+Size for a minimum of four vCPU virtual machines with one XAP GSC. This allows ample CPU cycles for the garbage collector, and the rest for user transactions.
+
+## VM Placement
+XAP can provision redundant copies of cached data on any virtual machine, it is possible to inadvertently place two redundant data copies on the same ESX/ESXi host. This is not optimal if a host fails. To create a more robust configuration, use VM1-to-VM2 anti-affinity rules to indicate to vSphere that VM1 and VM2 can never be placed on the same host because they hold redundant data copies. You may use XAP Zones to control each GSC location to provision primary and backup instances on specific GSCs/VMs.
+
+## vMotion, DRS Cluster with XAP
+When you first commission the data management system, place Vmware Distributed Resource Scheduler (DRS) in manual mode to prevent an automatic VMware vSphere(R) vMotion(R) migration that can impact response times.
+vMotion can complement XAP features during scheduled maintenance to help minimize downtime impact due to hardware and software upgrades. It is a best practice to trigger vMotion migrations over a 10GbE network interface to speed up the vMotion process.
+Do not allow vMotion operations with XAP lookup service as the latency introduced to this process can cause members of the XAP GSC to falsely suspect that other members are dead.
+Use DRS clusters dedicated to XAP. If this is not an option and XAP has to run in a shared DRS cluster make sure that DRS rules are set up that will not use vMotion to migrate XAP virtual machines.
+
+In some cases a vMotion migration might not succeed and instead fails back due to a rapidly changing volatile memory space, which can be the case with Partitioned space cluster and in some cases of Replicated cluster. The failback is a fail-safe mechanism to the source virtual machine and it does not impact the source virtual machine. 
+vMotion makes this failback decision based on the time it takes to complete the iterative copy process that captures changes between the source virtual machine to the destination virtual machine. 
+If the changes are too rapid and vMotion is not able to complete the iterative copy within the default 100 seconds, it checks whether it can failsafe to the running source virtual machine without interruption. 
+Therefore, vMotion only transfers the source virtual machine to the destination if it is certain that it can complete the memory copy.
+
+
+## VMware HA and XAP
+VMware HA should be disabled on virtual machines running XAP. If this is a dedicated XAP Grid DRS cluster, you can disable HA across the cluster. However, if this is a shared cluster, it is important to exclude XAP virtual machines from HA. Set up anti-affinity rules between the XAP virtual machines that will not cause any two XAP GSC to run on the same ESX host within the DRS cluster.
+
+
 # OS Considerations
 In general, GigaSpaces runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
+
 
 ## File Descriptors
 The GigaSpaces LRMI layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used.
