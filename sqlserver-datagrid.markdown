@@ -7,7 +7,7 @@ weight: 1305
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}This pattern presents a Data Grid using SQL Server as its persistence layer.  Initial Load and Write behind are demostrated with this best practice. {% endexcerpt %}<br/>
+**Summary:** {% excerpt %}This pattern presents a Data Grid using SQL Server as its persistence layer.  Initial Load and Write behind are demonstrated with this best practice. {% endexcerpt %}<br/>
 **Author**:  Shay Hassidim<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 9.7.0 x64<br/>
 **Last Update:** April 2014<br/>
@@ -22,7 +22,7 @@ The SQL Server Data-Grid example demonstrates a common Data Grid / Caching archi
 
 [<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver002.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver002.jpg)
 
-This best practice will demonstreate show to implement this with XAP.NET. 
+This best practice will demonstrate show to implement this with XAP.NET. 
 
 # Structure
 
@@ -40,7 +40,7 @@ The example includes four projects:
 # Building the Example
 Step 1: [Dwonload the example](https://dl.dropboxusercontent.com/u/7390820/Datagrid-SQLServer.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` folder. A new folder called `Datagrid-SQLServer` will be created.
 Step 2: Browse to the example directory : `<GigaSpaces XAP .Net Root>\Examples\Datagrid-SQLServer`.
-Step 3: Edit the following NHibernate conf files and update the `connection.connection_string` to have the right value for the Data Source (database server and instance name). Keep the Initial Catalog as `datagrid`.
+Step 3: Edit the following `NHibernate` conf files and update the `connection.connection_string` to have the right value for the Data Source (database server and instance name). Keep the Initial Catalog as `datagrid`.
 - <GigaSpaces XAP .Net Root>\Datagrid-SQLServer\config\nHibernate\CreateTablesNHibernate.cfg.xml
 - <GigaSpaces XAP .Net Root>\Datagrid-SQLServer\config\nHibernate\nHibernate.cfg.xml
 See example for the `connection.connection_string` you will need to modify:
