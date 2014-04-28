@@ -17,6 +17,7 @@ weight: 1305
 # Overview
 
 The SQL Server Data-Grid example demonstrates a common Data Grid / Caching architecture using SQL Server for persistence and initial data load into the data grid. It includes the following components:
+
 - A Client application that perform write and read operations against a remote clustered IMDG.
 - A Clustered IMDG with write-behind (Mirror service) with pre-fetch (initial load) enabled. The Data grid using [nHibernate](https://community.jboss.org/wiki/NHibernateForNET) to Map .Net objects to database tables and persist data into the SQL Server database.
 
