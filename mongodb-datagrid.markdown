@@ -28,14 +28,17 @@ This best practice will demonstrate show to implement this with XAP.NET.
 # Structure
 
 The example contains two .Net projects:
+
 - `GigaSpaces.Examples.Datagrid.Commons`- Includes the entities project (`Person`) used in the example and other common functionalities.
 - `GigaSpaces.Examples.Datagrid.Client` - A client application performs write and read operations against the data grid.
 
 The example incldues two additional Processing Unit folders:
+
 - datagrid-mogo – Include a jar with the data grid configuration. See within the jar the `pu.xml` for MongoDB URL. `mongodb://localhost:27017/db` used by default.
 - mirror-mongo – Include a jar with the mirror configuration. See the within the jar the `pu.xml` for MongoDB URL. `mongodb://localhost:27017/db` used by default.
 
 # Prerequisites
+
 - MongodbDB (win32-x86_64-2008plus-2.4.9) installed and running.
 - Visual Studio 2010 with Service pack 1 or Visual Studio 2013
 - XAP.NET 9.7 installed. Have the license key placed into `C:\GigaSpaces\XAP.NET 9.7.0 x64\Runtime\gslicense.xml`.
@@ -67,6 +70,7 @@ Deploy the data grid and the Mirror service by running `DeployDataGrid.bat`. You
 # Running the Client Application
 
 The client application has several options:
+
 1. `runWrite.bat` – will write 10 `Person` objects into the data grid and persist to MongoDB.
 2. `runWriteMultiple.bat` – will write 100 `Person` objects (10 batches of 10 Person objects) into the data grid and persist to MongoDB.
 3. `runRead.bat` – will read a `Person` object from the data grid.
