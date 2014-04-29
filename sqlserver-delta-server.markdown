@@ -80,7 +80,7 @@ select name, is_cdc_enabled from sys.databases
 {%endhighlight%}
   
 
-![](/attachment_files/sqlserver-pic3.png)
+![](/sbp/attachment_files/sqlserver-pic3.png)
 
   
 **(notice that datagrid has is_cdc_enabled column = 1)**
