@@ -21,6 +21,8 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Space Object Modeling](./space-object-modeling.html)| Beginner | Migrating Relational Model into Object model.|
 |[Oracle Delta Server](./oracle-delta-server.html)| Beginner |This pattern presents the Oracle Delta Server allowing the data grid to receive updates from the database conducted by applications that are not using the data grid as their system of record (Non-Aware Data-Grid Clients) |
 |[Sql Server Delta Server](./sqlserver-delta-server.html)| Beginner |This pattern presents the Sql Server Delta Server allowing the data grid to receive updates from the database conducted by applications that are not using the data grid as their system of record (Non-Aware Data-Grid Clients) |
+|[Sql Server Data Grid](./sqlserver-datagrid.html)| Beginner |This pattern presents a Data Grid using SQL Server as its persistence layer. Initial Load and Write behind are demonstrated with this best practice. |
+|[XAP.NET MongoDB Data Grid](./mongodb-datagrid.html)| Beginner |This pattern presents a Data Grid using MongoDB as its persistence layer. Initial Load and Write behind are demonstrated with this best practice.|
 |[Excel that Scales Solution](./excel-that-scales-solution.html)| Beginner | Leveraging GigaSpaces .Net API to scale Excel applications.|
 |[Global ID Generator](./global-id-generator.html)| Beginner | Replacing Database sequencing with lightweight In-Memory ID Generator.|
 |[Web Service PU](./web-service-pu.html)|Beginner | Web Service Processing Unit. Using the CXF Framework.|
