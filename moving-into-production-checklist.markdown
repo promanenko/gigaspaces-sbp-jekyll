@@ -11,7 +11,7 @@ weight: 800
 
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 Date: December  2009<br/>
-Latest Date: Jan 2014<br/>
+Latest Date: April 2014<br/>
 
 The following list should provide you with the main activities to be done prior moving your system into production. Reviewing this list and executing the relevant recommendations should result in a stable environment with a low probability of unexpected behavior or failures that are result of a GigaSpaces environment misconfiguration.
 
@@ -440,13 +440,46 @@ In many cases you may need to calculate the Space Object Footprint. The object f
 - The original object size - the number of object fields and their content size.
 - The JVM type (32 or 64 bit) - a 64 bit JVM might consume more memory due to the pointer address size.
 - The number of indexed fields - every indexed value means another copy of the value within the index list.
-- The number of different indexed values - more different values means a different index list.
+- The number of different indexed values - more different values (uniform distribution) means a different index list per value.
 - The object UID size - the UID is a string-based field, and consumes about 35 characters. You might have the object UID based on your own unique ID.
 
-The actual footprint depends  on the amount of indexed fields and the data distribution. Each index consumes:
+The actual footprint depends on the amount of indexed fields and the data distribution. Each index consumes:
 {% highlight java %}
 120 Bytes  + index value size + (number of object instances  with this indexed value X 16)
 {% endhighlight %}
+
+### Footprint Test
+
+The best way to determine the exact footprint is via a simple test that allows you to perform some extrapolation when running the application in production. Here is how you should calculate the footprint:
+1. Start a single IMDG instance.
+2. Take a measurement of the free memory (use JConsole or jmap).
+3. Write a sample number of objects into the IMDG (have a decent number of objects written - 100,000 is a good number).
+4. Measure the free memory again.
+
+This test should give good understanding of the object footprint within the IMDG. Don’t forget that if you have a backup instance running, the amount of memory you will need to accommodate for your objects, is double.
+
+### Compound Index reduce Index Footprint
+
+A Compound Index used with **AND** queries to speed up the Query execution time. It combines multiple fields into a single index. Using A Compound Index may avoid multiple indexes on multiple fields that may reduce Index footprint.
+
+### UseCompressedOops JVM Option
+The `-XX:+UseCompressedOops` allows 64 bit JVM heap up to 32GB to use 32 bit reference address. It may reduce overall footprint in 20-40%.
+
+### Compressed Storage Mode
+The Compressed Storage mode may be used to reduce non-primitive fields footprint when storoed within the space. This option is not available for .Net. This option compress the data on the client , where data stays compressed in the space and de-compress it when reading it back on the client side. It may impact performance.
+
+### Customized Initial Load
+The default Space Data source Initial Load behavior loads all space classes data into each partition and later filter out irrelevant objects. This activity may introduce large amount of garbage to be collected. Using `SQL MOD` query to fetch only the relevant data items to be loaded into each partition would speed up the initial load time and drastically reduce the amount of garbage generated during this process.
+
+### Redo Log Sizing
+
+The amount of redo log data depends on :
+
+- Amount of inflight activity
+- Backup performance
+- Primary backup connectivity – long disconnection means plenty of redo log in memory.
+
+Since redo log swap in some point to the disk, have its location on SSD drive. Do not use HDD to store redolog data. Redo log footprint similar to actual raw data footprint without indexes.
 
 ## JVM Basic Settings
 See below examples of JVM settings recommended for applications that might generate large number of temporary objects. In such situations you afford long pauses due to garbage collection activity.
@@ -499,14 +532,12 @@ Direct memory buffers usage for Socket Buffers utilization on the GSC side :
 com.gs.transport_protocol.lrmi.maxBufferSize X com.gs.transport_protocol.lrmi.max-threads
 {% endhighlight %}
 
-
 For example - with default `maxBufferSize` size and 100 threads :
 {% highlight java %}
 64k X 100 = 6400KB = 6.4MB
 {% endhighlight %}
 
 With large objects and batch operations (readMultiple , writeMultiple , Space Iterator) increasing the maxBufferSize may improve the performance.
-
 
 Some useful references:
 
@@ -752,58 +783,56 @@ GigaSpaces supports VMWare vSphere 5+ running the following guest operating syst
 - Linux RHEL 5.x/6.x
 - Solaris 10
 
-Configuration
+Configuration:
 - Only Type 1 Hypervisor is recommended for production use.
 - vCPU may be over-subscribed, if it is under-utilized (less than 50%). In environments with high CPU utilization, vCPU must be reserved (pinned).
 - Hyper-threading should be enabled.
 - vMEM must be reserved (pinned).
 
-Other considerations
+Other considerations:
 - Do not over-commit virtual memory
 - Reserve memory at the virtual machine level
 - When using asynchronous persistency with replication, use anti-affinity rules to ensure that primary and backup nodes do not share the same virtual machine host. For maximum reliability, ensure that no primary/backup pair is hosted on the same physical host machine.
-Reserve sufficient memory for the operating system (~2GB per VM)
-
+- Reserve sufficient memory for the operating system (~2GB per VM)
 
 ## VM Tuning Guidelines
 
-To determine the VM memory configuration, lets assume you are using Linux/Windows OS 64 Bit with no other significant process running on it (only XAP), where 2 XAP GSCs consume 60GB (30GB each) . The total configured memory for the virtual machine translates to:
+To determine the VM memory configuration, lets assume you are using Linux/Windows OS 64 Bit with no other significant process running on it (only XAP), where 2 XAP GSCs consume 60GB (30GB each), LUS and GSM consume 0.5GB each and the guest OS consumes 2GB. The total configured memory for the virtual machine would be:
 {% highlight java %}
-VM memory for XAP  VM = 2 X 30GB + 500MB = 60.5GB
+VM memory for XAP VM = (2 X 30GB) + (2 X 0.5GB) + 2GB = 63GB
 {% endhighlight %}
 
-Set the VM memory as the memory reservation. You can choose to set the memory reservation as 60.5GB , but over time you should monitor the active memory used by the virtual machine that houses XAP processes and adjust the memory reservation to the actual active memory value, which could be less than 60.GB.
-NUMA rules apply - you want to make sure that each socket on the server has at least 64GB of RAM to house this virtual machine, along with the vCPUs needed.
+Set the VM memory as the memory reservation. You can choose to set the memory reservation as 63GB , but over time you should monitor the active memory used by the virtual machine that hosts XAP processes and adjust the memory reservation to the actual active memory value, which could be less than 63GB. NUMA rules apply - make sure that each socket on the server has at least 64GB of RAM to host this virtual machine, along with relevant number of vCPUs needed.
 
-
-## 50% Memory Headroom
-If your application data consume 30GB per GSC , allow for 50% headroom for optimal performance. This implies the actual heap utilization for the GSC should not cross the 15GB. Set the memory reservation to 30GB. Setting a memory reservation directs that the reserved physical memory is made available by VMware ESX® or ESXi to the virtual machine when it starts. Do not overcommit memory. When sizing memory for XAP grid on one virtual machine, the total reserved memory for the virtual machine should not exceed what is available within one NUMA node for optimal performance. 
+## Plan for some Headroom
+If your application data consume 10GB per GSC , allow for 50% headroom for optimal performance. This implies the actual heap utilization for the GSC should not cross the 15GB. Set the memory reservation to 17GB. Setting a memory reservation enforce a reserved physical memory to be available by VMware ESX® or ESXi to the virtual machine when it starts. Do not overcommit memory. When sizing memory for XAP processes (GSC , GSA , GSM, LUS) on one virtual machine, the total reserved memory for the virtual machine should not exceed what is available within one NUMA node for optimal performance. 
 
 ## XAP GSC JVM and VM Ratio
 Have one XAP GSC JVM instance per virtual machine. Typically, this is not a requirement. However, because XAP GSC JVMs can be quite large (up to 100-200GB), it is advisable to adhere to this rule in this case.
 
-Increasing the heap space to service more data demand is better than installing a second instance of a GSC JVM on a single virtual machine. If increasing the JVM heap size is not an option, then consider placing the second GSC JVM on a separate newly created virtual machine, thus promoting more effective horizontal scalability. As you increase the number of XAP GSC, also increase the number of virtual machines to maintain a 1:1 ratio among the XAP GSC JVM and the virtual machines.
+Increasing the JVM heap space to accommodate large data grid partition instance capacity is better than running a second instance of on the same single virtual machine. If increasing the JVM heap size is not an option, then consider placing the second GSC JVM on a separate newly created virtual machine, thus promoting more effective horizontal scalability. As you increase the number of XAP GSC, also increase the number of virtual machines to maintain a 1:1 ratio among the XAP GSC JVM and the virtual machines.
 
-Size for a minimum of four vCPU virtual machines with one XAP GSC. This allows ample CPU cycles for the garbage collector, and the rest for user transactions.
+You should have minimum of **four vCPU** virtual machine running with a VM running a singlr XAP GSC. This should provide enough CPU power to handle both JVM garbage collection activity and application related JVM activity.
 
 ## VM Placement
-XAP can provision redundant copies of cached data on any virtual machine, it is possible to inadvertently place two redundant data copies on the same ESX/ESXi host. This is not optimal if a host fails. To create a more robust configuration, use VM1-to-VM2 anti-affinity rules to indicate to vSphere that VM1 and VM2 can never be placed on the same host because they hold redundant data copies. You may use XAP Zones to control each GSC location to provision primary and backup instances on specific GSCs/VMs.
+You may deploy a data-grid to provision multiple copies of the same data on any virtual machine. It is possible to accidentally place two redundant data copies on the same ESX/ESXi host. This is not optimal if a host fails. To create a more robust configuration, use VM1-to-VM2 anti-affinity rules to indicate to vSphere that VM1 and VM2 can never be placed on the same host because they hold replicated instances. You may use XAP Zones to control each replicated data-grid instances location to provision these on specific GSCs/VMs.
 
 ## vMotion, DRS Cluster with XAP
-When you first commission the data management system, place Vmware Distributed Resource Scheduler (DRS) in manual mode to prevent an automatic VMware vSphere(R) vMotion(R) migration that can impact response times.
-vMotion can complement XAP features during scheduled maintenance to help minimize downtime impact due to hardware and software upgrades. It is a best practice to trigger vMotion migrations over a 10GbE network interface to speed up the vMotion process.
-Do not allow vMotion operations with XAP lookup service as the latency introduced to this process can cause members of the XAP GSC to falsely suspect that other members are dead.
+When you first commission the data management system, place Vmware Distributed Resource Scheduler (DRS) in manual mode to prevent an automatic VMware vSphere® vMotion® migration that can impact response times.
+vMotion can complement XAP features during scheduled maintenance to help minimize downtime impact due-to hardware and software upgrades. To speed up vMotion migration process it is recommended to trigger vMotion migrations over a 10GbE network interface.
+
+Do not allow vMotion operations with a VM running the lookup service as the latency introduced to this process can cause members of XAP cluster to falsely suspect that other members are dead.
+
 Use DRS clusters dedicated to XAP. If this is not an option and XAP has to run in a shared DRS cluster make sure that DRS rules are set up that will not use vMotion to migrate XAP virtual machines.
 
-In some cases a vMotion migration might not succeed and instead fails back due to a rapidly changing volatile memory space, which can be the case with Partitioned space cluster and in some cases of Replicated cluster. The failback is a fail-safe mechanism to the source virtual machine and it does not impact the source virtual machine. 
+In some cases a vMotion migration might not succeed and instead fails back due-to a rapidly changing volatile memory space, which can be the case with partitioned data-grid cluster and in some cases also replicated data-grid. The failback is a fail-safe mechanism to the source virtual machine and it does not impact the source virtual machine. 
 
 vMotion makes this failback decision based on the time it takes to complete the iterative copy process that captures changes between the source virtual machine to the destination virtual machine. 
 
 If the changes are too rapid and vMotion is not able to complete the iterative copy within the default 100 seconds, it checks whether it can failsafe to the running source virtual machine without interruption. Therefore, vMotion only transfers the source virtual machine to the destination if it is certain that it can complete the memory copy.
 
-
 ## VMware HA and XAP
-VMware HA should be disabled on virtual machines running XAP. If this is a dedicated XAP Grid DRS cluster, you can disable HA across the cluster. However, if this is a shared cluster, it is important to exclude XAP virtual machines from HA. Set up anti-affinity rules between the XAP virtual machines that will not cause any two XAP GSC to run on the same ESX host within the DRS cluster.
+VMware HA should be disabled on virtual machines running XAP. If this is a dedicated XAP Grid DRS cluster, you can disable HA across the cluster. For a shared cluster, it is important to exclude XAP virtual machines from HA. Set up anti-affinity rules between the virtual machines running XAP preventing primary and backup of the same partition to run on the same ESX host within the DRS cluster.
 
 ## References
 
