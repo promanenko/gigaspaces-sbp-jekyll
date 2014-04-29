@@ -154,21 +154,15 @@ In such a case, make sure clients have their lookup locators set correctly to ha
 ## Space URL Examples
 See below for examples of [Space URL]({%latestjavaurl%}/the-space-configuration.html) you should be familiar with:
 
-- "jini://localhost/*/space" - this space URL means that the client is trying to discover the lookup service on the localhost, together with discovering it on the network via multicast (enabled by default).
+- `jini://localhost/*/space` - this space URL means that the client is trying to discover the lookup service on the localhost, together with discovering it on the network via multicast (enabled by default).
 
-- "jini://localhost/*/space?locators=host,host2" - this space URL means that together with searching for the lookup service on the localhost or the network, we are looking for it on host1 and host2. We call this unicast lookup discovery.
+- `jini://localhost/*/space?locators=host,host2` - this space URL means that together with searching for the lookup service on the localhost or the network, we are looking for it on host1 and host2. We call this unicast lookup discovery.
 
-- "jini://localhost/*/space?groups=A,B" - this space URL means that together with searching for the lookup service on the localhost, we are using multicast discovery to search for all the lookup services associated with group A or B.
+- `jini://localhost/*/space?groups=A,B` - this space URL means that together with searching for the lookup service on the localhost, we are using multicast discovery to search for all the lookup services associated with group A or B.
 
-- "jini://*/*/space" - this space URL means that searching for the lookup service is done only via multicast discovery.
+- `jini://*/*/space` - this space URL means that searching for the lookup service is done only via multicast discovery.
 
-- "/./space?groups=A,B" - this space URL means that the started space registers itself with group A and B. To access such a space via a remote client, it needs to use the following space URL:
-
-{% highlight java %}
-"jini://*/*/space?groups=A"
-or
-"jini://*/*/space?groups=B"
-{% endhighlight %}
+- `/./space?groups=A,B` - this space URL means that the started space registers itself with group A and B. To access such a space via a remote client, it needs to use the following space URL: `jini://*/*/space?groups=A` or `jini://*/*/space?groups=B`.
 
 ## Space Configuration with Unit Tests
 When running unit tests, you might want these set up so that no remote client can access the space they are running. This includes regular clients or the GS-UI.
