@@ -9,9 +9,10 @@ checkout:
   post:
     - rm -rf wiki 
     - git clone https://github.com/Gigaspaces/gigaspaces-wiki-jekyll.git wiki
-    - mkdir ./wiki/sbp
-    - mv ./*.markdown ./wiki/sbp    
-
+    - pushd wiki 
+    - git clone https://github.com/Gigaspaces/gigaspaces-sbp-jekyll.git sbp
+    - popd 
+  
 ## Customize dependencies
 dependencies:
   override:
