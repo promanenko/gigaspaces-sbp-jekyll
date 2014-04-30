@@ -8,11 +8,9 @@ machine:
 checkout:
   post:
     - rm -rf wiki 
-    - git clone https://github.com/Gigaspaces/gigaspaces-wiki-jekyll.git wiki
-    - pushd wiki 
-    - git clone https://github.com/Gigaspaces/gigaspaces-sbp-jekyll.git sbp
-    - popd 
-  
+    - git clone https://github.com/Gigaspaces/gigaspaces-wiki-jekyll.git ./wiki
+    - git clone https://github.com/Gigaspaces/gigaspaces-sbp-jekyll.git ./wiki/sbp
+
 ## Customize dependencies
 dependencies:
   override:
