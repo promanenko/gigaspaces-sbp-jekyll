@@ -21,7 +21,7 @@ The MongoDB Data-Grid example demonstrates a common Data Grid / Caching architec
 - A Client application that perform write and read operations against a remote clustered IMDG.
 - A Clustered IMDG with write-behind (Mirror service) with pre-fetch (initial load) enabled. The Data grid using MongoDB database.
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid002.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid002.jpg)
+[<img src="/sbp/attachment_files/mongodatagrid002.jpg" width="400" height="300">](/sbp/attachment_files/mongodatagrid002.jpg)
 
 This best practice will demonstrate show to implement this with XAP.NET. 
 
@@ -46,7 +46,7 @@ The example incldues two additional Processing Unit folders:
 # Building the Example
 
 Step 1:
-[Download the example](https://dl.dropboxusercontent.com/u/7390820/Datagrid-MongoDb.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` (i.e. `C:\GigaSpaces\XAP.NET 9.7.0 x64\NET v4.0.30319\Examples`) folder. A new folder called `Datagrid-MongoDb` will be created.
+[Download the example](/sbp/download_files/Datagrid-MongoDb.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` (i.e. `C:\GigaSpaces\XAP.NET 9.7.0 x64\NET v4.0.30319\Examples`) folder. A new folder called `Datagrid-MongoDb` will be created.
 
 Step 2: 
 Browse to the `Datagrid-MongoDb` folder
@@ -62,7 +62,7 @@ Run Gigaspaces Agent by running the StartAgent.bat script. This will start 3 con
 Step 2:
 Deploy the data grid and the Mirror service by running `DeployDataGrid.bat`. You should see this after running the `Gs-ui.exe`:
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid004.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid004.jpg)
+[<img src="/sbp/attachment_files/mongodatagrid004.jpg" width="400" height="300">](/sbp/attachment_files/mongodatagrid004.jpg)
 
 # Running the Client Application
 
@@ -82,11 +82,11 @@ The client application has several options:
 
 Run GigaSpaces UI: Go to `<GigaSpaces Root>\Bin` and run `Gs-ui.exe`. This will allow you to view the content of the data grid.
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid006.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid006.jpg)
+[<img src="/sbp/attachment_files/mongodatagrid006.jpg" width="400" height="300">](/sbp/attachment_files/mongodatagrid006.jpg)
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid008.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid008.jpg)
+[<img src="/sbp/attachment_files/mongodatagrid008.jpg" width="400" height="300">](/sbp/attachment_files/mongodatagrid008.jpg)
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid010.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/mongodatagrid/mongodatagrid010.jpg)
+[<img src="/sbp/attachment_files/mongodatagrid010.jpg" width="400" height="300">](/sbp/attachment_files/mongodatagrid010.jpg)
 
 # Viewing data Persist into MongoDB
 {% highlight java %}
