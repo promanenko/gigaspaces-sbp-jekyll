@@ -409,7 +409,7 @@ To avoid the need to load the same library into each PU instance classloader run
 In most cases, the applications using GigaSpaces are leveraging machines with very fast CPUs, where the amount of temporary objects created is relatively large for the JVM garbage collector to handle with its default settings. This means careful tuning of the JVM is very important to ensure stable and flawless behavior of the application.
 
 Below represents the different XAP processes a virtual or a physical machine may run:
-[<img src="https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg" width="120" height="80">](https://dl.dropboxusercontent.com/u/7390820/jvm-vm-memory.jpg)
+[<img src="/sbp/attachment_files/jvm-vm-memory.jpg" width="120" height="80">](/sbp/attachment_files/jvm-vm-memory.jpg)
 
 - GSA - Very lightweight process in terms of its memory and CPU usage. This process does not require any tuning. You should have one per machine or in some cases one per Zone.
 - GSC - The runtime environment. This is where the data grid and the deployed processing units are running. This process requires the relevant tuning to address the memory capacity required. Number of GSCs should not exceed: `Total # of cores / 4`. With virtual machine setup you should have one GSC per VM. 

@@ -21,7 +21,7 @@ The SQL Server Data-Grid example demonstrates a common Data Grid / Caching archi
 - A Client application that perform write and read operations against a remote clustered IMDG.
 - A Clustered IMDG with write-behind (Mirror service) with pre-fetch (initial load) enabled. The Data grid using [nHibernate](https://community.jboss.org/wiki/NHibernateForNET) to Map .Net objects to database tables and persist data into the SQL Server database.
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver002.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver002.jpg)
+[<img src="/sbp/attachment_files/datagrid-sqlserver002.jpg" width="400" height="300">](/sbp/attachment_files/datagrid-sqlserver002.jpg)
 
 This best practice will demonstrate show to implement this with XAP.NET. 
 
@@ -41,7 +41,7 @@ The example includes four projects:
 
 # Building the Example
 Step 1:
-[Download the example](https://dl.dropboxusercontent.com/u/7390820/Datagrid-SQLServer.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` folder. A new folder called `Datagrid-SQLServer` will be created.
+[Download the example](/sbp/download_files/Datagrid-SQLServer.zip) and extract it into the `<GigaSpaces XAP .Net Root>\Examples` folder. A new folder called `Datagrid-SQLServer` will be created.
 
 Step 2:
 Browse to the example directory : `<GigaSpaces XAP .Net Root>\Examples\Datagrid-SQLServer`.
@@ -87,7 +87,7 @@ To run the data grid in a single process for debug mode run the `runDebug.bat` s
  
 Once deployed you should see the following within the GS-UI:
 
-[<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver004.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver004.jpg)
+[<img src="/sbp/attachment_files/datagrid-sqlserver004.jpg" width="400" height="300">](/sbp/attachment_files/datagrid-sqlserver004.jpg)
  
 # Running the Client Application
 
@@ -109,13 +109,13 @@ When you write objects into the data grid you should see these as well within th
 Run GigaSpaces UI: Go to `<GigaSpaces Root>\Bin` and run `Gs-ui.exe`. This will allow you to view the content of the data grid.
  
 ## Viewing the data grid instances:
-[<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver006.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver006.jpg)
+[<img src="/sbp/attachment_files/datagrid-sqlserver006.jpg" width="400" height="300">](/sbp/attachment_files/datagrid-sqlserver006.jpg)
  
 ## Viewing the data grid space types:
-[<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver008.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver008.jpg)
+[<img src="/sbp/attachment_files/datagrid-sqlserver008.jpg" width="400" height="300">](/sbp/attachment_files/datagrid-sqlserver008.jpg)
  
 ## Viewing the data within the data grid:
-[<img src="https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver010.jpg" width="400" height="300">](https://dl.dropboxusercontent.com/u/7390820/sqlserverdatagrid/datagrid-sqlserver010.jpg)
+[<img src="/sbp/attachment_files/datagrid-sqlserver010.jpg" width="400" height="300">](/sbp/attachment_files/datagrid-sqlserver010.jpg)
 
 # Important
 Before you deploy the data grid make sure you will have the `nHibernate.cfg.xml` and `Person.hbm.xml` located under the following folders:
