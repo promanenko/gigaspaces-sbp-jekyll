@@ -22,7 +22,7 @@ weight: 900
 
 When a deploying a data grid, primary and backup instances will be provisioned in an arbitrary manner across the available machines running GSA/GSCs. You don't have a control where these will be physically located as the primary election mechanism determines the primary and backup instances location at the deploy time (first instance per partition elected as the primary).
 
-In some cases you would like to determine the primary and backup instances location in an explicit manner. A simple approach would be to use zones, having one specific zone to host the primary instances and another zone to host the backup instances. These zones do not determine specific physical machines to host the primary/backup instances, but logical group of GSCs associated with a specific zone once started. Usually, the zone might reflect machines located in specific different racks or different data centers that are nearby havign very fast and reliable connectivity in between.
+In some cases you would like to determine the primary and backup instances location in an explicit manner. A simple approach would be to use zones, having one specific zone to host the primary instances and another zone to host the backup instances. These zones do not determine specific physical machines to host the primary/backup instances, but logical group of GSCs associated with a specific zone once started. Usually, the zone might reflect machines located in specific different racks or different data centers that are nearby having very fast and reliable connectivity in between.
 
 {% indent %}
 ![PrimaryBackupZoneController.jpg](/attachment_files/sbp/PrimaryBackupZoneController.jpg)
@@ -40,7 +40,7 @@ The Primary-Backup Zone Controller can be deployed as a PU or run as a stand-alo
 
 The example below will show how to use the Primary-Backup Zone Controller to place all primary instances on Zone A and all backup instances on Zone B. We will start GSCs with 3 zones, deploy a data-grid and use the Primary-Backup Zone Controller to execute the relocation activity.
 
-1. Download the [Primary-Backup Zone Controller](/attachment_files/sbp/PrimaryBackupZoneController.zip) and extract it into an empty folder. You will find the source under thr `src` folder and the compiled code under the `bin` folder.
+1. Download the [Primary-Backup Zone Controller](/attachment_files/sbp/PrimaryBackupZoneController.zip) and extract it into an empty folder. You will find the source under the `src` folder and the compiled code under the `bin` folder.
 
 2. Start LUS and GSM:
 

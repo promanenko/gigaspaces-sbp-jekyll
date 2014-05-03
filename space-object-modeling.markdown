@@ -8,7 +8,7 @@ weight: 1700
 
 
 {% tip %}
-**Summary:** Space object modelling basic rules.<br/>
+**Summary:** Space object modeling basic rules.<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1<br/>
 **Last Update:** October  2009<br/>

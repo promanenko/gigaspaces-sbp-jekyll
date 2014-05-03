@@ -97,7 +97,7 @@ The existing application Spring bean Configuration file will be modified to:
 {% tabcontent GigsSpaces spring bean configuration file %}
 
 ## The Application spring bean configuration file
-The {myUserSpaceDAO}} includs the GigaSpaces DAO.
+The {myUserSpaceDAO}} includes the GigaSpaces DAO.
 
 {% highlight xml %}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -443,7 +443,7 @@ public interface UserDAO {
 {% endhighlight %}
 
 # The DAO Implementation
-The DAO implementation should be modified to use the [GigaSpace interface]({%latestjavaurl%}/the-gigaspace-interface.html) to access the data grid instead of using the `HibernateTemplate` that is accessing the database. The `GigaSpace` interface simialr methods to the `HibernateTemplate` to write and [Query]({%latestjavaurl%}/query-sql.html) for objects.
+The DAO implementation should be modified to use the [GigaSpace interface]({%latestjavaurl%}/the-gigaspace-interface.html) to access the data grid instead of using the `HibernateTemplate` that is accessing the database. The `GigaSpace` interface similar methods to the `HibernateTemplate` to write and [Query]({%latestjavaurl%}/query-sql.html) for objects.
 
 {% inittab DAOImplemenation|top %}
 
@@ -516,7 +516,7 @@ public class UserDAOSpaceImpl implements UserDAO {
 {% endinittab %}
 
 # Deploying the Data-Grid and the Application
-To deploy the Data-Grid and the web Application into the [GigaSpaces runtime enviroment]({%latestjavaurl%}/the-runtime-environment.html) perform the following:
+To deploy the Data-Grid and the web Application into the [GigaSpaces runtime environment]({%latestjavaurl%}/the-runtime-environment.html) perform the following:
 
 - Download the [3rd party libraries](/attachment_files/sbp/3rd_party_libraries.zip) package, and extract it into the `\gigaspaces-xap\lib\optional\pu-common` folder.
 - Download the [application.war](/attachment_files/sbp/application.war) , [myDataGrid.jar](/attachment_files/sbp/myDataGrid.jar) and the [myMirror.jar](/attachment_files/sbp/myMirror.jar).

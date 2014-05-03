@@ -19,7 +19,7 @@ weight: 1500
 {% endtip %}
 
 # Overview
-The GigaSpaces Universal Deployer (GUD) allows deploying the different supported processing units ([Space PU]({%latestjavaurl%}/administrators-guide.html), [Regular PU]({%latestjavaurl%}/packaging-and-deployment.html), [Elastic PU]({%latestjavaurl%}/elastic-processing-unit.html), [memCache PU]({%latestjavaurl%}/memcached-api.html) or [Web PU]({%latestjavaurl%}/web-processing-unit-container.html) via a simple configuration file. The GUD support dependency based deployment allowing multiple processing units to be deployed as one atomic process (e.g composite application).
+The GigaSpaces Universal Deployer (GUD) allows deploying the different supported processing units ([Space PU]({%latestjavaurl%}/administrators-guide.html), [Regular PU]({%latestjavaurl%}/packaging-and-deployment.html), [Elastic PU]({%latestjavaurl%}/elastic-processing-unit.html), [memCache PU]({%latestjavaurl%}/memcached-api.html) or [Web PU]({%latestjavaurl%}/web-processing-unit-container.html) via a simple configuration file. The GUD support dependency based deployment allowing multiple processing units to be deployed as one atomic process (e.g. composite application).
 
 {% tip %}
 Starting with XAP 9 you may use the **Deployment Dependencies API** to specify the deployment order. See the [Application Deployment and Processing Unit Dependencies]({%latestjavaurl%}/deploying-onto-the-service-grid.html#Application+Deployment+and+Processing+Unit+Dependencies) for details.
@@ -67,7 +67,7 @@ The GUD support the following command line arguments:
 - Download the [GigaSpaces Universal Deployer](/attachment_files/sbp/GSUniversalDeployer.zip) and extract it into an empty folder.
 - Edit the `runGSUniversalDeployer.bat` or `runGSUniversalDeployer.sh` to include the correct parameters.
 
-Here an exmaple how you should run the GUD:
+Here an example how you should run the GUD:
 
 {% highlight java %}
 java com.gigaspaces.admin.GSUniversalDeployer -config c:\\puList.txt -locators 127.0.0.1 -abortDeployOnFailure true
@@ -99,10 +99,10 @@ Each GUD configuration file line supports the following options:
 |Switch|Description|Options|Default|
 |:-----|:----------|:------|:------|
 |-file| PU file. You may have .zip , .jar , .war file deployed.| | |
-|-type|PU Type|Regular,Space,memccache|Regular|
-|-timeout| Timeout to abort the deploy process. If the deploy proecss is not completed within this timeframe, undeploy process will be initiated. | | 120 seconds|
+|-type|PU Type|Regular,Space,memcache|Regular|
+|-timeout| Timeout to abort the deploy process. If the deploy process is not completed within this timeframe, undeploy process will be initiated. | | 120 seconds|
 |-undeployOnFailure | undeploy the PU in case of a failure or when the deploy could not be completed within the timeout specified|false , true|  false|
-|-spaceurl|Used with memcache PU type.|The url of the space, can be embedded, eg: /./myMemcached, or remote eg: `jini://*/*/myMemcached`|`/./memcached`|
+|-spaceurl|Used with memcache PU type.|The url of the space, can be embedded, e.g.: /./myMemcached, or remote e.g.: `jini://*/*/myMemcached`|`/./memcached`|
 |-sla |Location of an optional xml file holding the SLA element|sla file location| |
 |-cluster |Set cluster parameters|schema=partitioned-sync2backup  : The cluster schema{% wbr %}total_members=1,1               : The number of instances and number of backups | |
 |-user xxx -password yyyy               |Deploys a secured processing unit propagated with the supplied user and password| | |

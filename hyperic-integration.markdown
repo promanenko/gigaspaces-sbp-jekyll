@@ -51,7 +51,7 @@ Click on OK, the plugin should auto discover the GigaSpaces services (GSAs, GSMs
 
 _Note that Hyperic Autodiscovery of services etc run daily only so if you deploy a new pu and want it to appear you should repeat the configuration step (without changing values) to trigger a new auto discovery._
 
-_The plugin is currently delivering some very basic features and has to be improved in the future to cover more monitoring informations_
+_The plugin is currently delivering some very basic features and has to be improved in the future to cover more monitoring information.
 
 # Building the plugin
 

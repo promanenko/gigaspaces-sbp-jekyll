@@ -150,7 +150,7 @@ When a client invokes it, the name of the project, the name(s) of the ruleset(s)
 
 - A server side implementation, in our case an implementation of IRulesExecutionService interface, called RulesExecutionServiceImpl.
 
-Upon invocation of an execute method, this class will try to load a DroolsContext object from the space for the requested configuration. This object is a cached version of a rules execution call and is used to speed up subsequent calls for the same ruleset(s). If the cached object is not found, a new one is created and the rules excecution service loads all the requested rulesets from the space to add them to this cached object.
+Upon invocation of an execute method, this class will try to load a DroolsContext object from the space for the requested configuration. This object is a cached version of a rules execution call and is used to speed up subsequent calls for the same ruleset(s). If the cached object is not found, a new one is created and the rules execution service loads all the requested rulesets from the space to add them to this cached object.
 
 Finally, the cached object is used to create a new Drools stateless knowledge session. If needed, the passed globals are added to the session and then there is a call to the main execute-method with the given facts as argument.
 

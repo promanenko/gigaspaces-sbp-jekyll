@@ -24,7 +24,7 @@ Date: March 2011<br/>
 # Overview
 GigaSpaces [Mule ESB]({%latestjavaurl%}/mule-esb.html) OpenSpaces comes with comprehensive support for Mule 3.1.0. It allows you to use the [Space as a Mule external transport]({%latestjavaurl%}/mule-event-container-transport.html), enabling receiving and dispatching of POJO messages over the Space.
 
-This [example](/attachment_files/sbp/Mule_Multi_service_Example.zip) illustrates distributed multi services mule application. The different mule services construct a simple workflow, where each service passes its outbound data into the next service in line via the Space. Each Service can run in a different machine(s) and [scale dynamically](#Scale Dynamically) or [manualy](#Scale Manually) in a different manner.
+This [example](/attachment_files/sbp/Mule_Multi_service_Example.zip) illustrates distributed multi services mule application. The different mule services construct a simple workflow, where each service passes its outbound data into the next service in line via the Space. Each Service can run in a different machine(s) and [scale dynamically](#Scale Dynamically) or [manually](#Scale Manually) in a different manner.
 
 {% tip %}
 Make sure you have the [libraries required](#Libraries Required) located at the correct location before running the example.

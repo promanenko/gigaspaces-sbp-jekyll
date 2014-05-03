@@ -28,7 +28,7 @@ Integrating GigaSpaces with an external JMS Servers is demonstrated in this page
 
 This example includes:
 
-- GigaSpaces updates and JMS message creation are done transactionally so as to avoid duplicate processing/data loss.
+- GigaSpaces updates and JMS message creation are done under transactions so as to avoid duplicate processing/data loss.
 - Apache ActiveMQ is used as a the JMS provider.
 - Atomikos is used as the JTA Transaction provider and uses XA protocol.
 - Example is based on the GigaSpaces helloworld example included with the product.

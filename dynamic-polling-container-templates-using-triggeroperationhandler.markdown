@@ -122,6 +122,6 @@ pu.xml snippet below shows how MyTrigger is configured on the polling container,
 Notice the clustered proxy being passed to MyTrigger as a property.
 
 # Getting the project
-Example project is held on github in the [bestpractices](https://github.com/Gigaspaces/bestpractices) project. This is an umbrella repository; the specific project is in the [helloTriggerHandler](https://github.com/Gigaspaces/bestpractices/tree/master/helloTriggerHandler) directory under the root.
+Example project is held on github in the [best practices](https://github.com/Gigaspaces/bestpractices) project. This is an umbrella repository; the specific project is in the [helloTriggerHandler](https://github.com/Gigaspaces/bestpractices/tree/master/helloTriggerHandler) directory under the root.
 
 You can run this example just as how you would run helloworld example using the included ant build scripts. Be sure to use a cluster with at least 2 partitions when testing this.

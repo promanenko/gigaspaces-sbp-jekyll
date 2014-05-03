@@ -70,11 +70,11 @@ The Processor makes use of two polling containers each individually designated t
 
 ![time-series-1.png](/attachment_files/sbp/time-series-1.png)
 
-The `timeSeries` object is designed to track the amount of request occurrences for each set of source and destination airports. It does this with an embedded `Map<String, Integer>` attribute named `sourceDestinatinCounter`. Each timeSeries can store sourceDestination sets as a key to its map along with an Integer representing the number of occurrences within the given interval. By default a timeSeries object only remains active for two seconds, after which the `Processor` will create a new `timeSeries` object.
+The `timeSeries` object is designed to track the amount of request occurrences for each set of source and destination airports. It does this with an embedded `Map<String, Integer>` attribute named `sourceDestinatinCounter`. Each Time Series can store sourceDestination sets as a key to its map along with an Integer representing the number of occurrences within the given interval. By default a Time Series object only remains active for two seconds, after which the `Processor` will create a new `timeSeries` object.
 
-The Web Processing Unit hosts a web page that is capable of rendering a graph which will chart the inactive `BookingTimeSeries` objects according to their sequence in time. By default, the graph will only load the last 10 inactive `BookingTimeSeries` objects persisted in the space. Once the initial data is loaded, the web page will begin making scheduled AJAX requests to the underlying servlet to get the next available inactive timeSeries. By default each interval will last two seconds and will be represented along the horizontal axis, `t`, in hours.
+The Web Processing Unit hosts a web page that is capable of rendering a graph which will chart the inactive `BookingTimeSeries` objects according to their sequence in time. By default, the graph will only load the last 10 inactive `BookingTimeSeries` objects persisted in the space. Once the initial data is loaded, the web page will begin making scheduled AJAX requests to the underlying servlet to get the next available inactive Time Series. By default each interval will last two seconds and will be represented along the horizontal axis, `t`, in hours.
 
-For scalability the servlet will use a `TaskDelegate` to perform multiple tasks executed in a collocated asynchronous manner with the space. One of the tasks is purposed to retrieve all inactive timeseries which occurred after a provided interval. Since the space is partitioned this task will be broadcasted across the entire cluster and will return a result that is a reduced operation of all the different executions. This Map-Reduce pattern will aggregate all counters from the partitioned spaces and reduce them into a single `TreeMap` which the web page can iterate in order to load the data into the graph.
+For scalability the servlet will use a `TaskDelegate` to perform multiple tasks executed in a collocated asynchronous manner with the space. One of the tasks is purposed to retrieve all inactive Time Series which occurred after a provided interval. Since the space is partitioned this task will be broadcasted across the entire cluster and will return a result that is a reduced operation of all the different executions. This Map-Reduce pattern will aggregate all counters from the partitioned spaces and reduce them into a single `TreeMap` which the web page can iterate in order to load the data into the graph.
 
 ![time-series-3.png](/attachment_files/sbp/time-series-3.png)
 
@@ -82,7 +82,7 @@ For scalability the servlet will use a `TaskDelegate` to perform multiple tasks 
 # Key Features
 
 ### Event Processing
-Each type of request has a polling container listening for a new event for request-processing and incrementing the active timeSeries’ `sourceDesinationCounter`.
+Each type of request has a polling container listening for a new event for request-processing and incrementing the active Time Series `sourceDesinationCounter`.
 
 {%highlight java%}
 @Polling(concurrentConsumers=10)
@@ -239,7 +239,7 @@ public BookingTimeSeries readActiveTimeSeriesByAirline(String airline) {
 
 ### Change API
 
-The `GigaSpace.change()` operation and its `ChangeSet` paramter allows updating existing objects in space, by specifying only the required change instead of passing the entire updated object. This reduces the required network traffic between the client and the space, and the network traffic generated from replicating the changes between the space instances (e.g. between the primary space instance and its backup).
+The `GigaSpace.change()` operation and its `ChangeSet` parameter allows updating existing objects in space, by specifying only the required change instead of passing the entire updated object. This reduces the required network traffic between the client and the space, and the network traffic generated from replicating the changes between the space instances (e.g. between the primary space instance and its backup).
 
 {%highlight java%}
 public void incrementSourceDestinationCounter(BookingTimeSeries bookingTimeSeries, String sourceDestination) {

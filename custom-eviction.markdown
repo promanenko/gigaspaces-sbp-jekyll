@@ -112,7 +112,7 @@ In this simplistic example (created using hello-world example included in the pr
 - Currently example is evicting any orders older than 1 minute old.
 - A TestClient loads Orders into the space. After 1 minute `Evictor` gets into action and starts evicting any data older than 1 minute old.
 
-Some relavent code from the example,
+Some relevant code from the example,
 
 {% inittab Polling Evictor Example %}
 
@@ -574,7 +574,7 @@ mvn exec:java -Dexec.classpathScope=compile -Dexec.mainClass="com.gigaspaces.cli
 -Dexec.args="jini://*/*/mySpace"
 {% endhighlight %}
 
-Start monitoring the JVM Tenured pool in JConsole and GSC logs. After few seconds you will see that the memory thresohold is breached and eviction logic will trigger and clear the old `Order` objects from space. Once the memory usage reached the eviction stop limit, eviction logic stops. You will see that the orders flow into the space constantly and the eviction logic triggers as and when needed making this a self healing application.
+Start monitoring the JVM Tenured pool in JConsole and GSC logs. After few seconds you will see that the memory threshold is breached and eviction logic will trigger and clear the old `Order` objects from space. Once the memory usage reached the eviction stop limit, eviction logic stops. You will see that the orders flow into the space constantly and the eviction logic triggers as and when needed making this a self healing application.
 
 Below is a screenshot of Tenured pool of the JVM,
 ![HeapUsageGraph.png](/attachment_files/sbp/HeapUsageGraph.png)
@@ -598,6 +598,6 @@ In cases where the Space is using [LRU]({%latestjavaurl%}/lru-cache-policy.html)
 In [ALL_IN_CACHE]({%latestjavaurl%}/all-in-cache-cache-policy.html) mode,
 
 - Take or clear operations will remove the data from space and database (in read-write mode), you should use
-    - Lease expiration option to remove the entries from the space and free up memory. When you restart the cluster, expired data will get loaded again and fill up the entire cluster. In order to avaoid this you have to propogate the lease information into the DB (using the [SpaceLease]({%latestjavaurl%}/modeling-your-data.html) property).
+    - Lease expiration option to remove the entries from the space and free up memory. When you restart the cluster, expired data will get loaded again and fill up the entire cluster. In order to avoid this you have to propagate the lease information into the DB (using the [SpaceLease]({%latestjavaurl%}/modeling-your-data.html) property).
     Objects which are cleared from the space using Lease expiration are not loaded automatically when someone queries for them, you will need to build custom functionality to retrieve this data.
-    - Custom EDS mechanism that intercepts the eviction requests and stops propogating them into DB.
+    - Custom EDS mechanism that intercepts the eviction requests and stops propagating them into DB.

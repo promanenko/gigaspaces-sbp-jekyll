@@ -39,7 +39,7 @@ Here is an example for the latency duration for the Order request processing tim
 ![par_q1.jpg](/attachment_files/sbp/par_q1.jpg)
 {% endindent %}
 
-The above results retrived when running the Data-Grid with 4 partitions with a backup.
+The above results retrieved when running the Data-Grid with 4 partitions with a backup.
 
 {% tip %}
 You can [download](/attachment_files/sbp/ParallelQueue.zip) the Order Management Processor code used with this example.
@@ -55,7 +55,7 @@ The following example illustrates a simple Order management processor that inclu
 -- The `bucketId` used to generate the buckets that each polling container consuming Orders from.
 -- The `Order` class is decorated with the `FIFO` mode allows it to be consumed in a FIFO manner.
 - **The Feeder** - A client running multiple threads pushing requests for different Order.
-- **The Processor** - Polling Container listener. Running collocated with the data-grid. Each polling container consumes different set of objects from its colocated space. Each Polling Container template using **different bucketId**.
+- **The Processor** - Polling Container listener. Running collocated with the data-grid. Each polling container consumes different set of objects from its co located space. Each Polling Container template using **different bucketId**.
 - **The Data-Grid** - Stores the incoming `Order` requests state until these are consumed by the polling containers. It provides the ability to scale the system and also provides high-availability.
 - **The ProcessorFactory** - A Spring bean. Creates the polling containers and their listeners.  The polling containers consumes data based on the Order `Symbol`. Each associated with a different Symbol. These are running collocated with the Data-Grid.
 
