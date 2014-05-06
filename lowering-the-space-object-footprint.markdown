@@ -69,7 +69,7 @@ The compact serialization pattern involves creation the following methods:
 6. `getnulls` method - Handles null data for non indexed fields.
 
 # BinaryOutputStream and BinaryInputStream
-The `BinaryOutputStream` contains various method to serialize all java's primitive type, their Object wrappers and arrays forms in a compacted mode. `BinaryInputStream` is its counterpart for deserialization. Your `pack` and `unpack` methods will be using an instance of those classes.
+The `BinaryOutputStream` contains various method to serialize all java's primitive type, their Object wrappers and arrays forms in a compacted mode. `BinaryInputStream` is its counterpart for de serialization. Your `pack` and `unpack` methods will be using an instance of those classes.
 
 # Example
 With the [attached example](/attachment_files/sbp/BinaryCompaction.zip) we have a space class with 37 fields.
@@ -323,7 +323,7 @@ private BinaryFormatEntry generateBinaryFormatEntry(int id){
 {% endhighlight %}
 
 ## Writing and Reading the Object from the space
-The following code snipped illustrates how the copact serialized object is written into the space and read from the space:
+The following code snipped illustrates how the compact serialized object is written into the space and read from the space:
 
 {% highlight java %}
 GigaSpace _gigaspace;

@@ -190,7 +190,7 @@ found 1 Customers matching the name:Smith
 {% endhighlight %}
 
 ## Checking the Data within the Space
-When the client application running sucessfuly you will be able to see the Customer data within the space using the GS-UI.
+When the client application running successfully you will be able to see the Customer data within the space using the GS-UI.
 
 {% indent %}
 ![web_serv_ui1.jpg](/attachment_files/sbp/web_serv_ui1.jpg)

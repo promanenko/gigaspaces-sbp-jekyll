@@ -46,7 +46,7 @@ weight: 1700
  * *deploy-pu*
 
  Deploys a stateful/grid processing unit. Usage: deploy-pu puurl schema partitions backups max-per-vm max-per-machine name. Arguments (all args are required):
- name: The deployd name for the processing unit. Defaults to the pu file name unless overridden.
+ name: The deployed name for the processing unit. Defaults to the pu file name unless overridden.
  puurl: A URL where the processing unit jar can be found
  schema: The cluster schema (e.g. partitioned-sync2backup)
  partitions: The number of partitions. Ignored if not partitioned.

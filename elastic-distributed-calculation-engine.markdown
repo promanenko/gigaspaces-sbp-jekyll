@@ -83,7 +83,7 @@ The Elastic Calcualtion Engine uses the [ExecutorBuilder]({%latestjavaurl%}/task
 ## The AnalysisTask
 The `AnalysisTask` include the following:
 
-- `execute` method - invoked on each partition. It returns a sum of all of the calculated NPV values for all the trades found within the partition devided by books. The demo assumes there are four books.
+- `execute` method - invoked on each partition. It returns a sum of all of the calculated NPV values for all the trades found within the partition divided by books. The demo assumes there are four books.
 - `getTradesFromDB` method  - used to load missing Trade objects from the database. Since this demo does not include a running live database the Trade  data is generated via random data.
 - `calculateNPV` method - called by the execute method to calculate the Net present value for the Trade.
 
@@ -117,7 +117,7 @@ The Trade Space class stores the following items:
 - CacheFlowData - The cache flow data for Year 0 through Year 5.
 
 ## Elasticity
-The [Elastic Processing Unit]({%latestjavaurl%}/elastic-processing-unit.html) is used to deploy the data/compute grid and scale it dynamically. This allows you to increase the capacity of the data grid and leverage additional CPU resources for the calculation activity. With this demo, the user changes the capacity using a scale command that instructs the data/compute grid to increase its capacity (this in turn starts additional containers and rebalances the data/compute grid) or decrease its capacity (by terminating containers and rebalancing).
+The [Elastic Processing Unit]({%latestjavaurl%}/elastic-processing-unit.html) is used to deploy the data/compute grid and scale it dynamically. This allows you to increase the capacity of the data grid and leverage additional CPU resources for the calculation activity. With this demo, the user changes the capacity using a scale command that instructs the data/compute grid to increase its capacity (this in turn starts additional containers and re balances the data/compute grid) or decrease its capacity (by terminating containers and re balancing).
 
 # Remote Calculations
 For long calculations that consume relatively large amount of CPU time, the recommended approach to implement distributed calculations is the [Master-Worker Pattern](./master-worker-pattern.html). The approach suggested with the Master-Worker pattern should be used when the calculation time is relativity very long where the data access time can't be considered as overhead.
