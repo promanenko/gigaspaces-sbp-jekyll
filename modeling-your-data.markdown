@@ -68,7 +68,7 @@ With the embedded model, updating (as well adding or removing) a nested collecti
 
 ## Non-Embedded Relationships
 
-With Non-Embedded Relationships a parent object is associated with a number of other objects, so you can navigate from one object to others. However, there is no life cycle dependency between them, so if you delete the referencing object (parent), you don't automatically delete the referenced (child) object(s). The association is therefore manifested in storing the child IDs in the parent rather than storing the actual associated object itself. This type of relationship means that you might want to access the child object seperatly without accessing their parent objects. This approach avoid the need to duplicate child object in case these are references by more than a single parent object. This approach might enfore you to perform multiple space operations when accessing the entire parent-child graph across multiple space cluster partitions.
+With Non-Embedded Relationships a parent object is associated with a number of other objects, so you can navigate from one object to others. However, there is no life cycle dependency between them, so if you delete the referencing object (parent), you don't automatically delete the referenced (child) object(s). The association is therefore manifested in storing the child IDs in the parent rather than storing the actual associated object itself. This type of relationship means that you might want to access the child object separately  without accessing their parent objects. This approach avoid the need to duplicate child object in case these are references by more than a single parent object. This approach might enforce you to perform multiple space operations when accessing the entire parent-child graph across multiple space cluster partitions.
 
 ![model_non_embed.jpg](/attachment_files/model_non_embed.jpg)
 
@@ -477,7 +477,7 @@ return authorFounds;
 
 ### Non-Embedded Model
 
-With the non-Embedded model the **Author** and the **Book** would look like this - See how the IDs of the Books are stored within the Author object rather than the Books themselvs. These are stored as seperate Space objects:
+With the non-Embedded model the **Author** and the **Book** would look like this - See how the IDs of the Books are stored within the Author object rather than the Books themselves. These are stored as separate Space objects:
 
 {% inittab non-Embedded %}
 {% tabcontent The Author Entity %}

@@ -25,7 +25,7 @@ GigaSpaces supports addition of new space classes while the system is running ou
 The following sections describe the recommended options to evolve the space schema.
 
 # Schema-less Model - Document Model
-A `SpaceDocument` is completely dynamic model artifact you can write into the space and read back into the application. It allows you to change or evolve your data model without ever taking down the Space. Change your application code to add additional properties or remove existing ones, and you're good to go. In addition, **old and new versions of the same Entity model can co-exist** since the space does not enforce any restriction with regards to the property set of `SpaceDocuments` belong to a certain type. `SpaceDocument` can be [mapped to a POJO]({%latestjavaurl%}/document-pojo-interoperability.html) during runtime allowing the application leverage POJO and evolve these as neeeded. You can also make the `SpaceDocument` type safe by [Extending SpaceDocument]({%latestjavaurl%}/document-extending.html).
+A `SpaceDocument` is completely dynamic model artifact you can write into the space and read back into the application. It allows you to change or evolve your data model without ever taking down the Space. Change your application code to add additional properties or remove existing ones, and you're good to go. In addition, **old and new versions of the same Entity model can co-exist** since the space does not enforce any restriction with regards to the property set of `SpaceDocuments` belong to a certain type. `SpaceDocument` can be [mapped to a POJO]({%latestjavaurl%}/document-pojo-interoperability.html) during runtime allowing the application leverage POJO and evolve these as needed. You can also make the `SpaceDocument` type safe by [Extending SpaceDocument]({%latestjavaurl%}/document-extending.html).
 
 ![document_arch.jpg](/attachment_files/sbp/document_arch.jpg)
 
@@ -70,7 +70,7 @@ See more:
 
 # Evolving Space Schema using Placeholder Fields
 
-The space model can be evolved using a few extra fields as part of the space class, which are used in future versions of the application. When using POJOs/PONOs/POCOs, these fields include getter/setter fields that include relevant façade methods once the actual business logic requests these. When dealing with Entry space classes, you can change the fields getter/setter methods. This is because these methods are not used when getting the class metadata (when the class is introduced to the space).
+The space model can be evolved using a few extra fields as part of the space class, which are used in future versions of the application. When using POJOs/PONOs/POCOs, these fields include getter/setter fields that include relevant facade methods once the actual business logic requests these. When dealing with Entry space classes, you can change the fields getter/setter methods. This is because these methods are not used when getting the class metadata (when the class is introduced to the space).
 
 {% exclamation %} In most cases, the placeholder fields technique is the simplest one to use. It allows you to index future fields and its impact on the deployment is minimal.
 

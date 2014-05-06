@@ -32,9 +32,9 @@ The example contains two .Net projects:
 - `GigaSpaces.Examples.Datagrid.Commons`- Includes the entities project (`Person`) used in the example and other common functionalities.
 - `GigaSpaces.Examples.Datagrid.Client` - A client application performs write and read operations against the data grid.
 
-The example incldues two additional Processing Unit folders:
+The example includes two additional Processing Unit folders:
 
-- datagrid-mogo – Include a jar with the data grid configuration. See within the jar the `pu.xml` for MongoDB URL. `mongodb://localhost:27017/db` used by default.
+- datagrid-mongo – Include a jar with the data grid configuration. See within the jar the `pu.xml` for MongoDB URL. `mongodb://localhost:27017/db` used by default.
 - mirror-mongo – Include a jar with the mirror configuration. See the within the jar the `pu.xml` for MongoDB URL. `mongodb://localhost:27017/db` used by default.
 
 # Prerequisites

@@ -34,7 +34,7 @@ The key features of the embedded Tomcat are:
 - Auto-Scaling: Dynamic allocation and auto-scaling of Tomcat instances (hosting a web application) as well as automatically updating your load balancer through the Admin API
 - Simplified Management: Consolidated management of your web tier along with your data grid under one common administrative interface (through a web, desktop, and CLI administrative interface)
 - Fault Tolerance and Isolation: SLA enforcement through the Grid Service Manager by providing JVM-level, Machine-level, and Zone-level redundancy and failover upon deployment.
-- Low latency: Leverage colocation of Tomcat instances with space instances to avoid network roundtrips that access POJO from the data grid.
+- Low latency: Leverage colocation of Tomcat instances with space instances to avoid network round trips that access POJO from the data grid.
 
 
 # Deployment
@@ -52,7 +52,7 @@ Tomcat PU {%wbr%}
 {: .table .table-bordered}
 |Folder	|Purpose|
 |:--------|:-----------|
-|com|	Contains compiled code for instantiating Tomcat as well as utilizing server paramters|
+|com|	Contains compiled code for instantiating Tomcat as well as utilizing server parameters|
 |lib|	Additional libraries required by Tomcat and web application|
 |META-INF|	Contains the PU.XML file for configuring Tomcat along with an optional SLA.XML file for configuring the processing unit SLA|
 |webapps|	A collection of web applications which will be loaded by Tomcat|
