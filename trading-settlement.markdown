@@ -6,7 +6,7 @@ parent: solutions.html
 weight: 500
 ---
 
-
+{% summary page %} {% endsummary %}
 {% tip %}
 **Summary:** {% excerpt %}Trading Settlement Demo.{% endexcerpt %}<br/>
 **Authors**: Shay Hassidim, Deputy CTO, GigaSpaces; Norm Leitman, Sales Engineer, GigaSpaces; Shravan (Sean) Kumar, Solutions Architect, GigaSpaces<br/>
