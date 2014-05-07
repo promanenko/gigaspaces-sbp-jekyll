@@ -6,7 +6,7 @@ parent: production.html
 weight: 1500
 ---
 
-
+{% summary page %} {% endsummary %}
 
 {% tip %}
 **Summary:** {% excerpt %}GigaSpaces Universal Deployer tool. Allows deploying composite applications without any coding.{% endexcerpt %}<br/>
