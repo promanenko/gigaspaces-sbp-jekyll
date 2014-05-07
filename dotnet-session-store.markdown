@@ -34,31 +34,31 @@ With this solution, there is no need to deploy a database to store the session, 
 
 # Overview
 
-GigaSpaces XAP.NET ASP.NET Session State Store Management for .NET is designed to deliver the application maximum performance with ZERO application code changes. It features the following: - Reduced App/Web server memory footprint storing the session within a remote JVM on XAP.{%wbr%}
+GigaSpaces XAP.NET ASP.NET Session State Store Management for .NET is designed to deliver the application maximum performance with **ZERO** application code changes. It features the following: {%wbr%}
 
 {%vbar%}
-• No code changes required to share the session with other remote Web/App servers - Support Serialized and Non-Serialized Session attributes. Your attributes do not need to implement Serializable or Externalizable interface.{%wbr%}
 
-• Application elasticity - Support session replication across different App/Web applications located within the same or different data-centers/clouds allowing the application to scale dynamically without any downtime.{%wbr%}
+• Reduced IIS memory footprint storing the session within a remote Data Grid.{%wbr%}
 
-• Unlimited number of sessions and concurrent users support - Sub-millisecond session data access by using GigaSpaces In-Memory-Data-Grid. {%wbr%}
+• No code changes required to share the session with other remote IIS servers.{%wbr%}
 
-• Session replication over the WAN support - Utilizing GigaSpaces Multi-Site Replication over the WAN technology.{%wbr%}
+• Application elasticity - Support session replication across different IIS applications located within the same or different data-centers/clouds allowing the application to scale dynamically without any downtime.{%wbr%}
 
-• HTTP Session data access scalability - Session data can utilize any of the supported In-Memory-Data-Grid topologies ; replicated , partitioned , with and without local cache.{%wbr%}
+• Unlimited number of sessions and concurrent users support - Sub-millisecond session data access by using GigaSpaces In-Memory-Data-Grid as the session state store. {%wbr%}
 
-• Transparent App/Web Failover - Allow app server restart without any session data loss.{%wbr%}
+• Session replication over the WAN support - Utilizing GigaSpaces Multi-Site Replication over the WAN technology. Support data compression and encryption.{%wbr%}
 
-• Any session data type attribute support - Primitive and Non-Primitive (collections, user defined types) attributes supported.{%wbr%}
+• HTTP Session data access scalability - Session data can utilize any of the supported In-Memory-Data-Grid topologies ; replicated or partitioned.{%wbr%}
 
-• Sticky session and Non-sticky session support - Your requests can move across multiple instances of web application seamlessly.{%wbr%}
+• Transparent IIS Failover - Allow IIS restart without any session data loss.{%wbr%}
 
-• Atomic HTTP request session access support - multiple requests for the session attributes within the same HTTP request will be served without performing any remote calls. Master session copy will be updated when the HTTP request will be completed.{%wbr%}
+• Sticky session and Non-sticky session support - Your requests can move across multiple IIS seamlessly.{%wbr%}
+
 {%endvbar%}
 
-# Scenario
+# Session State Options
 
-Before proceeding with the following sections, please find some more information on various session state modes here (http://msdn.microsoft.com/en-us/library/vstudio/ms178586(v=vs.100).aspx). As you might guess, there are pros and cons of these various approaches.
+Before proceeding with the following sections, please find some more information on various session state modes here (http://msdn.microsoft.com/en-us/library/vstudio/ms178586(v=vs.100).aspx). There are pros and cons of these various approaches.
 
 1)	Inproc mode has the best performance metrics but it only works best when you have a single server hosting a web application and web applications in which the end user is guaranteed to be re-directed to the one and only, and therefore, correct server. This mode is used when session data is not very critical as it can be in some other ways reconstructed.
 
@@ -66,7 +66,7 @@ Before proceeding with the following sections, please find some more information
 
 3)	SQL Server mode is used when very high levels of reliability are required. In other words, a session and its attributes have to be guaranteed re-construction on the fly and the application absolutely requires this kind of data reliability. Keep in mind that this mode has the worst performance of all (as quite easily understood) and trades off reliability for performance. This also allows you to globally distribute your applications across datacenters but relies heavily on clustering SQL Server databases across these data centers globally.
 
-We will be concentrating our discussions on using an out of process, custom storage provider for achieving true global, lightweight distribution of your application that provides similar if not better reliability that other modes discussed above.
+We will be concentrating our discussions on using an out of process, custom storage provider for achieving true global, lightweight distribution of your application that provides better reliability than other modes discussed above.
 
 
 We will show you how you can implement this scenario with XAP.NET. A fully functional example is available [here](/sbp/download_files/gigaspaceshttpsessionsharing.zip).
@@ -74,9 +74,9 @@ We will show you how you can implement this scenario with XAP.NET. A fully funct
 
 # Various Scenarios
 
-Below are various HTTP Session sharing scenarios:
+Below are various ASP.NET HTTP Session state sharing scenarios supported with XAP.NET:
 
-## Scenario 1:
+## Scenario 1
 
 {%section%}
 {%column width=80% %}
@@ -88,11 +88,10 @@ Consider a simple scenario where you have a single IIS server serving your web a
 {%endsection%}
 
 As you follow the instructions later on in this document to run the demo application, you would be using the same demo app and your web application, IIS and GigaSpaces to support the various scenarios.
-For scenario 1, you would not create a cluster in IIS. In other words, there is no need to add an extra server to your IIS server configuration. You would configure your GigaSpaces space as documented below or start the same from C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin directory. Either way starts an instance with Url: /./mySpace
+For scenario 1, you would not create a cluster in IIS. In other words, there is no need to add an extra server to your IIS server configuration. You would configure your GigaSpaces space as documented below or start the same from `C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin` directory. The space URL format should be `/./mySpace`.
 
 
-
-## Scenario 2:
+## Scenario 2
 {%section%}
 {%column width=80% %}
 Consider a little more complex scenario where you have a cluster of IIS servers serving your web application. For many semi-critical applications, this could very well be your deployment architecture. As seen in the following diagram, you could use an IMDG in almost the same way as you did in scenario 1. In this particular configuration, your IIS servers use custom mode, specify GigaSpaces as the storage provider, read sessions from GigaSpaces space/cluster and serve your end users’ sessions reliably.
@@ -103,10 +102,10 @@ Consider a little more complex scenario where you have a cluster of IIS servers 
 {%endsection%}
 
 The session created on either one of the IIS servers is stored in GigaSpaces reliably and is retrieved from the web application even if a completely different IIS server fulfills the next HTTP request from the end user.
-For scenario 2, you would create a cluster in IIS. In other words, you would need to add an extra IIS server to your IIS cluster configuration. You would then configure your GigaSpaces space as documented below or start the same from C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin directory. Either way starts an instance with Url: /./mySpace
+For scenario 2, you would create a cluster in IIS. In other words, you would need to add an extra IIS server to your IIS cluster configuration. You would then configure your GigaSpaces space as documented below or start the same from C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin directory. 
 
 
-## Scenario 3:
+## Scenario 3
 {%section%}
 {%column width=80% %}
 Consider the next step in a more complex scenario where you have a cluster of IIS servers serving multiple web applications. For varied reasons, multiple modules of applications or multiple separate applications are required to share session data reliably between each other. For a large multi-module application, the following could very well be your deployment architecture and so would the case be for a multi-application deployment wherein you require session sharing (e.g. imagine a single sign-on requirement). As seen in the following diagram, you could use an IMDG in almost the same way as you did in scenario 1 and 2.
@@ -121,7 +120,7 @@ In this particular configuration, your IIS servers use custom mode, specify Giga
 For scenario 3, you would create a cluster in IIS or reuse the cluster you created in scenario 2. You could very well emulate a multiple application scenario by deploying another website in your IIS configuration and copying the demo application to another location to serve this separate web application. You would then configure your GigaSpaces space as documented below.
 
 
-## Scenario 4:
+## Scenario 4
 {%section%}
 {%column width=80% %}
 Consider the following most complex deployment scenario where you have a cluster of IIS servers serving multiple web applications that are distributed across data centers over LAN/MAN/WANs.  Just like the requirements in Scenario 3, there are mission critical applications that need to be available globally (in a follow-the-sun approach).
@@ -137,35 +136,35 @@ The only difference would be in deploying GigaSpaces in a WAN distributed fashio
 For scenario 4, you would create a cluster in IIS or reuse the cluster you created in scenario 2. You could very well emulate a multiple application scenario by deploying another website in your IIS configuration and copying the demo application to another location to serve this separate web application. In this scenario, you would configure your GigaSpaces space as a WAN gateway enabled, clustered deployment. The steps to do so is also documented below.
 
 
-# XAP.NET ASP.NET Session State Store with your ASP.NET Application:
+# XAP.NET ASP.NET Session State Store with your ASP.NET Application
 The following instructions assumes that you have downloaded/installed the prerequisites:
 
-•	Download the sample ASP.NET web application here….After downloading the file, extract it to a location on your drive.
+•	[Download the sample ASP.NET web application](/sbp/download_files/gigaspaceshttpsessionsharing.zip). After downloading the file, extract it to a location on your drive.
 
-•	Download Apache httpd server as it is used for load balancing in our example.
+•	[Download Apache httpd server](http://httpd.apache.org/download.cgi) and installed as it is used for load balancing in our example. **You should run it as administrator**.
 
-•	XAP.NET latest version. For our example, we are using x86 version of .NET
+•	[Download XAP.NET latest version](http://www.gigaspaces.com/xap-download). For our example, we are using `.NET x86`.
 
-## Configure Apache, XAP.NET and multiple IIS servers serving this sample application:
+## Configure Apache, XAP.NET and multiple IIS servers serving this sample application
 
-#### Step 1:
+#### Step 1
 
-Install IIS by going to control panel->add remove programs->add/remove windows features-> IIS. After installation, create and deploy a website using IIS Manager.
+Install IIS by going to `control panel->add remove programs->add/remove windows features-> IIS`. After installation, create and deploy a website using IIS Manager.
 
 ![](/sbp/pics/iis-pic5.png)
 
-#### Step 2:
+#### Step 2
 Run IIS Manager and ensure that you configure the following correctly
 
 a.	Configure your .NET version correctly for your machine on IIS Manager.
 
 ![](/sbp/pics/iis-pic6.png)
 
-b.	Application Pool – dedicate one to your sample website. Make sure this is set up correctly thus (if you are using 32 bit then ensure that “Enable 32-bit applications is set to true as well).
+b.	Application Pool – dedicate one to your sample website. Make sure this is set up correctly thus (if you are using 32 bit then ensure that `Enable 32-bit applications` is set to true as well).
 
 ![](/sbp/pics/iis-pic7.png)
 
-#### Step 3:
+#### Step 3
 Deploy your website and ensure it is configured correctly.
 
 ![](/sbp/pics/iis-pic8.png)
@@ -179,13 +178,13 @@ b.	Ensure that you generate/use a machine key for your site/application. Keep th
 ![](/sbp/pics/iis-pic10.png)
 
 
-c.	Ensure the Session State of your application is set to Custom
+c.	Ensure the Session State of your application is set to **Custom**:
 ![](/sbp/pics/iis-pic11.png)
 
-#### Step 4:
-Configure a load balancer/cluster manager to front all HTTP requests that will be ultimately routed to the IIS servers. Here’s an example of how Apache can be configured for this purpose. It assumes that you already have Apache httpd setup and running on a machine. Make changes in the httpd.conf file that include the following
+#### Step 4
+Configure a load balancer/cluster manager to front all HTTP requests that will be ultimately routed to the IIS servers. Here’s an example of how Apache can be configured for this purpose. It assumes that you already have Apache httpd setup and running on a machine. Make changes in the `httpd.conf` file that include the following
 
-a.	(add these lines in your httpd.conf file )
+a.	(add these lines in your `httpd.conf` file )
 
 {%highlight console%}
 
@@ -212,8 +211,8 @@ Listen 9000 (sample port that Apache will bind to and listen for requests on). Y
 
 c.	Restart your httpd (Apache) server and ensure that your requests are being routed to both the severs
 
-#### Step 5:
-Open up the GigaSpacesHTTPSessionSharing.sln in Visual Studio and edit your web.config file. It should have the entry like this
+#### Step 5
+Open up the `GigaSpacesHTTPSessionSharing.sln` in Visual Studio and edit your `web.config` file. It should have the entry like this
 
 {%highlight xml%}
 
@@ -234,8 +233,7 @@ After this step, please make sure that you re-build the solution.
 
 
 {%note%}
-If there are issues with ASP.NET (e.g. it is not installed or not configured properly) 
-Run as administrator (command prompt)
+If there are issues with ASP.NET (e.g. it is not installed or not configured properly) run as administrator (command prompt)
 {%endnote%}
 
 {%highlight console%}
@@ -261,29 +259,29 @@ C:\WINDOWS>C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\aspnet_regiis.exe –c
 
 {%endhighlight%}
 
-#### Step 6:
-Ensure that you have the correct connectionstring defined in your web.config file. E.g.
+#### Step 6
+Ensure that you have the correct `connectionstring` defined in your `web.config` file. E.g.
 
 {%highlight xml%}
 
-<add name="SpaceSessionProviderURL" connectionString="jini://*/*/mySpace?groups=XAP-9.7.0-ga-NET-4.0.30319-x86"/>
+<add name="SpaceSessionProviderURL" connectionString="jini://*/*/mySpace"/>
 
 {%endhighlight%}
 
 -- mySpace would be the name of the space you would be deploying in the steps below. 
 
-#### Step 7:
+#### Step 7
 Ensure that you have the correct connection string defined in Default.aspx.cs file line 14.
 
 {%highlight xml%}
-String spaceUrl = "jini://*/*/mySpace?groups=XAP-9.7.0-ga-NET-4.0.30319-x86";
+String spaceUrl = "jini://*/*/mySpace";
 {%endhighlight%}
 
 
-#### Step 8:
+#### Step 8
 For this example, we are using the x86 version of XAP.NET.
 
-a.	Make sure you have run gs-agent and gs-webgui from XAP.NET 9.7.0 x86\NET v4.0.30319\Bin directory.
+a.	Make sure you have run gs-agent and gs-webgui from `XAP.NET 9.7.0 x86\NET v4.0.30319\Bin` directory.
 
 b.	Then deploy a space thus
 {%highlight console%}
@@ -292,21 +290,21 @@ C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin>gs-cli deploy-space –cluste
 
 {%endhighlight%}
 
-#### Step 9:
-Ensure that the application is running on both ports. You can point your browser to http://localhost:9000/GigaSpacesHttpSessionDemo/ and on two requests, you should see the port change. (e.g. 90 vs 70 as shown below)
+#### Step 9
+Ensure that the application is running on both ports. You can point your browser to [http://localhost:9000/GigaSpacesHttpSessionDemo/](http://localhost:9000/GigaSpacesHttpSessionDemo) and on two requests, you should see the port change. (e.g. `90` vs `70` as shown below)
 
 ![](/sbp/pics/iis-pic12.png)
 
 
-And upon next request (since the load balancer is “round-robin”ing the requests)
+And upon next request (since the load balancer is “round-robin”ing the requests).
 
 
 ![](/sbp/pics/iis-pic13.png)
 
-#### Step 10:
-Now you should be able to enter session attributes and their values in one URL/session and retrieve the same from another.. e.g.
+#### Step 10
+Now you should be able to enter session attributes and their values in one URL/session and retrieve the same from another.
 
-Open one instance of Chrome and enter some data into the form as below
+Open one instance of Chrome and enter some data into the form as below:
  
 ![](/sbp/pics/iis-pic14.png)
 
@@ -315,52 +313,58 @@ And then, open another instance of that browser (or even a tab) and see the foll
 ![](/sbp/pics/iis-pic15.png)
 
 
-Note that even though you were routed to a different IIS server (on port 70 vs the initial request that was routed to port 90), you are still able to read the same Session values. These values are coming from storage in XAP.NET. You can verify the same by looking for the session and the associated data in XAP.NET GUI
+Note that even though you were routed to a different IIS server (on port `70` vs the initial request that was routed to port `90`), you are still able to read the same Session values. These values are coming from XAP.NET data grid. You can verify the same by looking for the session and the associated data in XAP.NET UI:
 
 ![](/sbp/pics/iis-pic16.png)
 
 
-Verify the sessionId by querying the space
+Verify the `sessionId` by querying the space
 
 ![](/sbp/pics/iis-pic17.png)
 
-Verify the read/writes by looking at the statistics window on XAP.NET GUI
+Verify the read/writes by looking at the statistics window on XAP.NET UI
 
 
 ![](/sbp/pics/iis-pic18.png)
 
-#### Step 11:
+#### Step 11
 The next step would be to close the browser instance and verify that the session still persists. After entering a session attribute and its value, close the browser instance and then restart it. You should see the session values persist.
 
 ![](/sbp/pics/iis-pic19.png)
 
 
-#### Step 12:
-The next step would be to stop IIS server and restart them to verify that the session still persists. Go to IIS manager and restart the website. Then go back to the same URL and confirm that the session still persists.
+#### Step 12
+The next step would be to stop IIS server and restart them to verify that the session still persists. Go to IIS manager and restart the website. Then go back to the same URL and confirm that the session still available and loaded from the data grid.
 
 ![](/sbp/pics/iis-pic20.png)
 
-#### Step 13:
-Validate that the same session variables are available from a totally different browser. E.g. if you had tested the previous steps using Chrome, now open up a web browser instance and point to the same URL (please do so within the session timeout period).
+#### Step 13
+Validate that the same session variables are available from a totally different browser. E.g. if you had tested the previous steps using your web browser, now open up a new web browser instance and point to the same URL (please do so within the session timeout period).
 
-Open up http://localhost:9000/GigaSpacesHttpSessionDemo/ in Chrome and enter some values
+Open up [http://localhost:9000/GigaSpacesHttpSessionDemo/](http://localhost:9000/GigaSpacesHttpSessionDemo/) with your web browser  and enter some values:
 
 
 ![](/sbp/pics/iis-pic21.png)
 
 
-Now, copy the sessionId from here and open up web browser instance and point to this URL
-http://localhost:9000/GigaSpacesHttpSessionDemo/?SessionId=2fcjxujrf0hmygfapfltukxi
+Now, copy the `sessionId` from here and open up web browser instance and point to this URL:
+[http://localhost:9000/GigaSpacesHttpSessionDemo/?SessionId=2fcjxujrf0hmygfapfltukxi](http://localhost:9000/GigaSpacesHttpSessionDemo/?SessionId=2fcjxujrf0hmygfapfltukxi)
 
 ![](/sbp/pics/iis-pic22.png)
 
-Validate that even though this browser created a new session for itself, you could read the same session details based on the sessionId in the URL, from XAP.NET
+Validate that even though this browser created a new session for itself, you could read the same session details based on the `sessionId` in the URL, from XAP.NET data grid.
 
-#### Step 14:
-Now, shutdown the gs-agent and also the gs-webgui. For the next demo, please follow the steps described in this document to deploy a WAN (http://docs.gigaspaces.com/sbp/wan-based-deployment.html)
+### Multi-Cluster - Multi-Geo Deployment
 
-#### Step 15:
-The next step would be to start a multi cluster on a XAP.NET WAN Gateway and validate that the session data is being replicated across the clusters. Change the connection strings in the web.config and Default.aspx.cs files thus:
+With this demo we will have multiple data grids deployed simulating multi-geo/region deployment replicating IIS HTTP session across different sites. These sites can be configured running in Active-Active mode or Active-Passive mode to address Disaster Recovery requirements.
+
+#### Step 1
+Follow the steps described in this document to deploy a multi data grid cluster setup:  (http://docs.gigaspaces.com/sbp/wan-based-deployment.html)
+
+Shutdown the `gs-agent` and also the `gs-webgui` if these are already running. 
+
+#### Step 2
+The next step would be to start a multi cluster on a XAP.NET WAN Gateway and validate that the session data is being replicated across the clusters. Change the connection strings in the `web.config` and `Default.aspx.cs` files thus:
 
 a)	Ensure that you turn on wan in appsettings thus: 
 {%highlight xml%}
@@ -370,7 +374,7 @@ a)	Ensure that you turn on wan in appsettings thus:
 {%endhighlight%}
 
 
-b)	Ensure that you have the correct connectionstring defined in your web.config file. 
+b)	Ensure that you have the correct connectionstring defined in your `web.config` file. 
 
 {%highlight xml%}
 <add name="SpaceSessionProviderURL" connectionString="jini://*/*/wanSpaceDE?groups=DE"/>
@@ -382,16 +386,16 @@ b)	Ensure that you have the correct connectionstring defined in your web.config 
 
 c)	Build the solution.
 
-#### Step 16:
+#### Step 3
 After the WAN based deployment is run successfully, you should be able to see the various PUs, spaces and gateways deployed (use gs-ui to see the Gigaspaces Management Center).
 
-#### Step 17:
-Go to the same URL as before: http://localhost:9000/GigaSpacesHttpSessionDemo and enter some values you should see the updates occurring on that session as below:
+#### Step 4
+Go to the same URL as before: (http://localhost:9000/GigaSpacesHttpSessionDemo) and enter some values you should see the updates occurring on that session as below:
 
 ![](/sbp/pics/iis-pic23.png)
 
-#### Step 18:
-Now, open up another tab or browser and point to the following url : http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m  Note that the sessionId is the ID from the session that you had just created in the previous step. You should be able to see the following:
+#### Step 5
+Open up another tab or browser and point to the following url : (http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m)  Note that the sessionId is the ID from the session that you had just created in the previous step. You should be able to see the following:
 
 ![](/sbp/pics/iis-pic24.png)
 
@@ -401,17 +405,17 @@ And progressively as the object is clustered across the WAN
 
 This shows that the value has been picked up from the wanSpaceRU, DE and US. 
 
-#### Step 19:
-Now, try stopping one of the startAgent* that you had run in the previous steps. This would shutdown one of the clusters. Important – please do not shut down the agent designated in the
+#### Step 6
+Now, try stopping one of the `startAgent` that you had run in the previous steps. This would shutdown one of the clusters. Important – please do not shut down the agent designated in the:
 
 {%highlight xml%}
 
 <add name="SpaceSessionProviderURL" connectionString="jini://*/*/wanSpaceDE?groups=DE"/> 
 {%endhighlight%}
 
-entry. You can shut down the spaces designated in the other entries in web.config – SpaceSessionProviderURL-2 and SpaceSessionProviderURL-3. 
+entry. You can shut down the spaces designated in the other entries in `web.config` – `SpaceSessionProviderURL-2` and `SpaceSessionProviderURL-3`. 
 
-Then point to the same URL as above http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m 
-You should find that the WAN gateway accomodates such situations as well (In our example, we shutdown startAgent-RU.bat).
+Then point to the same URL as above (http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m) 
+You should find that the WAN gateway accomodates such situations as well (In our example, we shutdown `startAgent-RU.bat`).
 
 ![](/sbp/pics/iis-pic26.png)
