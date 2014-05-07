@@ -7,7 +7,7 @@ weight: 900
 ---
 
 {% compositionsetup %}
-
+{% summary page %} {% endsummary %}
 {% tip %}
 **Summary:** {% excerpt %}Primary-Backup Zone Controller, allows you to specify a specific zone for primary instances and a different zone for backup instances.{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
