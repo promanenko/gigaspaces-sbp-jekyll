@@ -58,7 +58,7 @@ GigaSpaces XAP.NET ASP.NET Session State Store Management for .NET is designed t
 
 # Session State Options
 
-Before proceeding with the following sections, please find some more information on various session state modes here (http://msdn.microsoft.com/en-us/library/vstudio/ms178586(v=vs.100).aspx). There are pros and cons of these various approaches.
+Before proceeding with the following sections, please find some more information on various session state modes [here](http://msdn.microsoft.com/en-us/library/vstudio/ms178586(v=vs.100).aspx). There are pros and cons of these various approaches.
 
 1)	Inproc mode has the best performance metrics but it only works best when you have a single server hosting a web application and web applications in which the end user is guaranteed to be re-directed to the one and only, and therefore, correct server. This mode is used when session data is not very critical as it can be in some other ways reconstructed.
 
@@ -102,7 +102,7 @@ Consider a little more complex scenario where you have a cluster of IIS servers 
 {%endsection%}
 
 The session created on either one of the IIS servers is stored in GigaSpaces reliably and is retrieved from the web application even if a completely different IIS server fulfills the next HTTP request from the end user.
-For scenario 2, you would create a cluster in IIS. In other words, you would need to add an extra IIS server to your IIS cluster configuration. You would then configure your GigaSpaces space as documented below or start the same from C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin directory. 
+For scenario 2, you would create a cluster in IIS. In other words, you would need to add an extra IIS server to your IIS cluster configuration. You would then configure your GigaSpaces space as documented below or start the same from 'C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin' directory. 
 
 
 ## Scenario 3
@@ -182,9 +182,9 @@ c.	Ensure the Session State of your application is set to **Custom**:
 ![](/sbp/pics/iis-pic11.png)
 
 #### Step 4
-Configure a load balancer/cluster manager to front all HTTP requests that will be ultimately routed to the IIS servers. Here’s an example of how Apache can be configured for this purpose. It assumes that you already have Apache httpd setup and running on a machine. Make changes in the `httpd.conf` file that include the following
+Configure a load balancer/cluster manager to front all HTTP requests that will be ultimately routed to the IIS servers. Here’s an example of how Apache can be configured for this purpose. It assumes that you already have Apache httpd setup and running on a machine. Make changes in the `httpd.conf` file that include the following:
 
-a.	(add these lines in your `httpd.conf` file )
+a.	add these lines in your `httpd.conf` file 
 
 {%highlight console%}
 
@@ -197,7 +197,7 @@ ProxyPassReverse /GigaSpacesHttpSessionDemo balancer://mycluster (this is a samp
 {%endhighlight%}
 
 
-b.	(uncomment the following lines in your httpd.conf file)
+b.	uncomment the following lines in your httpd.conf file
 {%highlight console%}
 
 LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
@@ -233,7 +233,7 @@ After this step, please make sure that you re-build the solution.
 
 
 {%note%}
-If there are issues with ASP.NET (e.g. it is not installed or not configured properly) run as administrator (command prompt)
+If there are issues with ASP.NET (e.g. it is not installed or not configured properly) run as an administrator and try again. (command prompt)
 {%endnote%}
 
 {%highlight console%}
@@ -359,7 +359,7 @@ Validate that even though this browser created a new session for itself, you cou
 With this demo we will have multiple data grids deployed simulating multi-geo/region deployment replicating IIS HTTP session across different sites. These sites can be configured running in Active-Active mode or Active-Passive mode to address Disaster Recovery requirements.
 
 #### Step 1
-Follow the steps described in this document to deploy a multi data grid cluster setup:  (http://docs.gigaspaces.com/sbp/wan-based-deployment.html)
+Follow the steps described in [this document]((http://docs.gigaspaces.com/sbp/wan-based-deployment.html)) to deploy a multi data grid cluster setup.
 
 Shutdown the `gs-agent` and also the `gs-webgui` if these are already running. 
 
@@ -390,12 +390,12 @@ c)	Build the solution.
 After the WAN based deployment is run successfully, you should be able to see the various PUs, spaces and gateways deployed (use gs-ui to see the Gigaspaces Management Center).
 
 #### Step 4
-Go to the same URL as before: (http://localhost:9000/GigaSpacesHttpSessionDemo) and enter some values you should see the updates occurring on that session as below:
+Go to the same URL as before: [http://localhost:9000/GigaSpacesHttpSessionDemo](http://localhost:9000/GigaSpacesHttpSessionDemo) and enter some values you should see the updates occurring on that session as below:
 
 ![](/sbp/pics/iis-pic23.png)
 
 #### Step 5
-Open up another tab or browser and point to the following url : (http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m)  Note that the sessionId is the ID from the session that you had just created in the previous step. You should be able to see the following:
+Open up another tab or browser and point to the following url : [http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m](http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m)  Note that the sessionId is the ID from the session that you had just created in the previous step. You should be able to see the following:
 
 ![](/sbp/pics/iis-pic24.png)
 
@@ -415,7 +415,7 @@ Now, try stopping one of the `startAgent` that you had run in the previous steps
 
 entry. You can shut down the spaces designated in the other entries in `web.config` – `SpaceSessionProviderURL-2` and `SpaceSessionProviderURL-3`. 
 
-Then point to the same URL as above (http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m) 
+Then point to the same URL as above [http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m](http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m) 
 You should find that the WAN gateway accomodates such situations as well (In our example, we shutdown `startAgent-RU.bat`).
 
 ![](/sbp/pics/iis-pic26.png)
