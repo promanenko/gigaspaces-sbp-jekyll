@@ -3,7 +3,7 @@ layout: post
 title:  XAP.NET ASP.NET Session State Store
 categories: SBP
 parent: solutions.html
-weight: 200
+weight: 250
 ---
 
 {% tip %}
