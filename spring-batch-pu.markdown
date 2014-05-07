@@ -7,7 +7,7 @@ weight: 900
 ---
 
 {% compositionsetup %}
-
+{% summary page %} {% endsummary %}
 {% tip %}
 **Summary:** {% excerpt %}GigaSpaces Spring Batch Elastic Processing Unit{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
