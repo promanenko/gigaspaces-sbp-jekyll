@@ -5,7 +5,7 @@ categories: SBP
 parent: solutions.html
 weight: 250
 ---
-
+{% summary page %} {% endsummary %}
 {% tip %}
 **Summary:** {% excerpt %}This pattern presents the HTTP Session sharing best practice for IIS servers and .NET apps{% endexcerpt %}<br/>
 **Author**:  Ronnie Guha<br/>
