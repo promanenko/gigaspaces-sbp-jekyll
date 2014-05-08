@@ -359,7 +359,7 @@ Validate that even though this browser created a new session for itself, you cou
 With this demo we will have multiple data grids deployed simulating multi-geo/region deployment replicating IIS HTTP session across different sites. These sites can be configured running in Active-Active mode or Active-Passive mode to address Disaster Recovery requirements.
 
 #### Step 1
-Follow the steps described in [this document]((http://docs.gigaspaces.com/sbp/wan-based-deployment.html)) to deploy a multi data grid cluster setup.
+Follow the steps described in [this document](./wan-based-deployment.html) to deploy a multi data grid cluster setup.
 
 Shutdown the `gs-agent` and also the `gs-webgui` if these are already running. 
 

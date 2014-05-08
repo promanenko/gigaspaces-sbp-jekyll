@@ -51,7 +51,7 @@ Blotter clients connect to the servlet through HTTP.  The blotter displays user 
 
 The feeder generates random trade objects and places them into the space.
 
-The [grid topology](/product_overview/terminology---data-grid-topologies.html) for the event processing engine consists of 2 partitions with backup instances.
+The [grid topology](/product_overview/terminology.html) for the event processing engine consists of 2 partitions with backup instances.
 
 It receives an event when an unprocessed trade is placed in the space and starts a transaction.  The transaction consists of several operations:
 

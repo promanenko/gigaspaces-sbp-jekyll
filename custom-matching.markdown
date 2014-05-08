@@ -55,7 +55,7 @@ Here is an example of a target vector, and a matching vector found using the cus
 {% panel %}![custommatching.jpg](/attachment_files/sbp/custommatching.jpg){% endpanel %}
 
 {% tip %}
-To scale the system you should deploy the space using the [partitioned cluster schema](/product_overview/terminology---data-grid-topologies.html). This will allow queries (i.e. matching) to be executed across all the partitions in parallel, speeding up the query execution time.
+To scale the system you should deploy the space using the [partitioned cluster schema](/product_overview/terminology.html). This will allow queries (i.e. matching) to be executed across all the partitions in parallel, speeding up the query execution time.
 {% endtip %}
 
 See **The Application** tab for the full query usage. This allows the `Comparable.compareTo` implementation to be performed on a smaller candidate subset of objects.
