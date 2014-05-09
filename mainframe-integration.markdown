@@ -111,7 +111,8 @@ The following architecture leverage [VSAM JDBC API](http://www-03.ibm.com/system
 
 ![xap-vsam.jpg](/attachment_files/sbp/xap-vsam.jpg)
 
-See more:
+References:
+
 - [IBM VSE/ESA e-business Connectors User’s Guide](ftp://ftp.boulder.ibm.com/s390/zos/vse/pdf3/vse27/ieswue30.pdf) - See page 159 onward.
 - [JZOS Java Launcher and Toolkit Overview](http://www-03.ibm.com/systems/z/os/zos/tools/java/products/jzos/overview.html)
 - [Attunity VSAM Data Connectivity](http://www.attunity.com/products/attunity-connect/vsam-data-access)
