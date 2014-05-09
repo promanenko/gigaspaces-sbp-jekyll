@@ -7,6 +7,7 @@ weight: 300
 ---
 
 {% compositionsetup %}
+{% summary page %} {% endsummary %}
 
 {% tip %}
 **Summary:** {% excerpt %}Mainframe (Z/OS) based systems integration with GigaSpaces.{% endexcerpt %}<br/>
@@ -20,11 +21,11 @@ weight: 300
 {% endtip %}
 
 # Overview
-Mainframe (Z/OS) based systems running COBOL programs are legacy systems in many organizations. These are planned to be replaced with low cost commodity servers running Java or .Net based systems, saving the cost of the expensive mainframe MIPS and COBOL-based development.
+Mainframe (Z/OS) based systems running COBOL programs , DB2 or VSAM are legacy systems in many organizations. These are planned to be replaced with low cost commodity servers running Java or .Net based systems, saving the cost of the expensive mainframe MIPS and COBOL-based development.
 
 GigaSpaces XAP can simplify the migration effort from mainframe based systems and reduce the cost of the legacy applications. In addition, having GigaSpaces XAP act as a front-end layer for mainframe based systems may boost the system performance and improve the overall system response time on peak load.
 
-GigaSpaces' ability to deploy, manage and scale services along with the data (that can be partitioned and replicated across multiple commodity machines) will enable your mainframe applications to access GigaSpaces XAP's In-Memory Data Grid (IMDG) with minimal re-factoring of existing application code without having to introduce additional third party products, dramatically reducing implementation times and minimizing incremental costs in software licenses and hardware.
+GigaSpaces' ability to deploy, manage and scale services along with the data (that can be partitioned and replicated across multiple commodity machines or remote data centers) will enable your mainframe applications to access GigaSpaces XAP's In-Memory Data Grid (IMDG) with minimal re-factoring of the existing applications code , without having to introduce additional third party products, dramatically reducing implementation times and minimizing incremental costs in software licenses and hardware.
 
 ## IBM QRep and Event Publishing as an Integration bridge to GigaSpaces IMDG
 There are various architectural options moving Data From Mainframe (Z/OS) DB2 to GigaSpaces XAP IMDG:
@@ -47,7 +48,7 @@ With the architecture described above any updates conducted directly against DB2
 
 {% tip %}
 **Running Demo**
-For a running demo of the Delta Server architecture please contact [support@gigaspaces.com](mailto:support@gigaspaces.com?subject=Delta Server Demo for DB2&body=I'm interested with a demo of the Delta Server architecture for DB2...).
+For a running demo of the Delta Server architecture publishing changes from DB2 to XAP IMDG see [DB2 Delta Server](/db2-delta-server.html) section.
 {% endtip %}
 
 References:
@@ -56,19 +57,19 @@ References:
 - Examples and details about IBM QRep can be found on this [Solution Brief](http://public.dhe.ibm.com/common/ssi/ecm/en/ims14394usen/IMS14394USEN.PDF).
 
 # GigaSpaces Intelligent Mainframe Front-end Architecture
-GigaSpaces XAP provides an extremely flexible persistence layer (known as the mirror service) that enables transparent communication between the GigaSpaces IMDG and virtually any type of back-end application or database system.
+GigaSpaces XAP provides an extremely flexible persistence layer (known as the Space Data Source and Mirror Service) that enables transparent communication between the GigaSpaces IMDG and virtually any type of back-end application or database system.
 
-When used with a database, the Mirror service is one of the primary reasons allowing GigaSpaces XAP to overcome database locking issues experienced on peak load periods. The Mirror service offloads the database access, since the IMDG operates as the primary interface to the application data access while handling persistence as a back-end durable ordered activity, delegating in-memory transactions to the database running on the mainframe.
+When used with a database, the Mirror service is one of the primary reasons allowing GigaSpaces XAP to overcome database locking issues experienced on peak load periods. The Mirror service offloads the database write access, since the IMDG operates as the primary interface to the application data access while handling persistence using write behind with a durable ordered activity, delegating in-memory transactions to the database running on the mainframe. The Space Data Source allows the XAP to pre-load or lazy load data from the DB2 or VSAM once the IMDG deployed or on demand once a cache miss occurs.
 
-Any access to the data done primarily from the IMDG using one of the standard interfaces GigaSpaces XAP supports (POJO/Spring, JPA, JDBC, Key/value, .Net , C++ or Document APIs). If the desired data item cannot be found within the IMDG, it will be accessed through the database running on the mainframe, retrieving the relevant data item, loading it into the IMDG to be reused for subsequent transactions and passing it back to the client application. This approach saves the need for accessing the mainframe on every application data access by using an in-memory layer that may scale on demand.
+Any access to the data done primarily from the IMDG using one of the standard interfaces GigaSpaces XAP supports (POJO/Spring, JPA, JDBC, Key/value, .Net , C++ or Document APIs). If the desired data item cannot be found within the IMDG, it will be accessed through the database running on the mainframe, retrieving the relevant data item, loading it into the IMDG to be reused for subsequent transactions and passing it back to the client application. This approach saves the need for accessing the mainframe on every application data access by using an in-memory layer fabric that may scale on demand running on relativly inexpensive hardware.
 
 ## Controlled, Reliable, and Optimized Mainframe Access
-GigaSpaces XAP Mirror service has a central coordinator for all back-end store updates, enabling your system to batch data and persist in-memory transactions via a continuous background access to the mainframe where the frequency of access is controlled and pre-configured.  This allows the system to **minimize the number of mainframe connections** and interactions reducing MIPS consumption while controlling the data consistency level and synchronization between the in-memory representation of the data and its copy on the mainframe.
+GigaSpaces XAP Mirror service has a central coordinator for all back-end store updates, enabling your system to batch data updates and persist in-memory distributed transactions via a continuous background access to the mainframe where the access frequency to the mainframe is controlled and pre-configured.  This allows the system to **minimize the number of mainframe connections** and interactions reducing MIPS consumption while controlling the data consistency level and synchronization between the in-memory representation of the data and its represntation on the mainframe.
 
-Many mainframe-based applications that perform nightly batch jobs drive a large number of data updates being made to back-end stores.  In this context, GigaSpaces' inherent ability to maintain transactional integrity is critical. In-Memory transactions can be fully committed preserved in multiple different physical locations using GigaSpaces' high-availability mechanism, and ultimately persisted to the database with zero risk of the mainframe and GigaSpaces being out of sync for a long duration.
+Many mainframe-based applications that perform nightly batch jobs drive a large number of data updates being made to back-end stores.  In this context, GigaSpaces' inherent ability to maintain transactional integrity is critical. In-Memory transactions can be fully committed preserved in multiple different physical locations using GigaSpaces' high-availability and data replication over the WAN mechanism, and ultimately persisted to the database with zero risk of the mainframe and GigaSpaces being out of sync for a long duration.
 
 {% tip %}
-Other data grid solutions require a tremendous amount of custom code or integration with a third party transaction manager to address these requirements, increasing development time, on-going management of custom code and generates greater level of risk for inconsistent data.
+Other data grid solutions require a tremendous amount of custom code or integration with a third party transaction manager to address these requirements, increasing development time, on-going management of custom code and generates greater level of risk for inconsisent data.
 {% endtip %}
 
 ## Flexibility
@@ -104,6 +105,17 @@ GigaSpaces can be used with Mainframe using the following:
 ## GigaSpaces External Data Source
 
 Allows the IMDG to pull data from Mainframe via a public interfaces (web services for example) through the [IMDG EDS API]({%latestjavaurl%}/space-data-source-api.html). Once there is a cache miss or once the IMDG is started, the IMDG accesses the Mainframe and fetch relevant data. The IMDG can push any changes done back to the Mainframe in a synchronous or asynchronous manner.
+
+
+The following architecture leverage [VSAM JDBC API](http://www-03.ibm.com/systems/z/os/zvse/solutions/vsamaccess.html) to allow XAP IMDG to pre-load data from VSAM once the data grid is started and persist changes conducted within the IMDG items back to VSAM.
+
+![xap-vsam.jpg](/attachment_files/sbp/xap-vsam.jpg)
+
+See more:
+[IBM VSE/ESA e-business Connectors User’s Guide](ftp://ftp.boulder.ibm.com/s390/zos/vse/pdf3/vse27/ieswue30.pdf) - See page 159 onward.
+[JZOS Java Launcher and Toolkit Overview])http://www-03.ibm.com/systems/z/os/zos/tools/java/products/jzos/overview.html)
+[Attunity VSAM Data Connectivity](http://www.attunity.com/products/attunity-connect/vsam-data-access)
+[Using the VSE connector client as a JDBC provider](http://my.safaribooksonline.com/book/operating-systems-and-server-administration/websphere/0738490342/chapter-10-vse-java-based-connector-to-access-vsam-data/chapter_10_vse_javabased_conne#X2ludGVybmFsX0J2ZGVwRmxhc2hSZWFkZXI/eG1saWQ9MDczODQ5MDM0Mi8yMzE=)
 
 ## JCICS
 
