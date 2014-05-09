@@ -48,7 +48,7 @@ With the architecture described above any updates conducted directly against DB2
 
 {% tip %}
 **Running Demo**
-For a running demo of the Delta Server architecture publishing changes from DB2 to XAP IMDG see [DB2 Delta Server](/db2-delta-server.html) section.
+For a running demo of the Delta Server architecture publishing changes from DB2 to XAP IMDG see [DB2 Delta Server](./db2-delta-server.html) section.
 {% endtip %}
 
 References:
@@ -105,7 +105,7 @@ The GigaSpaces XAP External Data Source allows the XAP IMDG to pull data from Ma
 
 The following architecture leverage [VSAM JDBC API](http://www-03.ibm.com/systems/z/os/zvse/solutions/vsamaccess.html) to allow XAP IMDG to pre-load data from VSAM once the data grid is started and persist changes conducted within the IMDG items back to VSAM.
 
-![](/attachment_files/xap-vsam.jpg)
+![](/sbp/attachment_files/xap-vsam.jpg)
 
 References:
 

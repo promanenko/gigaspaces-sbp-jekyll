@@ -6,7 +6,7 @@ parent: production.html
 weight: 1600
 ---
 
-{% summary page %}This best practice illustrates creating a Web Load Balancer Agent as a processing unit{% endexcerpt {% endsummary %}
+{% summary page %}This best practice illustrates creating a Web Load Balancer Agent as a processing unit{% endsummary %}
 
 {% tip %}
 **Author:** Jeroen Remmerswaal, Tricode<br/>
