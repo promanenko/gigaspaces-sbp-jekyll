@@ -416,6 +416,6 @@ Now, try stopping one of the `startAgent` that you had run in the previous steps
 entry. You can shut down the spaces designated in the other entries in `web.config` – `SpaceSessionProviderURL-2` and `SpaceSessionProviderURL-3`. 
 
 Then point to the same URL as above [http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m](http://localhost:9000/GigaSpacesHttpSessionDemo/?sessionId=uvijcieybhqlselu4jblfu1m) 
-You should find that the WAN gateway accomodates such situations as well (In our example, we shutdown `startAgent-RU.bat`).
+You should find that the WAN gateway accommodates such situations as well (In our example, we shutdown `startAgent-RU.bat`).
 
 ![](/sbp/pics/iis-pic26.png)
