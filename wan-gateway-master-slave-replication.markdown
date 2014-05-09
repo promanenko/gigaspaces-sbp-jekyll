@@ -5,10 +5,9 @@ categories: SBP
 parent: wan-based-deployment.html
 weight: 200
 ---
-s
+{% summary page %}WAN Master-Slave replication example{% endsummary %}
 
 {% tip %}
-**Summary:** {% excerpt %}WAN Master-Slave replication example{% endexcerpt %}<br/>
 **Author**: Ali Hodroj, Senior Solutions Architect, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 9.6<br/>
 

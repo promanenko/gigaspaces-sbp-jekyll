@@ -1,11 +1,12 @@
 ---
 layout: post
-title:  Exporting - Importing Data
+title:  Export-Import Tool
 categories: SBP
 parent: solutions.html
 weight: 50
 ---
 
+{% summary %}XAP IMDG Exporting-Importing Data Tool{% endsummary %}
 
 {% tip %}
  **Author**:Shay Hasidim, John Burke, Christos Erototcritou<br/>

@@ -6,8 +6,9 @@ parent: data-access-patterns.html
 weight: 1500
 ---
 
+{% summary page %}The space schema can be evolved using codebase downloading and Java extensions, or an explicit data migration process{% endsummary %}
+
 {% tip %}
-**Summary:** {% excerpt %}The space schema can be evolved using codebase downloading and Java extensions, or an explicit data migration process.{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1<br/>
 **Contents:**<br/>

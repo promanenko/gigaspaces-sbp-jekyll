@@ -6,8 +6,9 @@ parent: wan-based-deployment.html
 weight: 300
 ---
 
+{% summary page %}WAN Pass Through replication example{% endsummary %}
+
 {% tip %}
-**Summary:** {% excerpt %}WAN Pass Through replication example{% endexcerpt %}<br/>
 **Author**: Ali Hodroj, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.7<br/>
 
