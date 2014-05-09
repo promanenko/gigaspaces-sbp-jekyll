@@ -98,14 +98,10 @@ These may be the backbone of the entire system to access backend data and servic
 
 GigaSpaces XAP has built-in multi-tenancy support, meaning that several applications can share the same data grid, reducing the total infrastructure required across the enterprise.  In addition, GigaSpaces preserves the boundaries between applications and data sets for you, and enable your operations team to define application-specific SLA's to meet the individual needs of each line of business. This means each application has its own life-cycle and scaling rules, its own dedicated security settings, etc.
 
-# Other Interfaces to Bridge between Mainframe and GigaSpaces
 
-GigaSpaces can be used with Mainframe using the following:
+# GigaSpaces External Data Source
 
-## GigaSpaces External Data Source
-
-Allows the IMDG to pull data from Mainframe via a public interfaces (web services for example) through the [IMDG EDS API]({%latestjavaurl%}/space-data-source-api.html). Once there is a cache miss or once the IMDG is started, the IMDG accesses the Mainframe and fetch relevant data. The IMDG can push any changes done back to the Mainframe in a synchronous or asynchronous manner.
-
+The GigaSpaces XAP External Data Source allows the XAP IMDG to pull data from Mainframe via a public interfaces (SQL or web services for example) through the [IMDG EDS API]({%latestjavaurl%}/space-data-source-api.html). Once there is a cache miss or once the IMDG is started, the IMDG accesses the Mainframe and fetch relevant data. The IMDG can push any changes done back to the Mainframe in a synchronous or asynchronous manner.
 
 The following architecture leverage [VSAM JDBC API](http://www-03.ibm.com/systems/z/os/zvse/solutions/vsamaccess.html) to allow XAP IMDG to pre-load data from VSAM once the data grid is started and persist changes conducted within the IMDG items back to VSAM.
 
@@ -118,7 +114,7 @@ References:
 - [Attunity VSAM Data Connectivity](http://www.attunity.com/products/attunity-connect/vsam-data-access)
 - [Using the VSE connector client as a JDBC provider](http://my.safaribooksonline.com/book/operating-systems-and-server-administration/websphere/0738490342/chapter-10-vse-java-based-connector-to-access-vsam-data/chapter_10_vse_javabased_conne#X2ludGVybmFsX0J2ZGVwRmxhc2hSZWFkZXI/eG1saWQ9MDczODQ5MDM0Mi8yMzE=)
 
-## JCICS
+# JCICS
 
 [JCICS](http://publib.boulder.ibm.com/infocenter/cicsts/v3r1/index.jsp?topic=%2Fcom.ibm.cics.ts31.doc%2Fdfhpj%2Ftopics%2Fdfhpjlp.htm) (provided by CICS) is the Java equivalent of the EXEC CICS application programming interface (API) that you would use with other CICS supported languages, such as COBOL. It allows you to access CICS resources and integrate your Java programs with programs written in other languages. Most of the functions of the EXEC CICS API are supported. For a description of the JCICS API, see [The JCICS class library](http://publib.boulder.ibm.com/infocenter/cicsts/v3r1/topic/com.ibm.cics.ts31.doc/dfhpj/topics/dfhpjl9.htm#dfhpjl9). You may leverage JCICS to allow Java application and native (COBOL) programs running on the mainframe. You may use GigaSpaces IMDG notifications and update the mainframe applications with every change within the IMDG in a transparent manner.
 
@@ -128,6 +124,8 @@ References:
 
 - The [official Redbook on JVM Server](http://www.redbooks.ibm.com/abstracts/sg248038.html?Open) that explains how to deploy applications to a JVM Server on the Mainframe.
 - [Sample JCICS programs](http://www.redbooks.ibm.com/abstracts/sg245275.html?Open) - A COBOL program invokes the Java program (JVMPool or JVMServer) using the EXEC CICS LINK PROGRAM API and passes in a CommArea or a Channel which is a mechanism to send data to the Java program.
+
+# Other Interfaces to Bridge between Mainframe and GigaSpaces
 
 ## Web Services
 
