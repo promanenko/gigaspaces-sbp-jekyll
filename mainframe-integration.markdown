@@ -112,10 +112,10 @@ The following architecture leverage [VSAM JDBC API](http://www-03.ibm.com/system
 ![xap-vsam.jpg](/attachment_files/sbp/xap-vsam.jpg)
 
 See more:
-[IBM VSE/ESA e-business Connectors User’s Guide](ftp://ftp.boulder.ibm.com/s390/zos/vse/pdf3/vse27/ieswue30.pdf) - See page 159 onward.
-[JZOS Java Launcher and Toolkit Overview])http://www-03.ibm.com/systems/z/os/zos/tools/java/products/jzos/overview.html)
-[Attunity VSAM Data Connectivity](http://www.attunity.com/products/attunity-connect/vsam-data-access)
-[Using the VSE connector client as a JDBC provider](http://my.safaribooksonline.com/book/operating-systems-and-server-administration/websphere/0738490342/chapter-10-vse-java-based-connector-to-access-vsam-data/chapter_10_vse_javabased_conne#X2ludGVybmFsX0J2ZGVwRmxhc2hSZWFkZXI/eG1saWQ9MDczODQ5MDM0Mi8yMzE=)
+- [IBM VSE/ESA e-business Connectors User’s Guide](ftp://ftp.boulder.ibm.com/s390/zos/vse/pdf3/vse27/ieswue30.pdf) - See page 159 onward.
+- [JZOS Java Launcher and Toolkit Overview](http://www-03.ibm.com/systems/z/os/zos/tools/java/products/jzos/overview.html)
+- [Attunity VSAM Data Connectivity](http://www.attunity.com/products/attunity-connect/vsam-data-access)
+- [Using the VSE connector client as a JDBC provider](http://my.safaribooksonline.com/book/operating-systems-and-server-administration/websphere/0738490342/chapter-10-vse-java-based-connector-to-access-vsam-data/chapter_10_vse_javabased_conne#X2ludGVybmFsX0J2ZGVwRmxhc2hSZWFkZXI/eG1saWQ9MDczODQ5MDM0Mi8yMzE=)
 
 ## JCICS
 
