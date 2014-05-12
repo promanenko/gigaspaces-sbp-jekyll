@@ -516,7 +516,7 @@ public class UserDAOSpaceImpl implements UserDAO {
 {% endinittab %}
 
 # Deploying the Data-Grid and the Application
-To deploy the Data-Grid and the web Application into the [GigaSpaces runtime environment]({%latestjavaurl%}/the-runtime-environment.html) perform the following:
+To deploy the Data-Grid and the web Application into the [GigaSpaces runtime environment]({%latestadmurl%}/the-runtime-environment.html) perform the following:
 
 - Download the [3rd party libraries](/attachment_files/sbp/3rd_party_libraries.zip) package, and extract it into the `\gigaspaces-xap\lib\optional\pu-common` folder.
 - Download the [application.war](/attachment_files/sbp/application.war) , [myDataGrid.jar](/attachment_files/sbp/myDataGrid.jar) and the [myMirror.jar](/attachment_files/sbp/myMirror.jar).

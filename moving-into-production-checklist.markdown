@@ -188,7 +188,7 @@ Here is a simple configuration you should place within your pu.xml to disable th
 {% endhighlight %}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
-In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces runtime environment]({%latestjavaurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
+In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces runtime environment]({%latestadmurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
 
 You should plan the initial number of GSCs and GSMs based on the application memory footprint, and the amount of processing you might need. The most basic deployment should include 2 GSMs (running on different machines), 2 Lookup services (running on different machines), and 2 GSCs (running on each machine). These host your Data-Grid or any other application components (services, web servers, Mirror) that you deploy.
 
