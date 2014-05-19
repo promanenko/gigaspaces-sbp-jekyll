@@ -19,9 +19,17 @@ weight: 300
 
 # Overview
 
-Polling Container is one of the most powerful and commonly used feature of GigaSpaces when processing data. To recap polling container performs a polling receive operation against the space, if a receive operation succeeds (a value is returned from the receive operation), the Data Event Listener is invoked with the event. The receive operation is performed using a static template. For most use cases a static template or a static SQL query (parameters are constant) is sufficient, examples include, receive any Order that is marked as "UN_PROCESSED", receive any Order where customer name is like "VIPCustomer", etc.
+Polling Container is one of the most powerful and commonly used feature of GigaSpaces when processing data. To recap, Polling Containers perform a polling receive operation against the space. If a receive operation succeeds (a value is returned from the receive operation), the Data Event Listener is invoked with the event. The receive operation is performed using a static template. For most use cases a static template or a static SQL query (parameters are constant) is sufficient. Examples include: Receive any Order that is marked as "UN_PROCESSED", receive any Order where customer name is like "VIPCustomer", etc.
 
-There are always use cases where you need dynamic templates. Some examples include, process messages that are older than an hour or process an order only after all the items in an order are in the space or process the messages in a certain order. Each of these examples need a query that will not have all the parameters at configuration time. TriggerOperationsHandler helps in achieving this behavior easily.
+There are always use cases where you need dynamic templates. 
+
+Some examples: 
+
+1. Processing messages that are older than an hour
+1. Processing an order only after all the items in an order are in the space
+1. Processing messages in a certain order
+
+Each of these examples need a query that lacks all parameters at configuration time. `TriggerOperationsHandler` helps achieve this behavior.
 
 The [Polling Container]({%latestjavaurl%}/polling-container.html) shows where `TriggerOperationsHandler` fits into the Polling Container Life Cycle. Polling Container invokes the `TriggerOperationsHandler.triggerReceive()` method before invoking the `ReceiveHandler` which does the actual take and this is the perfect extension point where you can customize or modify the template.
 
