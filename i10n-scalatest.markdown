@@ -1,9 +1,9 @@
 ---
-layout: post97
+layout: post
 title:  Integration testing with scalatest
-categories: XAP97
-parent: index.html
-weight: 100
+categories: SBP
+parent: solutions.html
+weight: 700
 ---
 
 {% summary  %}We describe here a technique for implementing a XAP integration (i10n) test using a scalatest [FunSuite](http://www.scalatest.org/getting_started_with_fun_suite).{% endsummary %}
