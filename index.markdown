@@ -107,3 +107,4 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Global Http Session Sharing](./global-http-session-sharing.html)|Advanced| Global HTTP Session Sharing allows transparent session replication between remote sites and sharing between different application servers in real-time.|
 |[XAP.NET ASP.NET Session State Store](./dotnet-session-store.html)|Advanced| This pattern presents the HTTP Session sharing best practice for IIS servers and .NET apps.|
 |[Time Series with Real Time Analytics](./time-series.html) | Advanced | This pattern explains how to create a time series with XAP .|
+|[Integration scalatest](./i10n-scalatest.html)|Advanced|This blueprint shows how to i10n test with a scalatest FunSuite.|
