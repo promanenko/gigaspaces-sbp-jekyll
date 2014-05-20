@@ -8,6 +8,16 @@ weight: 700
 
 {% summary  %}We describe here a technique for implementing a XAP integration (i10n) test using a scalatest [FunSuite](http://www.scalatest.org/getting_started_with_fun_suite).{% endsummary %}
 
+{% tip %}
+**Summary:** {% excerpt %}A technique for implementing a XAP integration test using a scalatest{% endexcerpt %}<br/>
+**Author**: Jason Nerothin, Senior Solutions Architect, GigaSpaces<br/>
+**Recently tested with GigaSpaces version**: XAP 9.7.2<br/>
+**Last Update:** May 2014<br/>
+
+{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
+
+{% endtip %}
+
 # Usage
 
 We provide an `abstract FunSuite` that is a `BeforeAndAfterAllConfigMap` in this [gist](https://gist.github.com/jasonnerothin/fd55a2c0475b5e4f2f1d#file-gsi10nsuite). Simply implemented, the subclass need only provide a small number of properties and a Spring context file. The superclass uses this information to seed a `ConfigMap`, which then configures a nested `ProcessingUnitContainerProvider`, which in turn provisions a protected `GigaSpace` proxy. 
