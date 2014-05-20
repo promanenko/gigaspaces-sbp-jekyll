@@ -20,7 +20,7 @@ weight: 1300
 Almost every large enterprise system includes legacy applications or backend systems that are communicating with the enterprise main database system for reporting, batch processing, data mining, OLAP and other processing activity. These applications might not need to access the data grid to improve their performance or scalability. They will be using the database directly. Once these systems perform data updates , removing data or add new records to the database, these updates might need to be reflected within the data grid. This synchronization activity ensures the data grid is consistent and up to date with the enterprise main database server.
 {%endcolumn%}
 {%column width=30% %}
-{%youtube SQOFuwine9g | SQL Delta Server%}
+{%youtube SQOFuwine9g | XAP.NET SQL Server Delta Server%}
 {%endcolumn%}
 {%endsection%}
 
