@@ -71,7 +71,6 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Primary-Backup Zone Controller](./primary-backup-zone-controller.html)|Beginner | Using Zones to control Data-Grid primary/backup instances location.|
 |[RESTful Admin API](http://www.openspaces.org/display/RES/Project+Documentation)| Beginner | Using web services to monitor and administrate GigaSpaces.|
 |[JMX Space Statistics](./jmx-space-statistics.html)| Beginner | Using JMX to expose space statistics.|
-|[Space Dump and Reload](./space-dump-and-reload.html)| Beginner | Using the administration API to dump the space data into a file and reload it back.|
 |[Scaling Agent](./scaling-agent.html)| Beginner | Using the administration API to scale web applications. Can be used when moving **J2EE Web applications** into XAP elastic Web Container.|
 |[Web Load Balancer Agent PU](./web-load-balancer-agent-pu.html)| Advanced | Using the administration API to build customized HTTP load-balancer agent. Can be used when moving **J2EE Web applications** into XAP elastic Web Container.|
 |[Moving into Production Checklist](./moving-into-production-checklist.html)| Advanced | All what you need to review before moving your system into production.|
