@@ -10,8 +10,8 @@ weight: 1550
 {% tip %}
 **Summary:** How to model application data for in-memory data grid.<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
-**Recently tested with GigaSpaces version**: XAP 7.1<br/>
-**Last Update:** October  2009<br/>
+**Recently tested with GigaSpaces version**: XAP 9.7<br/>
+**Last Update:** May  2014<br/>
 {% endtip %}
 
 # Moving from Centralized to Distributed Data Model
@@ -146,9 +146,10 @@ Let's compare the JDBC approach to the embedded and non-embedded model:
 With the embedded model the root Space object is the **Author**. It has a **Book** object embedded. The representation of these Entities looks like this:
 
 {% inittab embedded|top %}
-{% tabcontent The Author Entity %}
+{% tabcontent Java Author Entity %}
 
 {% highlight java %}
+@SpaceClass
 public class Author {
     Integer id;
     String lastName;
@@ -183,7 +184,26 @@ public class Author {
 
 {% endtabcontent %}
 
-{% tabcontent The Embedded Book Entity %}
+{% tabcontent .NET Author Entity %}
+
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    [SpaceIndex(Path = "title")]
+    public Book Book { get; set; }
+}
+{% endhighlight %}
+
+{% endtabcontent %}
+
+{% tabcontent Java Embedded Book Entity %}
 
 {% highlight java %}
 public class Book implements Serializable{
@@ -203,6 +223,20 @@ public class Book implements Serializable{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+}
+{% endhighlight %}
+
+{% endtabcontent %}
+
+{% tabcontent .NET Embedded Book Entity %}
+
+{% highlight c# %}
+[Serializable]
+public class Book
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; }
 }
 {% endhighlight %}
 
