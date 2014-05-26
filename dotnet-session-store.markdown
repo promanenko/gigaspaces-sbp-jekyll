@@ -29,8 +29,15 @@ It’s becoming increasingly important for organizations to share HTTP session d
 • Multiple Data-Center deployment - You may need to deploy your application across multiple data centers for high-availability, scalability or flexibility, so session data will need to be replicated.{%wbr%}
 {%endvbar%}
 
+{%section%}
+{%column width=70% %}
 The GigaSpaces XAP.NET ASP.NET Session State Store architecture allows users to deploy their web application across multiple data centers where the session is shared in real-time and in a transparent manner. The HTTP session is also backed by a data grid cluster within each data center for fault tolerance and high-availability.
 With this solution, there is no need to deploy a database to store the session, so you avoid the use of expensive database replication across multiple sites. Setting up GigaSpaces for session sharing between each site is simple and does not involve any code changes to the application.
+{%endcolumn%}
+{%column width=30% %}
+{%youtube jAFZIpzdGb0 | XAP.NET ASP.NET Session State Store %}
+{%endcolumn%}
+{%endsection%}
 
 # Overview
 
