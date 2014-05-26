@@ -196,7 +196,8 @@ public class Author
     [SpaceIndex]
     public string LastName { get; set; }
 
-    [SpaceIndex(Path = "title")]
+    [SpaceIndex(Path = "Title")]        
+    [SpaceProperty(StorageType = StorageType.Document)]
     public Book Book { get; set; }
 }
 {% endhighlight %}
