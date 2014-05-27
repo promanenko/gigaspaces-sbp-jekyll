@@ -728,7 +728,7 @@ return authors;
 With the non-Embedded model the **Author** and the **Book** would look like this - See how the IDs of the Books are stored within the Author object rather than the Books themselves. These are stored as separate Space objects:
 
 {% inittab non-Embedded %}
-{% tabcontent The Author Entity %}
+{% tabcontent Java Author Entity %}
 
 {% highlight java %}
 @SpaceClass
@@ -764,7 +764,24 @@ public class Author {
 {% endhighlight %}
 
 {% endtabcontent %}
-{% tabcontent The Book Entity %}
+
+{% tabcontent .NET Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    public IList<int> BookIds { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent Java Book Entity %}
 
 {% highlight java %}
 @SpaceClass
@@ -800,10 +817,30 @@ public class Book {
 {% endhighlight %}
 
 {% endtabcontent %}
+
+{% tabcontent .NET Book Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Book
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public int AuthorId { get; set; }
+
+    [SpaceIndex]
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
 {% endinittab %}
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readByIds** is used:
 
+{% inittab embedded|top %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -822,6 +859,28 @@ for (int j=0;j<authors.length;j++)
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent .NET %}
+{% highlight c# %}
+var authorQuery = new SqlQuery<Author>("LastName=?");
+authorQuery.SetParameter(1, "AuthorX");
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+var books = new List<Book>();
+
+foreach (var author in authors)
+{
+    books.AddRange(spaceProxy.ReadByIds<Book>(author.BookIds.Cast<object>().ToArray()));
+}
+
+
+return books;
+{% endhighlight %}
+
+{% endtabcontent %}
+
+{% endinittab %}
 
 {% tip %}
 See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readByIds` can be used.
@@ -829,6 +888,8 @@ See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details h
 
 To query for a specific **Author** with a specific **Book** title the query would look like this:
 
+{% inittab embedded|top %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Book> bookQuery = new SQLQuery <Book>(Book.class , "title=?");
 bookQuery.setParameter(1, "BookX");
@@ -846,6 +907,32 @@ query.setParameter(1, "AuthorX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent .NET %}
+{% highlight c# %}
+var bookQuery = new SqlQuery<Book>("Title=?");
+bookQuery.SetParameter(1, "BookX");
+var books = spaceProxy.ReadMultiple<Book>(bookQuery);
+
+var authorIds = new StringBuilder();
+
+foreach (var book in books)
+{
+    authorIds.AppendFormat(",{0}", book.AuthorId);
+}
+
+var authorQueryCriteria = authorIds.ToString().TrimStart(',');
+var authorQuery = new SqlQuery<Author>(string.Format("LastName=? AND Id in ({0})", authorQueryCriteria));
+authorQuery.SetParameter(1, "AuthorX");
+
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+return authors;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 
 {% tip %}
 **More Examples**
