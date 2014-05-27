@@ -324,7 +324,7 @@ With the non-Embedded model the **Author** and the **Book** would look like this
 public class Author {
     Integer id;
     String lastName;
-    List<Integer> bookIds;
+    Integer bookId;
 
     @SpaceId(autoGenerate=false)
 	public Integer getId() {
@@ -342,11 +342,11 @@ public class Author {
 		this.lastName = lastName;
 	}
 
-	public List<Integer> getBookIds() {
-		return bookIds;
+	public Integer getBookId() {
+		return bookId;
 	}
-	public void setBookIds(List<Integer> bookIds) {
-		this.bookIds = bookIds;
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
 	}
 
 }
@@ -364,7 +364,7 @@ public class Author
     [SpaceIndex]
     public string LastName { get; set; }
 
-    public IList<int> BookIds { get; set; }
+    public int BookId { get; set; }
 }
 {% endhighlight %}
 
@@ -440,11 +440,8 @@ ArrayList<Book> booksFound = new ArrayList<Book>() ;
 // read the Author Book via its ID
 for (int j=0;j<authors.length;j++)
 {
-    List<Integer> bookIds = author[j].getBookIds();
-    for(int k=0;k<bookIds.size();k++){
-        Book book = space.readById(Book.class , bookIds.get(k));
-        booksFound.add(book);
-	}
+    Book book = space.readById(Book.class , authors[j].getBookId());
+    booksFound.add(book);
 }
 return booksFound;
 {% endhighlight %}
@@ -453,21 +450,15 @@ return booksFound;
 {% tabcontent .NET %}
 {% highlight c# %}            
 var books = new HashSet<Book>();
-                  
-var query = new  SqlQuery<Author>("LastName=?");
+
+var query = new SqlQuery<Author>("LastName=?");
 query.SetParameter(1, "AuthorX");
 
 Author[] authors = spaceProxy.ReadMultiple<Author>(query);
 
 foreach (Author author in authors)
 {
-  if (author.BookIds != null)
-  {
-      foreach (int bookId in author.BookIds)
-      {
-          books.Add(spaceProxy.ReadById<Book>(bookId));
-      }
-  }
+   books.Add(spaceProxy.ReadById<Book>(author.BookId));
 }
 
 return books;
