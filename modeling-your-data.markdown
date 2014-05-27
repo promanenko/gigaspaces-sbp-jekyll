@@ -428,6 +428,9 @@ public class Book
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readById** is used:
 
+{% inittab embedded|top %}
+{% tabcontent Java %}
+
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -437,11 +440,42 @@ ArrayList<Book> booksFound = new ArrayList<Book>() ;
 // read the Author Book via its ID
 for (int j=0;j<authors.length;j++)
 {
-	Book book = space.readById(Book.class , authors[j].getBookId());
-	booksFound.add(book);
+    List<Integer> bookIds = author[j].getBookIds();
+    for(int k=0;k<bookIds.size();k++){
+        Book book = space.readById(Book.class , bookIds.get(k));
+        booksFound.add(book);
+	}
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent .NET %}
+{% highlight c# %}            
+var books = new HashSet<Book>();
+                  
+var query = new  SqlQuery<Author>("LastName=?");
+query.SetParameter(1, "AuthorX");
+
+Author[] authors = spaceProxy.ReadMultiple<Author>(query);
+
+foreach (Author author in authors)
+{
+  if (author.BookIds != null)
+  {
+      foreach (int bookId in author.BookIds)
+      {
+          books.Add(spaceProxy.ReadById<Book>(bookId));
+      }
+  }
+}
+
+return books;
+{% endhighlight %}
+
+{% endtabcontent %}
+
+{% endinittab%}
 
 {% tip %}
 See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readById` can be used.
