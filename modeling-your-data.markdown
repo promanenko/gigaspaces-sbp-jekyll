@@ -562,9 +562,10 @@ Let's compare the JDBC approach to the embedded and non-embedded model:
 With the embedded model the root Space object is the **Author**. It has a **Book** collection embedded. The representation of these Entities looks like this:
 
 {% inittab embedded|top %}
-{% tabcontent The Author Entity %}
+{% tabcontent Java Author Entity %}
 
 {% highlight java %}
+@SpaceClass
 public class Author {
     Integer id;
     String lastName;
@@ -599,7 +600,25 @@ public class Author {
 
 {% endtabcontent %}
 
-{% tabcontent The Embedded Book Entity %}
+{% tabcontent .NET Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    [SpaceIndex(Path="[*].Title")]
+    [SpaceProperty(StorageType = StorageType.Document)]
+    public IList<Book> Books { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent Java Embedded Book Entity %}
 
 {% highlight java %}
 public class Book implements Serializable{
@@ -623,6 +642,19 @@ public class Book implements Serializable{
 {% endhighlight %}
 
 {% endtabcontent %}
+
+{% tabcontent .NET Embedded Book Entity %} 
+{% highlight c# %}
+[Serializable]
+public class Book
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
 {% endinittab %}
 
 {% tip %}
@@ -631,6 +663,9 @@ See the how the book **Title** property is indexed within **Author** class.
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this:
 
+{% inittab embedded|top %}
+
+{% tabcontent Java %}
 {% highlight java %}
 Set<Book> booksFound = new HashSet<Book> ();
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
@@ -641,7 +676,26 @@ for (int j = 0; j < authorFounds.length; j++) {
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
 
+{% tabcontent .NET %}
+{% highlight c# %}
+var books = new List<Book>();
+
+var authorQuery = new SqlQuery<Author>("LastName=?");
+authorQuery.SetParameter(1, "AuthorX");
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+foreach (var author in authors)
+{
+    books.AddRange(author.Books);
+}
+
+return books;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 To query for an **Author** with a specific **Book** title the query would look like this:
 
 {% highlight java %}
