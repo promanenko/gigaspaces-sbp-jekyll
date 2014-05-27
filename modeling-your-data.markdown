@@ -317,7 +317,7 @@ return authors;
 With the non-Embedded model the **Author** and the **Book** would look like this - See how the ID of the Book is stored within the Author rather the Book object itself. It is stored as a separate Space object:
 
 {% inittab non-Embedded %}
-{% tabcontent The Author Entity %}
+{% tabcontent Java Author Entity %}
 
 {% highlight java %}
 @SpaceClass
@@ -353,7 +353,24 @@ public class Author {
 {% endhighlight %}
 
 {% endtabcontent %}
-{% tabcontent The Book Entity %}
+{% tabcontent .NET Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    public IList<int> BookIds { get; set; }
+}
+{% endhighlight %}
+
+{% endtabcontent %}
+
+{% tabcontent Java Book Entity %}
 
 {% highlight java %}
 @SpaceClass
@@ -389,6 +406,24 @@ public class Book {
 {% endhighlight %}
 
 {% endtabcontent %}
+
+{% tabcontent .NET Book Entity %}
+
+{% highlight c# %}
+[SpaceClass]
+public class Book
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public int AuthorId { get; set; }
+
+    [SpaceIndex]
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent%}
 {% endinittab %}
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readById** is used:
