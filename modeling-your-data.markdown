@@ -288,6 +288,8 @@ return books;
 
 To query for an **Author** with a specific **Book** title the query would look like this:
 
+{% inittab embedded|top %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? and book.title=?");
 query.setParameter(1, "AuthorX");
@@ -295,6 +297,20 @@ query.setParameter(2, "BookX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent .NET %}
+{% highlight c# %}
+var query = new  SqlQuery<Author>("LastName=? and Book.Title=?");
+query.SetParameter(1, "AuthorX");
+query.SetParameter(2, "BookX");
+
+Author[] authors = spaceProxy.ReadMultiple<Author>(query);
+return authors;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 
 ### Non-Embedded Model
 
