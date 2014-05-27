@@ -250,6 +250,9 @@ See the how the book **Title** property is indexed within **Author** class.
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this:
 
+{% inittab embedded|top %}
+
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -260,6 +263,28 @@ for (int j = 0; j < authorFounds.length; j++) {
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent .NET %}
+
+{% highlight c# %}
+var books = new HashSet<Book>();
+
+var query = new SqlQuery<Author>("LastName=?");
+query.SetParameter(1, "AuthorX");
+
+var authors = spaceProxy.ReadMultiple<Author>(query);
+
+foreach (var author in authors)
+{
+    books.Add(author.Book);
+}
+
+return books;
+{% endhighlight %}
+
+{% endtabcontent%}
+{% endinittab %}
 
 To query for an **Author** with a specific **Book** title the query would look like this:
 
