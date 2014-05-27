@@ -483,6 +483,10 @@ See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details h
 
 To query for a specific **Author** with a specific **Book** title the query code would look like this:
 
+{% inittab embedded|top %}
+
+{% tabcontent Java %}
+
 {% highlight java %}
 String authoridsForTitle = "";
 SQLQuery<Book> bookQuery = new SQLQuery <Book>(Book.class , "title=?");
@@ -496,10 +500,38 @@ for (int j = 0; j < booksFounds.length; j++) {
 }
 
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? AND id IN ("+ authoridsForTitle+")");
-query.setParameter(1, "Author" + i);
+query.setParameter(1, "AuthorX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
+
+{% endtabcontent %}
+{% tabcontent .NET %}
+
+{% highlight c# %}
+var authorIds = new StringBuilder();
+
+var bookQuery = new SqlQuery<Book>("Title=?");
+bookQuery.SetParameter(1, "BookX");
+
+var books = spaceProxy.ReadMultiple<Book>(bookQuery);
+
+foreach (var book in books)
+{
+    authorIds.AppendFormat(",{0}", book.AuthorId);
+}
+
+var inCriteria = authorIds.ToString().TrimStart(',');
+var authorQuery = new SqlQuery<Author>(string.Format("LastName=? AND Id IN ({0})", inCriteria));
+authorQuery.SetParameter(1, "AuthorX");
+
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+return authors;
+
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 
 ## One-to-Many Relationship
 
