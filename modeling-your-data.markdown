@@ -10,8 +10,8 @@ weight: 1550
 {% tip %}
 **Summary:** How to model application data for in-memory data grid.<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
-**Recently tested with GigaSpaces version**: XAP 7.1<br/>
-**Last Update:** October  2009<br/>
+**Recently tested with GigaSpaces version**: XAP 9.7<br/>
+**Last Update:** May  2014<br/>
 {% endtip %}
 
 # Moving from Centralized to Distributed Data Model
@@ -111,7 +111,7 @@ With the following example we have the **Author** and the **Book** entities. Her
 
 ## Example Code
 
-You can [download](/download_files/Space-Data-Model-Example.zip) the code used with the example below. See `MainEmbeddedOne2Many` , `MainEmbeddedOne2One` , `MainNonEmbeddedOne2Many` , `MainNonEmbeddedOne2One` and `MainJDBC` demonstrating each scenario 	described below.
+You can [download](/sbp/download_files/Space-Data-Model-Example.zip) the code used with the example below. See `MainEmbeddedOne2Many` , `MainEmbeddedOne2One` , `MainNonEmbeddedOne2Many` , `MainNonEmbeddedOne2One` and `MainJDBC` demonstrating each scenario 	described below.
 
 ## Remote vs. Collocated Client
 
@@ -145,10 +145,13 @@ Let's compare the JDBC approach to the embedded and non-embedded model:
 
 With the embedded model the root Space object is the **Author**. It has a **Book** object embedded. The representation of these Entities looks like this:
 
-{% inittab embedded|top %}
-{% tabcontent The Author Entity %}
+{% accordion id=embedded-one-to-one %}
+{% accord title=Java | parent=embedded-one-to-one %}
+{% inittab %}
 
+{% tabcontent The Author Entity %}
 {% highlight java %}
+@SpaceClass
 public class Author {
     Integer id;
     String lastName;
@@ -180,11 +183,9 @@ public class Author {
 	}
 }
 {% endhighlight %}
-
 {% endtabcontent %}
 
 {% tabcontent The Embedded Book Entity %}
-
 {% highlight java %}
 public class Book implements Serializable{
 	Integer id;
@@ -205,9 +206,48 @@ public class Book implements Serializable{
 	}
 }
 {% endhighlight %}
-
 {% endtabcontent %}
+
 {% endinittab %}
+{% endaccord %}
+
+{% accord title=C# | parent=embedded-one-to-one %}
+{% inittab  %}
+
+{% tabcontent The Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    [SpaceIndex(Path = "Title")]        
+    [SpaceProperty(StorageType = StorageType.Document)]
+    public Book Book { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent The Embedded Book Entity %}
+{% highlight c# %}
+[Serializable]
+public class Book
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
+
+{% endaccord %}
+{% endaccordion%}
 
 {% tip %}
 See the how the book **Title** property is indexed within **Author** class.
@@ -215,6 +255,9 @@ See the how the book **Title** property is indexed within **Author** class.
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this:
 
+{% inittab %}
+
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -225,9 +268,32 @@ for (int j = 0; j < authorFounds.length; j++) {
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}
+var books = new HashSet<Book>();
+
+var query = new SqlQuery<Author>("LastName=?");
+query.SetParameter(1, "AuthorX");
+
+var authors = spaceProxy.ReadMultiple<Author>(query);
+
+foreach (var author in authors)
+{
+    books.Add(author.Book);
+}
+
+return books;
+{% endhighlight %}
+{% endtabcontent %}
+{% endinittab %}
+
 
 To query for an **Author** with a specific **Book** title the query would look like this:
 
+{% inittab %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? and book.title=?");
 query.setParameter(1, "AuthorX");
@@ -235,20 +301,37 @@ query.setParameter(2, "BookX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}
+var query = new  SqlQuery<Author>("LastName=? and Book.Title=?");
+query.SetParameter(1, "AuthorX");
+query.SetParameter(2, "BookX");
+
+Author[] authors = spaceProxy.ReadMultiple<Author>(query);
+return authors;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
+
 
 ### Non-Embedded Model
 
 With the non-Embedded model the **Author** and the **Book** would look like this - See how the ID of the Book is stored within the Author rather the Book object itself. It is stored as a separate Space object:
 
-{% inittab non-Embedded %}
-{% tabcontent The Author Entity %}
+{% accordion %}
+{% accord title=Java %}
 
+{% inittab %}
+{% tabcontent The Author Entity %}
 {% highlight java %}
 @SpaceClass
 public class Author {
     Integer id;
     String lastName;
-    List<Integer> bookIds;
+    Integer bookId;
 
     @SpaceId(autoGenerate=false)
 	public Integer getId() {
@@ -266,19 +349,18 @@ public class Author {
 		this.lastName = lastName;
 	}
 
-	public List<Integer> getBookIds() {
-		return bookIds;
+	public Integer getBookId() {
+		return bookId;
 	}
-	public void setBookIds(List<Integer> bookIds) {
-		this.bookIds = bookIds;
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
 	}
 
 }
 {% endhighlight %}
-
 {% endtabcontent %}
-{% tabcontent The Book Entity %}
 
+{% tabcontent The Book Entity %}
 {% highlight java %}
 @SpaceClass
 public class Book {
@@ -311,12 +393,57 @@ public class Book {
 	}
 }
 {% endhighlight %}
-
 {% endtabcontent %}
+
 {% endinittab %}
+{% endaccord %}
+
+{% accord title=C# %}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    public int BookId { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent The Book Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Book
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public int AuthorId { get; set; }
+
+    [SpaceIndex]
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent%}
+
+{% endinittab %}
+{% endaccord %}
+
+{% endaccordion %}
+
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readById** is used:
 
+{% inittab %}
+
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -326,11 +453,32 @@ ArrayList<Book> booksFound = new ArrayList<Book>() ;
 // read the Author Book via its ID
 for (int j=0;j<authors.length;j++)
 {
-	Book book = space.readById(Book.class , authors[j].getBookId());
-	booksFound.add(book);
+    Book book = space.readById(Book.class , authors[j].getBookId());
+    booksFound.add(book);
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}            
+var books = new HashSet<Book>();
+
+var query = new SqlQuery<Author>("LastName=?");
+query.SetParameter(1, "AuthorX");
+
+Author[] authors = spaceProxy.ReadMultiple<Author>(query);
+
+foreach (Author author in authors)
+{
+   books.Add(spaceProxy.ReadById<Book>(author.BookId));
+}
+
+return books;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 
 {% tip %}
 See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readById` can be used.
@@ -338,6 +486,9 @@ See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details h
 
 To query for a specific **Author** with a specific **Book** title the query code would look like this:
 
+{% inittab %}
+
+{% tabcontent Java %}
 {% highlight java %}
 String authoridsForTitle = "";
 SQLQuery<Book> bookQuery = new SQLQuery <Book>(Book.class , "title=?");
@@ -351,10 +502,38 @@ for (int j = 0; j < booksFounds.length; j++) {
 }
 
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? AND id IN ("+ authoridsForTitle+")");
-query.setParameter(1, "Author" + i);
+query.setParameter(1, "AuthorX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}
+var authorIds = new StringBuilder();
+
+var bookQuery = new SqlQuery<Book>("Title=?");
+bookQuery.SetParameter(1, "BookX");
+
+var books = spaceProxy.ReadMultiple<Book>(bookQuery);
+
+foreach (var book in books)
+{
+    authorIds.AppendFormat(",{0}", book.AuthorId);
+}
+
+var inCriteria = authorIds.ToString().TrimStart(',');
+var authorQuery = new SqlQuery<Author>(string.Format("LastName=? AND Id IN ({0})", inCriteria));
+authorQuery.SetParameter(1, "AuthorX");
+
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+return authors;
+
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
+
 
 ## One-to-Many Relationship
 
@@ -384,10 +563,12 @@ Let's compare the JDBC approach to the embedded and non-embedded model:
 
 With the embedded model the root Space object is the **Author**. It has a **Book** collection embedded. The representation of these Entities looks like this:
 
-{% inittab embedded|top %}
+{% accordion %}
+{% accord title=Java %}
+{% inittab %}
 {% tabcontent The Author Entity %}
-
 {% highlight java %}
+@SpaceClass
 public class Author {
     Integer id;
     String lastName;
@@ -419,11 +600,8 @@ public class Author {
 	}
 }
 {% endhighlight %}
-
 {% endtabcontent %}
-
 {% tabcontent The Embedded Book Entity %}
-
 {% highlight java %}
 public class Book implements Serializable{
 	Integer id;
@@ -444,9 +622,43 @@ public class Book implements Serializable{
 	}
 }
 {% endhighlight %}
-
 {% endtabcontent %}
 {% endinittab %}
+{% endaccord %}
+{% accord title=C# %}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    [SpaceIndex(Path="[*].Title")]
+    [SpaceProperty(StorageType = StorageType.Document)]
+    public IList<Book> Books { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% tabcontent The Embedded Book Entity %} 
+{% highlight c# %}
+[Serializable]
+public class Book
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% endinittab %}
+{% endaccord %}
+
+{% endaccordion %}
 
 {% tip %}
 See the how the book **Title** property is indexed within **Author** class.
@@ -454,6 +666,9 @@ See the how the book **Title** property is indexed within **Author** class.
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this:
 
+{% inittab %}
+
+{% tabcontent Java %}
 {% highlight java %}
 Set<Book> booksFound = new HashSet<Book> ();
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
@@ -464,9 +679,33 @@ for (int j = 0; j < authorFounds.length; j++) {
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}
+var books = new List<Book>();
+
+var authorQuery = new SqlQuery<Author>("LastName=?");
+authorQuery.SetParameter(1, "AuthorX");
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+foreach (var author in authors)
+{
+    books.AddRange(author.Books);
+}
+
+return books;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
+
 
 To query for an **Author** with a specific **Book** title the query would look like this:
 
+{% inittab %}
+
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? and books[*].title=?");
 query.setParameter(1, "AuthorX");
@@ -474,14 +713,30 @@ query.setParameter(2, "BookY");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}
+var authorQuery = new SqlQuery<Author>("LastName=? AND Books[*].Title=?");
+authorQuery.SetParameter(1, "AuthorX");
+authorQuery.SetParameter(2, "BookY");
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+return authors;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
+
 
 ### Non-Embedded Model
 
 With the non-Embedded model the **Author** and the **Book** would look like this - See how the IDs of the Books are stored within the Author object rather than the Books themselves. These are stored as separate Space objects:
 
-{% inittab non-Embedded %}
+{% accordion %}
+{% accord title=Java %}
+{% inittab %}
 {% tabcontent The Author Entity %}
-
 {% highlight java %}
 @SpaceClass
 public class Author {
@@ -514,10 +769,9 @@ public class Author {
 
 }
 {% endhighlight %}
-
 {% endtabcontent %}
-{% tabcontent The Book Entity %}
 
+{% tabcontent The Book Entity %}
 {% highlight java %}
 @SpaceClass
 public class Book {
@@ -550,12 +804,54 @@ public class Book {
 	}
 }
 {% endhighlight %}
-
 {% endtabcontent %}
 {% endinittab %}
+{% endaccord %}
+
+{% accord title=C# %}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    public IList<int> BookIds { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent The Book Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Book
+{
+    [SpaceID(AutoGenerate = false)]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public int AuthorId { get; set; }
+
+    [SpaceIndex]
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% endinittab %}
+{% endaccord %}
+
+{% endaccordion %}
+
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readByIds** is used:
 
+{% inittab %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -574,6 +870,27 @@ for (int j=0;j<authors.length;j++)
 }
 return booksFound;
 {% endhighlight %}
+{% endtabcontent %}
+
+{%tabcontent C# %}
+{% highlight c# %}
+var authorQuery = new SqlQuery<Author>("LastName=?");
+authorQuery.SetParameter(1, "AuthorX");
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+var books = new List<Book>();
+
+foreach (var author in authors)
+{
+    books.AddRange(spaceProxy.ReadByIds<Book>(author.BookIds.Cast<object>().ToArray()));
+}
+
+
+return books;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 
 {% tip %}
 See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readByIds` can be used.
@@ -581,6 +898,8 @@ See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details h
 
 To query for a specific **Author** with a specific **Book** title the query would look like this:
 
+{% inittab %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Book> bookQuery = new SQLQuery <Book>(Book.class , "title=?");
 bookQuery.setParameter(1, "BookX");
@@ -598,6 +917,32 @@ query.setParameter(1, "AuthorX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent C# %}
+{% highlight c# %}
+var bookQuery = new SqlQuery<Book>("Title=?");
+bookQuery.SetParameter(1, "BookX");
+var books = spaceProxy.ReadMultiple<Book>(bookQuery);
+
+var authorIds = new StringBuilder();
+
+foreach (var book in books)
+{
+    authorIds.AppendFormat(",{0}", book.AuthorId);
+}
+
+var authorQueryCriteria = authorIds.ToString().TrimStart(',');
+var authorQuery = new SqlQuery<Author>(string.Format("LastName=? AND Id in ({0})", authorQueryCriteria));
+authorQuery.SetParameter(1, "AuthorX");
+
+var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
+
+return authors;
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
 
 {% tip %}
 **More Examples**
