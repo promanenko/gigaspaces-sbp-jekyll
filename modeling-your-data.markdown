@@ -255,9 +255,9 @@ See the how the book **Title** property is indexed within **Author** class.
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this:
 
-{% accordion id=embedded1-1QueryForAuthor %}
+{% inittab %}
 
-{% accord title=Java | parent=embedded1-1QueryForAuthor %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -268,9 +268,9 @@ for (int j = 0; j < authorFounds.length; j++) {
 }
 return booksFound;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# | parent=embedded1-1QueryForAuthor %}
+{% tabcontent C# %}
 {% highlight c# %}
 var books = new HashSet<Book>();
 
@@ -286,14 +286,14 @@ foreach (var author in authors)
 
 return books;
 {% endhighlight %}
-{% endaccord %}
-{% endaccordion %}
+{% endtabcontent %}
+{% endinittab %}
 
 
 To query for an **Author** with a specific **Book** title the query would look like this:
 
-{% accordion %}
-{% accord title=Java %}
+{% inittab %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? and book.title=?");
 query.setParameter(1, "AuthorX");
@@ -301,9 +301,9 @@ query.setParameter(2, "BookX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{% tabcontent C# %}
 {% highlight c# %}
 var query = new  SqlQuery<Author>("LastName=? and Book.Title=?");
 query.SetParameter(1, "AuthorX");
@@ -312,9 +312,9 @@ query.SetParameter(2, "BookX");
 Author[] authors = spaceProxy.ReadMultiple<Author>(query);
 return authors;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 
 ### Non-Embedded Model
@@ -441,9 +441,9 @@ public class Book
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readById** is used:
 
-{% accordion %}
+{% inittab %}
 
-{% accord title=Java %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -458,9 +458,9 @@ for (int j=0;j<authors.length;j++)
 }
 return booksFound;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{% tabcontent C# %}
 {% highlight c# %}            
 var books = new HashSet<Book>();
 
@@ -476,9 +476,9 @@ foreach (Author author in authors)
 
 return books;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 {% tip %}
 See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readById` can be used.
@@ -486,9 +486,9 @@ See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details h
 
 To query for a specific **Author** with a specific **Book** title the query code would look like this:
 
-{% accordion %}
+{% inittab %}
 
-{% accord title=Java %}
+{% tabcontent Java %}
 {% highlight java %}
 String authoridsForTitle = "";
 SQLQuery<Book> bookQuery = new SQLQuery <Book>(Book.class , "title=?");
@@ -506,9 +506,9 @@ query.setParameter(1, "AuthorX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{% tabcontent C# %}
 {% highlight c# %}
 var authorIds = new StringBuilder();
 
@@ -530,9 +530,9 @@ var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
 return authors;
 
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 
 ## One-to-Many Relationship
@@ -666,9 +666,9 @@ See the how the book **Title** property is indexed within **Author** class.
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this:
 
-{% accordion %}
+{% inittab %}
 
-{% accord title=Java %}
+{% tabcontent Java %}
 {% highlight java %}
 Set<Book> booksFound = new HashSet<Book> ();
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
@@ -679,9 +679,9 @@ for (int j = 0; j < authorFounds.length; j++) {
 }
 return booksFound;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{% tabcontent C# %}
 {% highlight c# %}
 var books = new List<Book>();
 
@@ -696,16 +696,16 @@ foreach (var author in authors)
 
 return books;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 
 To query for an **Author** with a specific **Book** title the query would look like this:
 
-{% accordion %}
+{% inittab %}
 
-{% accord title=Java %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=? and books[*].title=?");
 query.setParameter(1, "AuthorX");
@@ -713,9 +713,9 @@ query.setParameter(2, "BookY");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{% tabcontent C# %}
 {% highlight c# %}
 var authorQuery = new SqlQuery<Author>("LastName=? AND Books[*].Title=?");
 authorQuery.SetParameter(1, "AuthorX");
@@ -724,9 +724,9 @@ var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
 
 return authors;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 
 ### Non-Embedded Model
@@ -850,8 +850,8 @@ public class Book
 
 To query for all the **Books** written by an **Author** with a specific last name your query code would look like this - See how the **readByIds** is used:
 
-{% accordion %}
-{% accord title=Java %}
+{% inittab %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Author> query = new SQLQuery <Author>(Author.class , "lastName=?");
 query.setParameter(1, "AuthorX");
@@ -870,9 +870,9 @@ for (int j=0;j<authors.length;j++)
 }
 return booksFound;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{%tabcontent C# %}
 {% highlight c# %}
 var authorQuery = new SqlQuery<Author>("LastName=?");
 authorQuery.SetParameter(1, "AuthorX");
@@ -888,9 +888,9 @@ foreach (var author in authors)
 
 return books;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 {% tip %}
 See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readByIds` can be used.
@@ -898,8 +898,8 @@ See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details h
 
 To query for a specific **Author** with a specific **Book** title the query would look like this:
 
-{% accordion %}
-{% accord title=Java %}
+{% inittab %}
+{% tabcontent Java %}
 {% highlight java %}
 SQLQuery<Book> bookQuery = new SQLQuery <Book>(Book.class , "title=?");
 bookQuery.setParameter(1, "BookX");
@@ -917,9 +917,9 @@ query.setParameter(1, "AuthorX");
 Author authorFounds [] = space.readMultiple(query);
 return authorFounds ;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% accord title=C# %}
+{% tabcontent C# %}
 {% highlight c# %}
 var bookQuery = new SqlQuery<Book>("Title=?");
 bookQuery.SetParameter(1, "BookX");
@@ -940,9 +940,9 @@ var authors = spaceProxy.ReadMultiple<Author>(authorQuery);
 
 return authors;
 {% endhighlight %}
-{% endaccord %}
+{% endtabcontent %}
 
-{% endaccordion %}
+{% endinittab %}
 
 {% tip %}
 **More Examples**
