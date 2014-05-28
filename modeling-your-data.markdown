@@ -145,8 +145,8 @@ Let's compare the JDBC approach to the embedded and non-embedded model:
 
 With the embedded model the root Space object is the **Author**. It has a **Book** object embedded. The representation of these Entities looks like this:
 
-{% accordion id=embedded-one-to-one %}
-{% accord title=Java | parent=embedded-one-to-one %}
+{% accordion id=acc1 %}
+{% accord title=Java | parent=acc1 %}
 {% inittab %}
 
 {% tabcontent The Author Entity %}
@@ -211,7 +211,7 @@ public class Book implements Serializable{
 {% endinittab %}
 {% endaccord %}
 
-{% accord title=C# | parent=embedded-one-to-one %}
+{% accord title=C# | parent=acc1 %}
 {% inittab  %}
 
 {% tabcontent The Author Entity %}
@@ -321,8 +321,8 @@ return authors;
 
 With the non-Embedded model the **Author** and the **Book** would look like this - See how the ID of the Book is stored within the Author rather the Book object itself. It is stored as a separate Space object:
 
-{% accordion %}
-{% accord title=Java %}
+{% accordion id=acc2%}
+{% accord title=Java | parent=acc2%}
 
 {% inittab %}
 {% tabcontent The Author Entity %}
@@ -398,7 +398,7 @@ public class Book {
 {% endinittab %}
 {% endaccord %}
 
-{% accord title=C# %}
+{% accord title=C# | parent=acc2%}
 {% inittab %}
 {% tabcontent The Author Entity %}
 {% highlight c# %}
@@ -563,8 +563,8 @@ Let's compare the JDBC approach to the embedded and non-embedded model:
 
 With the embedded model the root Space object is the **Author**. It has a **Book** collection embedded. The representation of these Entities looks like this:
 
-{% accordion %}
-{% accord title=Java %}
+{% accordion id=acc3%}
+{% accord title=Java | parent=acc3%}
 {% inittab %}
 {% tabcontent The Author Entity %}
 {% highlight java %}
@@ -625,7 +625,7 @@ public class Book implements Serializable{
 {% endtabcontent %}
 {% endinittab %}
 {% endaccord %}
-{% accord title=C# %}
+{% accord title=C# | parent=acc3%}
 {% inittab %}
 {% tabcontent The Author Entity %}
 {% highlight c# %}
@@ -733,8 +733,8 @@ return authors;
 
 With the non-Embedded model the **Author** and the **Book** would look like this - See how the IDs of the Books are stored within the Author object rather than the Books themselves. These are stored as separate Space objects:
 
-{% accordion %}
-{% accord title=Java %}
+{% accordion id=acc4%}
+{% accord title=Java | parent=acc4%}
 {% inittab %}
 {% tabcontent The Author Entity %}
 {% highlight java %}
@@ -808,7 +808,7 @@ public class Book {
 {% endinittab %}
 {% endaccord %}
 
-{% accord title=C# %}
+{% accord title=C# | parent=acc4%}
 {% inittab %}
 {% tabcontent The Author Entity %}
 {% highlight c# %}
