@@ -191,8 +191,8 @@ public class BookingTimeSeriesDAO implements IBookingTimeSeriesDAO {
 
 	public BookingTimeSeries[] readAllCompletedTimeSeriesAfterInterval(Integer lastInterval) {
 		SQLQuery<BookingTimeSeries> query = new SQLQuery<BookingTimeSeries>(BookingTimeSeries.class, "interval > ? and status = ?");
-		query.setParameter(1, lastInterval);
-        	query.setParameter(2, Constants.STATUS_COMPLETE);
+	        query.setParameter(1, lastInterval);
+                query.setParameter(2, Constants.STATUS_COMPLETE);
 
 		return gigaSpace.readMultiple(query);
 	}
