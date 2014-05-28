@@ -74,112 +74,140 @@ We will show you how you can implement this scenario with XAP.NET. A fully funct
 
 # Various Scenarios
 
-Below are various ASP.NET HTTP Session state sharing scenarios supported with XAP.NET:
+Below are various ASP.NET HTTP Session state sharing scenarios supported with XAP.NET. All of the scenarios are configured the same with Scenario 4 being the exception, and discussed later on in the article.
+The application in all instances is configured to use a custom session state mode with the GigaSpaces session state provider.
 
 ## Scenario 1
 
 {%section%}
 {%column width=80% %}
-Consider a simple scenario where you have a single IIS server serving your web application in a non-clustered fashion. For most non-critical applications, this could very well be your deployment architecture. As seen in the following diagram, you could use an IMDG in scenarios as simple as the following or for as complex a distributed architecture as described in Scenario 4. In this particular scenario, your IIS server uses custom mode, specifies GigaSpaces as the storage provider, reads sessions from GigaSpaces space/cluster and serves your end users’ sessions reliably.
+A single web application persisting and reading from XAP.NET to provide resilient session state.
 {%endcolumn%}
 {%column width=20% %}
 {%popup /sbp/pics/iis-pic1.png%}
 {%endcolumn%}
 {%endsection%}
 
-As you follow the instructions later on in this document to run the demo application, you would be using the same demo app and your web application, IIS and GigaSpaces to support the various scenarios.
-For scenario 1, you would not create a cluster in IIS. In other words, there is no need to add an extra server to your IIS server configuration. You would configure your GigaSpaces space as documented below or start the same from `C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin` directory. The space URL format should be `/./mySpace`.
-
-
 ## Scenario 2
 {%section%}
 {%column width=80% %}
-Consider a little more complex scenario where you have a cluster of IIS servers serving your web application. For many semi-critical applications, this could very well be your deployment architecture. As seen in the following diagram, you could use an IMDG in almost the same way as you did in scenario 1. In this particular configuration, your IIS servers use custom mode, specify GigaSpaces as the storage provider, read sessions from GigaSpaces space/cluster and serve your end users’ sessions reliably.
+Multiple instances of the same application distributed across a cluster of load balanced or distributed servers.
 {%endcolumn%}
 {%column width=20% %}
 {%popup /sbp/pics/iis-pic2.png%}
 {%endcolumn%}
 {%endsection%}
 
-The session created on either one of the IIS servers is stored in GigaSpaces reliably and is retrieved from the web application even if a completely different IIS server fulfills the next HTTP request from the end user.
-For scenario 2, you would create a cluster in IIS. In other words, you would need to add an extra IIS server to your IIS cluster configuration. You would then configure your GigaSpaces space as documented below or start the same from 'C:\GigaSpaces\XAP.NET 9.7.0 x86\NET v4.0.30319\Bin' directory. 
-
-
 ## Scenario 3
 {%section%}
 {%column width=80% %}
-Consider the next step in a more complex scenario where you have a cluster of IIS servers serving multiple web applications. For varied reasons, multiple modules of applications or multiple separate applications are required to share session data reliably between each other. For a large multi-module application, the following could very well be your deployment architecture and so would the case be for a multi-application deployment wherein you require session sharing (e.g. imagine a single sign-on requirement). As seen in the following diagram, you could use an IMDG in almost the same way as you did in scenario 1 and 2.
+Multiple applications persisting and consuming session data from the same IMDG, in either a single server or clustered topology.
 {%endcolumn%}
 {%column width=20% %}
 {%popup /sbp/pics/iis-pic3.png%}
 {%endcolumn%}
 {%endsection%}
 
-In this particular configuration, your IIS servers use custom mode, specify GigaSpaces as the storage provider, read sessions from GigaSpaces space/cluster and serve your end users’ sessions reliably. The session created on either one of the IIS servers is stored in GigaSpaces reliably and is retrieved from the web application even if a completely different IIS server fulfills the next HTTP request from the end user. What’s more is that since multiple web applications can interact with the GigaSpaces IMDG (that’s running as a separate process), store and retrieve session data based on SessionID.
-
-For scenario 3, you would create a cluster in IIS or reuse the cluster you created in scenario 2. You could very well emulate a multiple application scenario by deploying another website in your IIS configuration and copying the demo application to another location to serve this separate web application. You would then configure your GigaSpaces space as documented below.
-
-
 ## Scenario 4
 {%section%}
 {%column width=80% %}
-Consider the following most complex deployment scenario where you have a cluster of IIS servers serving multiple web applications that are distributed across data centers over LAN/MAN/WANs.  Just like the requirements in Scenario 3, there are mission critical applications that need to be available globally (in a follow-the-sun approach).
-As seen in the following diagram, you could use an IMDG in almost the same way as you did in scenario 1, 2 and 3.
+Any number of applications and servers communicating with the IMDG, deployed using GigaSpaces WAN Gateway technology. 
+The difference in configuration for applications in this scenario depends on the GiagSpaces WAN Gateway deployment. 
+The application would be configured to communicate with the local/near local active space instance.
 {%endcolumn%}
 {%column width=20% %}
 {%popup /sbp/pics/iis-pic4.png%}
 {%endcolumn%}
 {%endsection%}
-The only difference would be in deploying GigaSpaces in a WAN distributed fashion (i.e. use the WAN gateway feature).
- In this particular configuration, your IIS servers use custom mode, specify GigaSpaces as the storage provider, read sessions from local/near-local GigaSpaces space/cluster and serve your end users’ sessions reliably. The session created on any one of the IIS servers is stored in GigaSpaces reliably, replicated globally and is retrieved from the web application even if a completely different IIS server in a completely different WAN/MAN fulfills the next HTTP request from the end user. This, of course, is also governed by how load balancers are spraying requests across various clusters of web applications. Similar to scenario 3, multiple web applications can interact with the GigaSpaces IMDG (that’s running as a separate processes), store and retrieve session data based on SessionID.
 
-For scenario 4, you would create a cluster in IIS or reuse the cluster you created in scenario 2. You could very well emulate a multiple application scenario by deploying another website in your IIS configuration and copying the demo application to another location to serve this separate web application. In this scenario, you would configure your GigaSpaces space as a WAN gateway enabled, clustered deployment. The steps to do so is also documented below.
-
-
-# XAP.NET ASP.NET Session State Store with your ASP.NET Application
+# Prerequisites
 The following instructions assumes that you have downloaded/installed the prerequisites:
 
-•	[Download the sample ASP.NET web application](/sbp/download_files/gigaspaceshttpsessionsharing.zip). After downloading the file, extract it to a location on your drive.
+•	[Download the sample ASP.NET web application](/sbp/download_files/gigaspacessessionstateprovider.zip)
 
-•	[Download Apache httpd server](http://httpd.apache.org/download.cgi) and installed as it is used for load balancing in our example. **You should run it as administrator**.
+•	[Download XAP.NET latest version](http://www.gigaspaces.com/xap-download)
 
-•	[Download XAP.NET latest version](http://www.gigaspaces.com/xap-download). For our example, we are using `.NET x86`.
+•	[Download Microsoft .NET 4.5](http://www.microsoft.com/en-us/download/details.aspx?id=30653)
 
-## Configure Apache, XAP.NET and multiple IIS servers serving this sample application
+{% note type=Application Platform %}XAP.NET is platform specific ensure your application, version of .NET, and server configuration use the same platform as the XAP.NET installation.{% endnote %}
 
-#### Step 1
+## The Sample Application
 
-Install IIS by going to `control panel->add remove programs->add/remove windows features-> IIS`. After installation, create and deploy a website using IIS Manager.
+#### Configuration
 
-![](/sbp/pics/iis-pic5.png)
+{% highlight xml %}
+<configuration>
+  <system.web>
+    <compilation debug="true" targetFramework="4.5" />
+    <httpRuntime targetFramework="4.5" />
+    <machineKey validationKey="E83700E53CC20595182307B502E45F0AE4C2ADBEB6CE5BBD2E88B2EE5AB8A6FDC633FBF69309A6D6D06B4B6DBF22E2DA96F0315ED97F65136DDCEFDB4779C3E8" 
+                decryptionKey="06C735053A39D1A9BEA101A58BAFE8FDFF7FA59C51F50673" validation="SHA1" decryption="AES "/>
+    <sessionState mode="Custom" customProvider="GigaSpaceSessionProvider" cookieless="false" timeout="5" regenerateExpiredSessionId="true">
+      <providers>
+        <!--
+        the name type and connectionStringName should be set as follows,
+        writeExceptionToEventLog states whether unexpected exception should be written to a log or thrown back to the client.
+        supportSessionOnEndEvents states whether the provider should support triggering Session_End events when sessions expires.-->
+        <add name="GigaSpaceSessionProvider" type="GigaSpaces.Practices.HttpSessionProvider.GigaSpaceSessionProvider" connectionStringName="SessionProviderSpaceUrl" 
+             writeExceptionsToEventLog="false" supportSessionOnEndEvents="true"/>
+      </providers>
+    </sessionState>
+  </system.web>
+  <connectionStrings>
+    <add name="SessionProviderSpaceUrl" connectionString="jini://*/*/sessionSpace" />
+  </connectionStrings>
+</configuration>
+{% endhighlight %}
 
-#### Step 2
-Run IIS Manager and ensure that you configure the following correctly
+#### Interacting with the space
+{% info %}There is nothing unique in how client applications interface with session.{% endinfo %}
+{% highlight c# %}
+public partial class Default : Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+            DisplaySessionData();
+    }
 
-a.	Configure your .NET version correctly for your machine on IIS Manager.
+    private void DisplaySessionData()
+    {
+        foreach (string sessionKey in Session.Keys)
+        {
+            WriteSessionDataToPage(sessionKey);
+        }
+    }
 
-![](/sbp/pics/iis-pic6.png)
+    protected void SubmitForm_Click(object sender, EventArgs e)
+    {
+        Session[SessionKey.Text] = SessionValue.Text;
+        DisplaySessionData();
+    }
 
-b.	Application Pool – dedicate one to your sample website. Make sure this is set up correctly thus (if you are using 32 bit then ensure that `Enable 32-bit applications` is set to true as well).
+    protected void RemoveKey_Click(object sender, EventArgs e)
+    {
+        Session.Remove(SessionKey.Text);
+        DisplaySessionData();
+    }
+    private void WriteSessionDataToPage(string sessionKey)
+    {
+        var row = new TableRow();
 
-![](/sbp/pics/iis-pic7.png)
+        row.Cells.Add(new TableCell { Text = sessionKey });
+        row.Cells.Add(new TableCell { Text = Convert.ToString(Session[sessionKey]) });
 
-#### Step 3
-Deploy your website and ensure it is configured correctly.
+        sessionData.Controls.Add(row);
+    }
 
-![](/sbp/pics/iis-pic8.png)
+}
+{% endhighlight %}
 
-a.	Deploy the application on multiple server instances – in other words, bind your site to two available HTTP ports. In this example, we are binding it to ports 70 and 90.
+#### Deployment
+Deploy the application using [Microsoft's publish web application](http://msdn.microsoft.com/en-us/library/dd465337(v=vs.110).aspx) feature built into Visual Studio. We've already defined a publish profile
+to publish the application into the standard `c:\inetpub\wwwroot\` directory of the local machine. 
 
-![](/sbp/pics/iis-pic9.png)
+{% note %}Publishing to `c:\inetpub\wwwroot\` does require running visual studio as an administrator. {% endnote %}
 
-b.	Ensure that you generate/use a machine key for your site/application. Keep these keys handy as you will be using them in the web.config of your ASP.NET application.
-
-![](/sbp/pics/iis-pic10.png)
-
-
-c.	Ensure the Session State of your application is set to **Custom**:
-![](/sbp/pics/iis-pic11.png)
 
 #### Step 4
 Configure a load balancer/cluster manager to front all HTTP requests that will be ultimately routed to the IIS servers. Here’s an example of how Apache can be configured for this purpose. It assumes that you already have Apache httpd setup and running on a machine. Make changes in the `httpd.conf` file that include the following:
