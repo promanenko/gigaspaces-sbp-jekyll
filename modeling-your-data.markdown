@@ -6,9 +6,9 @@ parent: data-access-patterns.html
 weight: 1550
 ---
 
+{% summary %}How to model application data for in-memory data grid{% endsummary %}
 
 {% tip %}
-**Summary:** How to model application data for in-memory data grid.<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 9.7<br/>
 **Last Update:** May  2014<br/>
