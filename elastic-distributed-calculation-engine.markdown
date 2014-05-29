@@ -8,6 +8,8 @@ weight: 100
 
 {% compositionsetup %}
 
+{% summary %} {% endsummary %}
+
 {% tip %}
 **Summary:** {% excerpt %}Elastic Distributed Calculation Engine implementation using Map-Reduce approach.{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
