@@ -175,7 +175,7 @@ must share the same [machine key](http://msdn.microsoft.com/en-us/library/w8h3sk
 {% endhighlight %}
 
 #### Deployment
-Deploy an IMDG with the name of `sessionSpace`. {% latestjavanet dotnet-your-first-data-grid-application.html %}
+Deploy an [IMDG]({% latestneturl%}/dotnet-your-first-data-grid-application.html) with the name of `sessionSpace`.
 
 Deploy the application using [Microsoft's publish web application](http://msdn.microsoft.com/en-us/library/dd465337(v=vs.110).aspx) feature built into Visual Studio. We've already defined a publish profile
 to publish the application into the standard web directory of the local machine (`c:\inetpub\wwwroot\`). 
