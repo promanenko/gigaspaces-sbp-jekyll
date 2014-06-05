@@ -446,6 +446,7 @@ The actual footprint depends on the amount of indexed fields and the data distri
 ### Footprint Test
 
 The best way to determine the exact footprint is via a simple test that allows you to perform some extrapolation when running the application in production. Here is how you should calculate the footprint:
+
 1. Start a single IMDG instance.
 2. Take a measurement of the free memory (use JConsole or jmap).
 3. Write a sample number of objects into the IMDG (have a decent number of objects written - 100,000 is a good number).
@@ -774,17 +775,20 @@ Prior to XAP 7.1, GigaSpaces Data-Grid did not overflow to a disk, and does not 
 # Virtualized OS
 
 GigaSpaces supports VMWare vSphere 5+ running the following guest operating systems:
+
 - Windows 2008 Server SP2
 - Linux RHEL 5.x/6.x
 - Solaris 10
 
 Configuration:
+
 - Only Type 1 Hypervisor is recommended for production use.
 - vCPU may be over-subscribed, if it is under-utilized (less than 50%). In environments with high CPU utilization, vCPU must be reserved (pinned).
 - Hyper-threading should be enabled.
 - vMEM must be reserved (pinned).
 
 Other considerations:
+
 - Do not over-commit virtual memory
 - Reserve memory at the virtual machine level
 - When using asynchronous persistency with replication, use anti-affinity rules to ensure that primary and backup nodes do not share the same virtual machine host. For maximum reliability, ensure that no primary/backup pair is hosted on the same physical host machine.
