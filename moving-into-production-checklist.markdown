@@ -431,6 +431,7 @@ JVM Max Heap (-Xmx value) + JVM Perm Size (-XX:MaxPermSize) + NumberOfConcurrent
 ## Space Object Footprint
 
 In many cases you may need to calculate the Space Object Footprint. The object footprint within the IMDG is determined, based on:
+
 - The original object size - the number of object fields and their content size.
 - The JVM type (32 or 64 bit) - a 64 bit JVM might consume more memory due to the pointer address size.
 - The number of indexed fields - every indexed value means another copy of the value within the index list.
