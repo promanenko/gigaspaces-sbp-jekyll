@@ -55,7 +55,7 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Drools Rule Engine Integration](./drools-rule-engine-integration.html)| Advanced | Scaling business rule management system based application.|
 |[Spring Batch PU](./spring-batch-pu.html)| Advanced | Complex Batch Processing using [Spring Batch](http://static.springsource.org/spring-batch).|
 |[JTA-XA Example](./jta-xa-example.html) | Advanced | Integrating GigaSpaces with an external JMS Server using XA. Atomikos is used as the JTA Transaction provider. Apache ActiveMQ is used as a the JMS provider.|
-|[Aggregators](./aggregators.html) | Advanced | Aggregator example|
+|[XAP.NET Custom Aggregators](./aggregators.html) | Advanced | Implemeting custom Aggregators with XAP.Net|
 
 
 jta-xa-example.html
