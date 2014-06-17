@@ -92,9 +92,9 @@ jta-xa-example.html
 {: .table .table-bordered}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
-|[Clusters Over WAN](./wan-replication-gateway.html)| Beginner | Example for WAN replication implementation.|
-|[WAN Gateway Pass Through Replication](./wan-gateway-pass-through-replication.html)| Beginner | Example for implementing a pass through WAN replication topology.|
-|[WAN Gateway Master Slave Replication](./wan-gateway-master-slave-replication.html)| Beginner | Example for implementing a single-master/multi-slave replication topology.|
+|[WAN Gateway Multi-Master Replication](./wan-replication-gateway.html)| Beginner | Multi-Master WAN replication example.|
+|[WAN Gateway Master-Slave Replication](./wan-gateway-master-slave-replication.html)| Beginner | Single-Master/Multi-slave replication topology example.|
+|[WAN Gateway Pass-Through Replication](./wan-gateway-pass-through-replication.html)| Beginner | Pass-Through WAN replication topology example.|
 |[Observable WAN](./observable-wan.html)|Advanced|Monitor and measure the replication performance of a multi-site deployment.|
 
 
