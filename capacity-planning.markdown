@@ -174,6 +174,72 @@ When using a machine with 32GB of RAM, we need 4 machines to run primary IMDG in
 
 This means that we have 160 IMDG instances (half primary and half backups) hosted within 40 GSCs. Theoretically, this allows us to expand the IMDG to run across 160 machines (one GSC per machine). This means 160 X 10GB as the heap size = 1.6TB of IMDG memory capacity to host the IMDG objects!  This is a huge capacity for the IMDG, which is in fact, ten times larger than the estimated size - we have lots of room in case our initial memory utilization was wrong.
 
+
+# Used Memory Utility
+
+Checking the used memory on all primary instances can be done using the following (we assume we have one GSC per primary instance):
+
+{% highlight java %}
+GigaSpace gigaSpace = new GigaSpaceConfigurer(new UrlSpaceConfigurer(spaceURL)).gigaSpace();
+Future<Long> taskresult = gigaSpace.execute(new FreeMemoryTask());
+long usedMem = taskresult.get();
+System.out.println("Used Mem[MB] " + (double)usedMem/(1024*1024));
+{% endhighlight %}
+
+The `FreeMemoryTask` implementation:
+
+{% highlight java %}
+import java.util.Iterator;
+import java.util.List;
+
+import org.openspaces.core.executor.DistributedTask;
+
+import com.gigaspaces.annotation.pojo.SpaceRouting;
+import com.gigaspaces.async.AsyncResult;
+
+public class FreeMemoryTask implements DistributedTask<Long, Long>{
+
+	Integer routing;
+	public Long execute() throws Exception {
+		
+		Runtime rt = Runtime.getRuntime();
+		System.out.println("Calling GC...");
+		rt.gc();
+		Thread.sleep(5000);
+		System.out.println("Done GC..." + 
+				" Used memory " + (rt.totalMemory() - rt.freeMemory() )+
+				" Free Memory " + rt.freeMemory() + 
+				" MaxMemory " + rt.maxMemory() + 
+				" Committed memory "+ rt.totalMemory());
+		
+		return (rt.totalMemory() - rt.freeMemory() );
+	}
+
+	@Override
+	public Long reduce(List<AsyncResult<Long>> _usedMemList) throws Exception {
+		
+		long totalUsed =0;
+		Iterator<AsyncResult<Long>> usedMemList = _usedMemList.iterator();
+		while (usedMemList.hasNext())
+		{
+			totalUsed  = totalUsed + usedMemList.next().getResult();
+		}
+		return totalUsed ;
+	}
+
+	@SpaceRouting
+	public Integer getRouting() {
+		return routing;
+	}
+
+	public void setRouting(Integer routing) {
+		this.routing = routing;
+	}
+}
+
+{% endhighlight %}
+
+
 # Conclusion
 Capacity planning is not voodoo. You can estimate the number of machines your application IMDG might need via a simple capacity planning process. To avoid over provisioning, you should start small, and expand your IMDG capacity when needed. The maximum number of IMDG partitions can be calculated, based on a simple estimation of the number of machines you have available, or based on the size and quantity of objects your application generates. This allows your application to scale while remaining resilient and robust.
 
