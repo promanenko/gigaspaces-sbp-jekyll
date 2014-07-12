@@ -291,38 +291,43 @@ gs deploy-space -cluster schema=partitioned total_members=2 spaceY
 ## Running Multiple Locators
 You may have a set of LUS/GSM managing GSCs associated to a specific locator. Let's assume you would like to "break" your network into 2 groups using different lookup locators. Here is how you should start the GigaSpaces runtime environment:
 
-1. Run gs-agent starting LUS/GSM with a lookup service listening on port 8888:
+Step 1. Run gs-agent starting LUS/GSM with a lookup service listening on port 8888:
 {% highlight java %}
 export LUS_JAVA_OPTIONS=-Dcom.sun.jini.reggie.initialUnicastDiscoveryPort=8888
 export LOOKUPLOCATORS=127.0.0.1:8888
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-2. Run gs-agent that will start GSCs using the lookup listening on port 8888 (4 GGCs with this example):
+
+Step 2. Run gs-agent that will start GSCs using the lookup listening on port 8888 (4 GGCs with this example):
 {% highlight java %}
 export LOOKUPLOCATORS=127.0.0.1:8888
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 4
 {% endhighlight %}
-3. Run gs-agent starting LUS/GSM with a lookup service listening on port 9999:
+
+Step 3. Run gs-agent starting LUS/GSM with a lookup service listening on port 9999:
 {% highlight java %}
 export LUS_JAVA_OPTIONS=-Dcom.sun.jini.reggie.initialUnicastDiscoveryPort=9999
 export LOOKUPLOCATORS=127.0.0.1:8888
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-4. Run gs-agent that will start GSCs using the lookup listening on port 9999 (2 GGCs with this example):
+
+Step 4. Run gs-agent that will start GSCs using the lookup listening on port 9999 (2 GGCs with this example):
 {% highlight java %}
 export LOOKUPLOCATORS=127.0.0.1:9999
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
 {% endhighlight %}
-5. Deploy a space using lookup listening on port 8888
+
+Step 5. Deploy a space using lookup listening on port 8888
 {% highlight java %}
 export LOOKUPLOCATORS=127.0.0.1:8888
 gs deploy-space -cluster schema=partitioned total_members=4 spaceX
 {% endhighlight %}
-6. Deploy a space using lookup listening on port 9999
+
+Step 6. Deploy a space using lookup listening on port 9999
 
 {% highlight java %}
 export LOOKUPLOCATORS=127.0.0.1:9999
@@ -347,14 +352,14 @@ You should make sure you have an adequate number of GSCs running, prior to deplo
 
 To use Zones when deploying your PU you should:
 
-1. Start the GSC using the `com.gs.zones` system property. Example:
+Step 1. Start the GSC using the `com.gs.zones` system property. Example:
 
 {% highlight java %}
 export EXT_JAVA_OPTIONS=-Dcom.gs.zones=webZone ${EXT_JAVA_OPTIONS}
 gs-agent gsa.gsc 2
 {% endhighlight %}
 
-2. Deploy the PU using the `-zones` option. Example:
+Step 2. Deploy the PU using the `-zones` option. Example:
 
 {% highlight java %}
 gs deploy -zones webZone myWar.war
@@ -363,16 +368,18 @@ gs deploy -zones webZone myWar.war
 ## Running Multiple Zones
 You may have a set of LUS/GSM managing multiple zones (recommended) or have a separate LUS/GSM set per zone. In such a case (set of LUS/GSM managing multiple zones) you should run these in the following manner:
 
-1. Run gs-agent on the machines you want to have the LUS/GSM:
+Step 1. Run gs-agent on the machines you want to have the LUS/GSM:
 {% highlight java %}
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-2. Run gs-agent that will start GSCs with zoneX (4 GGCs with this example):
+
+Step 2. Run gs-agent that will start GSCs with zoneX (4 GGCs with this example):
 {% highlight java %}
 export EXT_JAVA_OPTIONS=-Dcom.gs.zones=zoneX ${EXT_JAVA_OPTIONS}
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 4
 {% endhighlight %}
-3. Run gs-agent that will start GSCs with zoneY (2 GGCs with this example):
+
+Step 3. Run gs-agent that will start GSCs with zoneY (2 GGCs with this example):
 {% highlight java %}
 export EXT_JAVA_OPTIONS=-Dcom.gs.zones=zoneY ${EXT_JAVA_OPTIONS}
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
@@ -447,10 +454,10 @@ The actual footprint depends on the amount of indexed fields and the data distri
 
 The best way to determine the exact footprint is via a simple test that allows you to perform some extrapolation when running the application in production. Here is how you should calculate the footprint:
 
-1. Start a single IMDG instance.
-2. Take a measurement of the free memory (use JConsole or jmap).
-3. Write a sample number of objects into the IMDG (have a decent number of objects written - 100,000 is a good number).
-4. Measure the free memory again.
+Step 1. Start a single IMDG instance.
+Step 2. Take a measurement of the free memory (use JConsole or jmap).
+Step 3. Write a sample number of objects into the IMDG (have a decent number of objects written - 100,000 is a good number).
+Step 4. Measure the free memory again.
 
 This test should give good understanding of the object footprint within the IMDG. Don’t forget that if you have a backup instance running, the amount of memory you will need to accommodate for your objects, is double.
 
