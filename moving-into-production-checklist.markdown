@@ -7,44 +7,50 @@ weight: 800
 ---
 
 
-{% summary %}Moving into Production Checklist{% endsummary %}
+{% summary %}{% endsummary %}
 
+
+{% tip %}
+**Summary:** The following list should provide you with the main activities to be done prior moving your system into production. Reviewing this list and executing the relevant recommendations should result in a stable environment with a low probability of unexpected behavior or failures that are result of a GigaSpaces environment mis configuration.
+<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
-Date: December  2009<br/>
-Latest Date: April 2014<br/>
+**Recently tested with GigaSpaces version**: XAP 8.0<br/>
+**Last Update:** April 2014<br/>
 
-The following list should provide you with the main activities to be done prior moving your system into production. Reviewing this list and executing the relevant recommendations should result in a stable environment with a low probability of unexpected behavior or failures that are result of a GigaSpaces environment mis configuration.
+{% endtip %}
+
 
 # Sharing Grid Management Services Infrastructure
 There are numerous ways allowing different systems/applications/groups to share the same pool of servers (in development or production environment) on the network.  A non-exhaustive list of some of the options is delineated below:
 
-1. Outside of GigaSpaces:  Dedicated hardware for each group, each set of servers runs an independent GigaSpaces runtime environment (aka Service Grid) without sharing the same server between different groups.  This naive approach is good for simple or temporary scenarios. In this case each GigaSpaces runtime environment is isolated from each other using [different LOOKUPLOCATORS](#Running Multiple Locators) or [different LOOKUPGROUPS](#Running Multiple Groups) value.
 
-2. [Using Multiple Zones](#Running Multiple Zones):  A single GigaSpaces runtime environment spans all servers, where each group of GigaSpaces containers (across several machines) are labeled with a specific Zone.  You may have multiple Zones used by different containers on the same server. For example, have on server A two containers labeled with zoneX and four containers labeled with zoneY and on server B two containers labeled with zoneX and four containers labeled with zoneY.
+1. Outside of XAP:  Dedicated hardware for each group, each set of servers runs an independent XAP runtime environment (aka Service Grid) without sharing the same server between different groups.  This naive approach is good for simple or temporary scenarios. In this case each XAP runtime environment is isolated from each other using [different LOOKUPLOCATORS](#RunningMultipleLocators) or [different LOOKUPGROUPS](#RunningMultipleGroups) value.
+
+2. [Using Multiple Zones](#RunningMultipleZones):  A single XAP runtime environment spans all servers, where each group of GigaSpaces containers (across several machines) are labeled with a specific Zone.  You may have multiple Zones used by different containers on the same server. For example, have on server A two containers labeled with zoneX and four containers labeled with zoneY and on server B two containers labeled with zoneX and four containers labeled with zoneY.
 At deployment time, application services (aka processing Unit) are deployed using a specific Zone. This instructs the system to provision the services into the corresponding containers.  Use of multiple Zones breaks logically the runtime environment into different segments.
 
-3. [Using Multiple Lookup Groups (multicast lookup discovery)](#Running Multiple Groups):  All servers running multiple GigaSpaces runtime environments, where each GigaSpaces container using a specific Lookup Group when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup group. Use of multiple lookup group breaks logically the Infrastructure into different segments. The Lookup Group value controlled via the `LOOKUPGROUPS` environment variable. When using this option you should make sure multicast is enabled on all machines.
+3. [Using Multiple Lookup Groups (multicast lookup discovery)](#RunningMultipleGroups):  All servers running multiple GigaSpaces runtime environments, where each GigaSpaces container using a specific Lookup Group when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup group. Use of multiple lookup group breaks logically the Infrastructure into different segments. The Lookup Group value controlled via the `LOOKUPGROUPS` environment variable. When using this option you should make sure multicast is enabled on all machines.
 
-4. [Using Multiple Lookup Locators (unicast lookup discovery)](#Running Multiple Locators): All servers running multiple GigaSpaces runtime environments, where each GigaSpaces container using a specific Lookup locator when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup locator. Use of multiple lookup locators breaks logically the Infrastructure into different segments. If you have multiple lookup services running on the same server, each will use a different listening port. You may control this port using the `com.sun.jini.reggie.initialUnicastDiscoveryPort` system property. The Lookup Locators value controlled via the `LOOKUPLOCATORS` environment variable.
+4. [Using Multiple Lookup Locators (unicast lookup discovery)](#RunningMultipleLocators): All servers running multiple GigaSpaces runtime environments, where each GigaSpaces container using a specific Lookup locator when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup locator. Use of multiple lookup locators breaks logically the Infrastructure into different segments. If you have multiple lookup services running on the same server, each will use a different listening port. You may control this port using the `com.sun.jini.reggie.initialUnicastDiscoveryPort` system property. The Lookup Locators value controlled via the `LOOKUPLOCATORS` environment variable.
 
-5. Using a shared GigaSpaces runtime environment: A single GigaSpaces runtime environment spans all servers, with no use of Zones or Lookup Groups/Locators.   Application services share the servers and allocation done in a random manner without using any pre-defined segmentation.
+5. Using a shared XAP runtime environment: A single XAP runtime environment spans all servers, with no use of Zones or Lookup Groups/Locators.   Application services share the servers and allocation done in a random manner without using any pre-defined segmentation.
 
-For any of the above options, GigaSpaces exposes the ability to control a deployed application service in run-time, such that new application service instances can be created or existing instances can be relocated.   This tight operational control enables even more creative resource sharing possibilities.
+For any of the above options, XAP exposes the ability to control a deployed application service in run-time, such that new application service instances can be created or existing instances can be relocated.   This tight operational control enables even more creative resource sharing possibilities.
 
 Devising the appropriate resource sharing strategy for your system should consider the breadth of operational requirements and application services' characteristics. For example, two applications with variable load may run into trouble running on a fixed-size shared environment if peak loads coincide.
-GigaSpaces provides consultancy services for the environment planning stage that addresses the above as well as other considerations impacting your environment. For more information see [GigaPro Services](http://www.gigaspaces.com/content/gigapro-full-services-offering-xap-customers)
+XAP provides consultancy services for the environment planning stage that addresses the above as well as other considerations impacting your environment. For more information see [GigaPro Services](http://www.gigaspaces.com/content/gigapro-full-services-offering-xap-customers)
 
 # Binding the Process into a Machine IP Address
 In many cases, the machines that are running GigaSpaces (i.e., a GSA, GSM, or GSC), or running GigaSpaces client applications (e.g., web servers or standalone JVM/.Net/CPP processes) have multiple network cards with multiple IP addresses. To make sure that the GigaSpaces processes or the GigaSpaces client application processes bind themselves to the correct IP addresses - accessible from another machines - you should use the `NIC_ADDR` environment variable, or the [java.rmi.server.hostname](http://docs.oracle.com/javase/7/docs/api/java/rmi/server/package-summary.html) system property. Both should be set to the IP of the machine (one of them in case of a machine with multiple IP addresses). Without having this environment/property specified, in some cases, a client process is not able to be notified of events generated by the GigaSpaces runtime environment or the space.
 
 Examples:
 
-{% highlight java %}
+{%highlight bash %}
 export NIC_ADDR=10.10.10.100
 ./gs-agent.sh &
 {% endhighlight %}
 
-{% highlight java %}
+{% highlight bash %}
  java -Djava.rmi.server.hostname=10.10.10.100 MyApplication
 {% endhighlight %}
 
@@ -58,21 +64,21 @@ With the above approach, you can leverage multiple network cards within the same
 GigaSpaces uses TCP/IP for most of its remote operations. The following components within GigaSpaces require open ports:
 
 {: .table .table-bordered}
-| Service | Description | Configuration Property | Default value |Comment|
-|:--------|:------------|:-----------------------|:--------------|:------|
-|[Lookup Service listening port](/product_overview/the-lookup-service.html) |Used as part of the lookup discovery protocol.|`com.sun.jini.reggie.initialUnicastDiscoveryPort` System property|XAP 6: **4162**{% wbr %}XAP 7: **4164**{% wbr %}XAP 8: **4166** {% wbr %}XAP 9: **4174**| |
-|[LRMI listening port]({%latestadmurl%}/tuning-communication-protocol.html)|Used with client-space and space-space communication. |`com.gs.transport_protocol.lrmi.bind-port` System property. |variable, random| |
-|RMI registry listening port |Used as an alternative directory service.| `com.gigaspaces.system.registryPort` System property|10098 and above.| |
-|Webster listening port|Internal web service used as part of the application deployment process. |`com.gigaspaces.start.httpPort` System property|9813| |
-|[Web UI Agent]({%latestadmurl%}/web-management-console.html)|GigaSpaces Dashboard Web Application. | `com.gs.webui.port` System property|8099| |
+| Service | Description | Configuration Property | Default value |
+|:--------|:------------|:-----------------------|:--------------|
+|[Lookup Service listening port](/product_overview/the-lookup-service.html) |Used as part of the lookup discovery protocol.|`com.sun.jini.reggie.initialUnicastDiscoveryPort` System property|XAP 6: **4162**{% wbr %}XAP 7: **4164**{% wbr %}XAP 8: **4166** {% wbr %}XAP 9: **4174**|
+|[LRMI listening port]({%latestadmurl%}/tuning-communication-protocol.html)|Used with client-space and space-space communication. |`com.gs.transport_protocol.lrmi.bind-port` System property. |variable, random|
+|RMI registry listening port |Used as an alternative directory service.| `com.gigaspaces.system.registryPort` System property|10098 and above.|
+|Webster listening port|Internal web service used as part of the application deployment process. |`com.gigaspaces.start.httpPort` System property|9813|
+|[Web UI Agent]({%latestadmurl%}/web-management-console.html)|GigaSpaces Dashboard Web Application. | `com.gs.webui.port` System property|8099|
 
 Here are examples of how to set different LRMI listening ports for the GS-UI, and another set of ports for the GSA/GSC/GSM/Lookup Service:
 
-{% highlight java %}
+{% highlight bash %}
  export EXT_JAVA_OPTIONS=-Dcom.gs.transport_protocol.lrmi.bind-port=7000-7500
 {% endhighlight %}
 
-{% highlight java %}
+{% highlight bash %}
  export EXT_JAVA_OPTIONS=-Dcom.gs.transport_protocol.lrmi.bind-port=8000-8100
 {% endhighlight %}
 
@@ -84,11 +90,17 @@ When there are several GSCs running on the same machine, or several servers runn
 
 # Client LRMI Connection Pool and Server LRMI Connection Thread Pool
 
-The [GigaSpaces LRMI]({%latestadmurl%}/tuning-communication-protocol.html) uses two independent resource pools working collaboratively allowing a client to communicate with a server in a scalable manner. The client connection pool is configured via the `com.gs.transport_protocol.lrmi.max-conn-pool` and a server connection thread pool is configured via the `com.gs.transport_protocol.lrmi.max-threads`, both should be configured on the server side as system properties. You may configure these two pools' sizes and their resource timeouts to provide maximum throughput and low latency when a client communicates with a server. The default LRMI behavior will open a different connection at the client side and start a connection thread at the server side, once a multithreaded client accesses a server component. All client connections may be shared between all the client threads when communicating with the server. All server side connection threads may be shared between all client connections.
+{%section%}
+{%column width=70% %}
+The [XAP LRMI]({%latestadmurl%}/tuning-communication-protocol.html) uses two independent resource pools working collaboratively allowing a client to communicate with a server in a scalable manner. The client connection pool is configured via the `com.gs.transport_protocol.lrmi.max-conn-pool` and a server connection thread pool is configured via the `com.gs.transport_protocol.lrmi.max-threads`, both should be configured on the server side as system properties. You may configure these two pools' sizes and their resource timeouts to provide maximum throughput and low latency when a client communicates with a server.
+{%endcolumn%}
+{%column width=30% %}
+{%popup /attachment_files/sbp/lrmi_archi2.jpg%}
+{% endcolumn%}
+{%endsection%}
 
-{% indent %}
-[<img src="/attachment_files/sbp/lrmi_archi2.jpg" width="120" height="80">](/attachment_files/sbp/lrmi_archi2.jpg)
-{% endindent %}
+The default LRMI behavior will open a different connection at the client side and start a connection thread at the server side, once a multithreaded client accesses a server component. All client connections may be shared between all the client threads when communicating with the server. All server side connection threads may be shared between all client connections.
+
 
 ## Client LRMI Connection Pool
 The client LRMI connection pool is maintained per server component - i.e. by each space partition. For each space partition a client maintains a dedicated connection pool shared between all client threads accessing a specific partition. When having multiple partitions (N) hosted within the same GSC, a client may open maximum of `N * com.gs.transport_protocol.lrmi.max-conn-pool` connections against the GSC JVM process.
@@ -96,13 +108,13 @@ The client LRMI connection pool is maintained per server component - i.e. by eac
 {% tip %}
 You may need to change the `com.gs.transport_protocol.lrmi.max-conn-pool` value (1024) to have a smaller number. The default value might be high for application with multiple partitions.
 
-{% highlight java %}
+{% highlight console %}
 Client total # of open connections = com.gs.transport_protocol.lrmi.max-conn-pool * # of partitions
 {% endhighlight %}
 
 This may result very large amount of connections started at the client side resulting "Too many open files" error. You should increase the OS' max file descriptors amount by calling the following before running the client application (on UNIX):
 
-{% highlight java %}
+{% highlight bash %}
 ulimit -n 65536
 {% endhighlight %}
 
@@ -126,14 +138,14 @@ There are 2 main options for how to discover a lookup service:
 
 To configure the GigaSpaces runtime components (GSA,GSC,GSM,LUS) to use unicast discovery you should set the `LOOKUPLOCATORS` variable:
 
-{% highlight java %}
+{% highlight bash %}
 export LOOKUPLOCATORS=MachineA,MachineB
 ./gs-agent.sh &
 {% endhighlight %}
 
 To configure the GigaSpaces runtime components (GSA,GSC,GSM,LUS) to use multicast discovery you should set the `LOOKUPGROUPS` variable:
 
-{% highlight java %}
+{% highlight bash %}
 export LOOKUPGROUPS=Group1,Group2
 ./gs-agent.sh &
 {% endhighlight %}
@@ -174,7 +186,7 @@ If it is running within the GSC, it finds the lookup via the `LOOKUPLOCATORS` or
 .
 Here is a simple configuration you should place within your pu.xml to disable the lookup service startup, disable the space registration with the lookup service, and disable the space registration with the Rmi registry, when the space starts as a PU or running as a standalone:
 
-{% highlight java %}
+{%highlight xml%}
     <os-core:space id="space" url="/./myspace" >
         <os-core:properties>
             <props>
@@ -185,7 +197,7 @@ Here is a simple configuration you should place within your pu.xml to disable th
             </props>
         </os-core:properties>
      </os-core:space>
-{% endhighlight %}
+{%endhighlight%}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
 In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces runtime environment]({%latestadmurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
@@ -206,14 +218,13 @@ A good number for the amount of GSCs a machine should host would be **half of th
 
 ## Configuring the Runtime Environment
 
-![newin71-star.jpg](/attachment_files/sbp/newin71-star.jpg)
 JVM parameters (system properties, heap settings etc.) that are shared between all components are best set using the `EXT_JAVA_OPTIONS` environment variable. However, starting from 7.1.1, specific GSA JVM parameters can be easily passed using `GSA_JAVA_OPTIONS` that will be appended to `EXT_JAVA_OPTIONS`. If `GSA_JAVA_OPTIONS` is not defined, the system will behave as in 7.1.0. As a good practice, one can add all components' environment variables ( `GSA_JAVA_OPTIONS`, `GSM_JAVA_OPTIONS`, `GSC_JAVA_OPTIONS`, `LUS_JAVA_OPTIONS`) within the GSA script, or in a wrapper script and the values will be passed to corresponding components.
 
 {% inittab %}
 
 {% tabcontent Linux %}
 
-{% highlight java %}
+{% highlight bash %}
 #Wrapper Script
 export GSA_JAVA_OPTIONS='-Xmx256m'
 export GSC_JAVA_OPTIONS='-Xmx2048m'
@@ -228,7 +239,7 @@ export LUS_JAVA_OPTIONS='-Xmx1024m'
 
 {% tabcontent Windows %}
 
-{% highlight java %}
+{% highlight bash %}
 @rem Wrapper Script
 @set GSA_JAVA_OPTIONS=-Xmx256m
 @set GSC_JAVA_OPTIONS=-Xmx2048m
@@ -243,96 +254,102 @@ call gs-agent.bat
 
 {% endinittab %}
 
+{%anchor RunningMultipleGroups %}
+
 ## Running Multiple Groups
 You may have a set of LUS/GSM managing GSCs associated to a specific group. Let's assume you would like to "break" your network into 2 groups. Here is how you should start the GigaSpaces runtime environment:
 
-1. Run gs-agent starting LUS/GSM with GroupX:
-
-{% highlight java %}
+{%accordion id=acc3%}
+{%accord parent=acc3 | title=Step 1. Run gs-agent starting LUS/GSM with GroupX: %}
+{% highlight bash %}
 export LOOKUPGROUPS=GroupX
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-
-2. Run gs-agent that will start GSCs with GroupX (4 GGCs with this example):
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc3 | title=Step 2. Run gs-agent that will start GSCs with GroupX (4 GGCs with this example): %}
+{% highlight bash %}
 export LOOKUPGROUPS=GroupX
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 4
 {% endhighlight %}
-
-3. Run gs-agent starting LUS/GSM with GroupY:
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc3 | title=Step 3. Run gs-agent starting LUS/GSM with GroupY: %}
+{% highlight bash %}
 export LOOKUPGROUPS=GroupX
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-
-4. Run gs-agent that will start GSCs with GroupY (2 GGCs with this example):
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc3 | title=Step 4. Run gs-agent that will start GSCs with GroupY (2 GGCs with this example): %}
+{% highlight bash %}
 export LOOKUPGROUPS=GroupY
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
 {% endhighlight %}
-
-5. Deploy a space into GroupX GSCs
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc3 | title=Step 5. Deploy a space into GroupX GSCs %}
+{% highlight bash %}
 export LOOKUPGROUPS=GroupX
 gs deploy-space -cluster schema=partitioned total_members=4 spaceX
 {% endhighlight %}
-
-6. Deploy a space into GroupY GSCs
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc3 | title=Step 6. Deploy a space into GroupY GSCs%}
+{% highlight bash %}
 export LOOKUPGROUPS=GroupY
 gs deploy-space -cluster schema=partitioned total_members=2 spaceY
 {% endhighlight %}
+{%endaccord%}
+{%endaccordion%}
+
+<br>
+
+{% anchor RunningMultipleLocators%}
 
 ## Running Multiple Locators
 You may have a set of LUS/GSM managing GSCs associated to a specific locator. Let's assume you would like to "break" your network into 2 groups using different lookup locators. Here is how you should start the GigaSpaces runtime environment:
 
-Step 1. Run gs-agent starting LUS/GSM with a lookup service listening on port 8888:
-{% highlight java %}
+{%accordion id=acc1 %}
+{%accord parent=acc1 | title=Step 1. Run gs-agent starting LUS/GSM with a lookup service listening on port 8888:%}
+{% highlight bash %}
 export LUS_JAVA_OPTIONS=-Dcom.sun.jini.reggie.initialUnicastDiscoveryPort=8888
 export LOOKUPLOCATORS=127.0.0.1:8888
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-
-Step 2. Run gs-agent that will start GSCs using the lookup listening on port 8888 (4 GGCs with this example):
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc1 | title=Step 2. Run gs-agent that will start GSCs using the lookup listening on port 8888 (4 GGCs with this example):%}
+{% highlight bash %}
 export LOOKUPLOCATORS=127.0.0.1:8888
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 4
 {% endhighlight %}
-
-Step 3. Run gs-agent starting LUS/GSM with a lookup service listening on port 9999:
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc1 | title=Step 3. Run gs-agent starting LUS/GSM with a lookup service listening on port 9999:%}
+{% highlight bash %}
 export LUS_JAVA_OPTIONS=-Dcom.sun.jini.reggie.initialUnicastDiscoveryPort=9999
 export LOOKUPLOCATORS=127.0.0.1:8888
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
+{%endaccord%}
+{%accord parent=acc1 | title=Step 4. Run gs-agent that will start GSCs using the lookup listening on port 9999 (2 GGCs with this example):%}
 
-Step 4. Run gs-agent that will start GSCs using the lookup listening on port 9999 (2 GGCs with this example):
-{% highlight java %}
+{% highlight bash %}
 export LOOKUPLOCATORS=127.0.0.1:9999
 export EXT_JAVA_OPTIONS=-Dcom.gs.multicast.enabled=false
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
 {% endhighlight %}
-
-Step 5. Deploy a space using lookup listening on port 8888
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc1 | title=Step 5. Deploy a space using lookup listening on port 8888:%}
+{% highlight bash %}
 export LOOKUPLOCATORS=127.0.0.1:8888
 gs deploy-space -cluster schema=partitioned total_members=4 spaceX
 {% endhighlight %}
-
-Step 6. Deploy a space using lookup listening on port 9999
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc1 | title=Step 6. Deploy a space using lookup listening on port 9999%}
+{% highlight bash %}
 export LOOKUPLOCATORS=127.0.0.1:9999
 gs deploy-space -cluster schema=partitioned total_members=2 spaceY
 {% endhighlight %}
+{%endaccord%}
+{%endaccordion%}
 
 {% tip %}
 On top of the Lookup service, there is also an alternative way to export the space proxy - it is done via the RMI registry (JNDI). It is started by default within any JVM running a GSC/GSM. By default, the port used is 10098 and above. This option should be used only in special cases where somehow there is no way to use the default lookup service. Since this is the usual RMI registry, it suffers from known problems, such as being non-distributed, non-highly-available, etc.
@@ -341,10 +358,18 @@ On top of the Lookup service, there is also an alternative way to export the spa
 The lookup service runs by default as a standalone JVM process started by the GSA. You can also embed it to run together with the GSM. In general, you should run 2 lookup services per system. Running more than 2 lookup services may cause an overhead, due to the chatting and heartbeat mechanism performed between the services and the lookup service, to signal the existence of the service.
 
 # Zones
-The [GigaSpaces Zone]({%latestjavaurl%}/configuring-the-processing-unit-sla.html) allows you to "label" a running GSC(s) before starting it. The GigaSpaces **Zone** should be used to isolate applications and a Data-Grid running on the same network. It has been designed to allow users to deploy a processing unit into specific set of GSCs where all these **sharing the same set of LUSs and GSMs**.
+
+{%section%}
+{%column width=70% %}
+The [XAP Zone]({%latestjavaurl%}/configuring-the-processing-unit-sla.html) allows you to "label" a running GSC(s) before starting it. The XAP **Zone** should be used to isolate applications and a Data-Grid running on the same network. It has been designed to allow users to deploy a processing unit into specific set of GSCs where all these **sharing the same set of LUSs and GSMs**.
+{%endcolumn%}
+{%column width=30% %}
+{%popup /sbp/attachment_files/zones.jpg %}
+{%endcolumn%}
+{%endsection%}
 
 The **Zone** property can be used for example to deploy your Data-Grid into a specific GSC(s) labeled with specific zone(s). The zone is specified prior to the GSC startup, and cannot be changed once the GSC has been started.
-![zones.jpg](/attachment_files/sbp/zones.jpg)
+
 
 {% tip %}
 You should make sure you have an adequate number of GSCs running, prior to deploying an application whose SLA specified a specific zone.
@@ -352,38 +377,46 @@ You should make sure you have an adequate number of GSCs running, prior to deplo
 
 To use Zones when deploying your PU you should:
 
-Step 1. Start the GSC using the `com.gs.zones` system property. Example:
+{%accordion id=acc4%}
+{%accord parent=acc4 | title=Step 1. Start the GSC using the `com.gs.zones` system property. Example: %}
 
-{% highlight java %}
+{% highlight bash %}
 export EXT_JAVA_OPTIONS=-Dcom.gs.zones=webZone ${EXT_JAVA_OPTIONS}
 gs-agent gsa.gsc 2
 {% endhighlight %}
-
-Step 2. Deploy the PU using the `-zones` option. Example:
-
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc4 | title=Step 2. Deploy the PU using the `-zones` option. Example: %}
+{% highlight bash %}
 gs deploy -zones webZone myWar.war
 {% endhighlight %}
+{%endaccord%}
+{%endaccordion%}
+<br>
+
+{%anchor RunningMultipleZones%}
 
 ## Running Multiple Zones
 You may have a set of LUS/GSM managing multiple zones (recommended) or have a separate LUS/GSM set per zone. In such a case (set of LUS/GSM managing multiple zones) you should run these in the following manner:
 
-Step 1. Run gs-agent on the machines you want to have the LUS/GSM:
-{% highlight java %}
+{%accordion id=acc0%}
+{%accord parent=acc0| title=Step 1. Run gs-agent on the machines you want to have the LUS/GSM:%}
+{% highlight bash %}
 gs-agent.sh gsa.global.lus 0 gsa.lus 1 gsa.global.gsm 0 gsa.gsm 1 gsa.gsc 0
 {% endhighlight %}
-
-Step 2. Run gs-agent that will start GSCs with zoneX (4 GGCs with this example):
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc0| title=Step 2. Run gs-agent that will start GSCs with zoneX (4 GGCs with this example):%}
+{% highlight bash %}
 export EXT_JAVA_OPTIONS=-Dcom.gs.zones=zoneX ${EXT_JAVA_OPTIONS}
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 4
 {% endhighlight %}
-
-Step 3. Run gs-agent that will start GSCs with zoneY (2 GGCs with this example):
-{% highlight java %}
+{%endaccord%}
+{%accord parent=acc0| title=Step 3. Run gs-agent that will start GSCs with zoneY (2 GGCs with this example):%}
+{% highlight bash %}
 export EXT_JAVA_OPTIONS=-Dcom.gs.zones=zoneY ${EXT_JAVA_OPTIONS}
 gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
 {% endhighlight %}
+{%endaccord%}
+{%endaccordion%}
 
 Note that with XAP 7.1.1 new variables provided that allows you to set different JVM arguments for GSC,GSM,LUS,GSA separately (GSA_JAVA_OPTIONS , GSC_JAVA_OPTIONS , GSM_JAVA_OPTIONS , LUS_JAVA_OPTIONS).
 
@@ -413,10 +446,17 @@ To avoid the need to load the same library into each PU instance classloader run
 {% endtip %}
 
 # JVM Tuning
+
+{%section%}
+{%column width=70% %}
 In most cases, the applications using GigaSpaces are leveraging machines with very fast CPUs, where the amount of temporary objects created is relatively large for the JVM garbage collector to handle with its default settings. This means careful tuning of the JVM is very important to ensure stable and flawless behavior of the application.
 
 Below represents the different XAP processes a virtual or a physical machine may run:
-[<img src="/sbp/attachment_files/jvm-vm-memory.jpg" width="120" height="80">](/sbp/attachment_files/jvm-vm-memory.jpg)
+{%endcolumn%}
+{%column width=30% %}
+{%popup /sbp/attachment_files/jvm-vm-memory.jpg%}
+{%endcolumn%}
+{%endsection%}
 
 - GSA - Very lightweight process in terms of its memory and CPU usage. This process does not require any tuning. You should have one per machine or in some cases one per Zone.
 - GSC - The runtime environment. This is where the data grid and the deployed processing units are running. This process requires the relevant tuning to address the memory capacity required. Number of GSCs should not exceed: `Total # of cores / 4`. With virtual machine setup you should have one GSC per VM. 
@@ -425,12 +465,12 @@ Below represents the different XAP processes a virtual or a physical machine may
 - ESM - Lightweight process. Does not require any tuning unless you have very large cluster (over 100 nodes). You should have one of this per XAP grid.
 
 
-{% highlight java %}
+{% highlight bash %}
 XAP VM Memory size = 
 Guest OS Memory + JVM Memory for all GSCs + JVM Memory for GSM + JVM Memory for LUS + JVM Memory for ESM
 {% endhighlight %}
 
-{% highlight java %}
+{% highlight bash %}
 JVM Memory for a GSC = 
 JVM Max Heap (-Xmx value) + JVM Perm Size (-XX:MaxPermSize) + NumberOfConcurrentThreads * (-Xss) + “extra memory”
 {% endhighlight %}
@@ -446,7 +486,7 @@ In many cases you may need to calculate the Space Object Footprint. The object f
 - The object UID size - the UID is a string-based field, and consumes about 35 characters. You might have the object UID based on your own unique ID.
 
 The actual footprint depends on the amount of indexed fields and the data distribution. Each index consumes:
-{% highlight java %}
+{% highlight bash %}
 120 Bytes  + index value size + (number of object instances  with this indexed value X 16)
 {% endhighlight %}
 
@@ -454,9 +494,9 @@ The actual footprint depends on the amount of indexed fields and the data distri
 
 The best way to determine the exact footprint is via a simple test that allows you to perform some extrapolation when running the application in production. Here is how you should calculate the footprint:
 
-Step 1. Start a single IMDG instance.
-Step 2. Take a measurement of the free memory (use JConsole or jmap).
-Step 3. Write a sample number of objects into the IMDG (have a decent number of objects written - 100,000 is a good number).
+Step 1. Start a single IMDG instance.<br>
+Step 2. Take a measurement of the free memory (use JConsole or jmap).<br>
+Step 3. Write a sample number of objects into the IMDG (have a decent number of objects written - 100,000 is a good number).<br>
 Step 4. Measure the free memory again.
 
 This test should give good understanding of the object footprint within the IMDG. Don’t forget that if you have a backup instance running, the amount of memory you will need to accommodate for your objects, is double.
@@ -492,7 +532,7 @@ These settings are good for cases where you are running a IMDG or when the busin
 ### JDK 1.6
 For JDK 1.6 - CMS mode - good for low latency scenarios:
 
-{% highlight java %}
+{% highlight bash %}
 -server -Xms8g -Xmx8g -Xmn300m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
 -XX:CMSInitiatingOccupancyFraction=60 -XX:+UseCMSInitiatingOccupancyOnly
 -XX:MaxPermSize=256m -XX:+ExplicitGCInvokesConcurrent -XX:+UseCompressedOops
@@ -502,14 +542,13 @@ For JDK 1.6 - CMS mode - good for low latency scenarios:
 ### JDK 1.7/1.8
 
 For JDK 1.7/1.8 - g1 mode - good for low latency scenarios:
-{% highlight java %}
+{% highlight bash %}
 -server -Xms8g -Xmx8g -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:InitiatingHeapOccupancyPercent=50 -XX:+UseCompressedOops
 {% endhighlight %}
 
 Advanced options for JDK 1.7 with suggested values provided:
-{% highlight java %}
--XX:MaxTenuringThreshold=25 -XX:ParallelGCThreads=8 -XX:ConcGCThreads=8
--XX:G1ReservePercent=10 -XX:G1HeapRegionSize=32m
+{% highlight bash %}
+-XX:MaxTenuringThreshold=25 -XX:ParallelGCThreads=8 -XX:ConcGCThreads=8 -XX:G1ReservePercent=10 -XX:G1HeapRegionSize=32m
 {% endhighlight %}
 
 {% tip %}
@@ -522,7 +561,7 @@ JROCKIT -XXexitOnOutOfMemory
 The threads stack size many times should be tuned. Its default size may be too high. In Java SE 6, the default on Sparc is 512k in the 32-bit VM, and `1024k` in the 64-bit VM. On x86 Solaris/Linux it is `320k` in the 32-bit VM and 1024k in the 64-bit VM.
 On Windows, the default thread stack size is read from the binary (java.exe). As of Java SE 6, this value is 320k in the 32-bit VM and 1024k in the 64-bit VM.
 You can reduce your stack size by running with the -Xss option. For example:
-{% highlight java %}
+{% highlight bash %}
 java -server -Xss64k
 {% endhighlight %}
 
@@ -536,7 +575,7 @@ com.gs.transport_protocol.lrmi.maxBufferSize X com.gs.transport_protocol.lrmi.ma
 {% endhighlight %}
 
 For example - with default `maxBufferSize` size and 100 threads :
-{% highlight java %}
+{% highlight bash %}
 64k X 100 = 6400KB = 6.4MB
 {% endhighlight %}
 
@@ -557,7 +596,7 @@ It is highly recommended that you use the latest JDK release when using these op
 ## Capture Detailed Garbage Collection stats
 To capture the detailed information about garbage collection and how it is performing, add following parameters to JVM settings:
 
-{% highlight java %}
+{% highlight bash %}
 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:/path/to/log/directory/gc-log-file.log
 {% endhighlight %}
 
@@ -568,7 +607,7 @@ Modify the path and file names appropriately. You will need to use a different f
 ## Soft References LRU Policy
 In the attempt to provide the highest level of performance possible, GigaSpaces takes advantage of features in the Java language that allows for effective caching in the face of memory demands. In particular, the [SoftReference](http://docs.oracle.com/javase/6/docs/api/java/lang/ref/SoftReference.html) class is used to store data up until there is a need for explicit garbage collection, at which point the data stored in soft references will be collected if possible. The system default is 1000, which represents the amount of time (in milliseconds) they will survive past their last reference. `-XX:SoftRefLRUPolicyMSPerMB` is the parameter that allows you to determine how much data is cached by allowing the JVM to control how long it endures; A recommended setting this value to **500** in active, dynamic systems:
 
-{% highlight java %}
+{% highlight bash %}
 -XX:SoftRefLRUPolicyMSPerMB=500
 {% endhighlight %}
 
@@ -577,7 +616,7 @@ The above means that softly reachable objects will remain alive for 500 millisec
 ## Permanent Generation Space
 For applications that are using relatively large amount of third party libraries (PU using large amount of jars) the default permanent generation space size may not be adequate. In such a case, you should increase the permanent generation space size and please also refer to the suggested parameters above that should be used together with the other CMS parameters (-XX:+CMSClassUnloadingEnabled). Here are a suggested values:
 
-{% highlight java %}
+{% highlight bash %}
 -XX:PermSize=512m -XX:MaxPermSize=512m
 {% endhighlight %}
 
@@ -598,7 +637,7 @@ When running with `ALL_IN_CACHE`, the memory management:
 
 When running with `ALL_IN_CACHE`, you should make sure the default memory management parameters are tuned according the JVM heap size. A large heap size (over 2 G RAM) requires special attention. Here is an example of memory manager settings for a **10 G heap size**:
 
-{% highlight java %}
+{% highlight xml %}
 <os-core:space id="space" url="/./mySpace" >
     <os-core:properties>
         <props>
@@ -614,7 +653,7 @@ When running with `ALL_IN_CACHE`, you should make sure the default memory manage
 # Local Cache
 The [local cache]({%latestjavaurl%}/local-cache.html) is used as a client side cache that stores objects the client application reads from the space. It speeds up repeated read operations of the same object. The `readById`/`readByIds` operation has a special optimization with a local cache that speeds up the retrieval time of the object from the local cache, in the case that it is already cached. The local cache evicts objects once a threshold is met. When there is a client application with a large heap size, you might want to configure the local cache eviction parameters to control the eviction behavior:
 
-{% highlight java %}
+{% highlight xml %}
 <os-core:space id="space" url="jini://*/*/mySpace" />
 
 <os-core:local-cache id="localCacheSpace" space="space" update-mode="PULL" >
@@ -651,7 +690,7 @@ Without setting the `max-instances-per-vm` and the `max-instances-per-machine`, 
 
 Here is an example of how you should deploy a Data-Grid with 4 partitions, with a backup per partition (total of 8 spaces), where you have 2 spaces per GSC, and the primary and backup are not running on the same box (even when you have other GSCs running):
 
-{% highlight java %}
+{% highlight bash %}
 gs deploy-space -cluster schema=partitioned-sync2backup total_members=4,1
 	-max-instances-per-vm 2  -max-instances-per-machine 1 MySpace
 {% endhighlight %}
@@ -700,7 +739,7 @@ The number of logical partitions is determined at deploy time, but the amount of
 
 {% endcomment %}
 
-# Storage Type - Controling Serialization
+# Storage Type - Controlling Serialization
 
 When a client application accessing a remote space (using a clustered topology or non-clustered) the data is serialized and sent over the network to the relevant JVM hosting the target space partition. The serialization involves some overhead. The [Storage Type]({%latestjavaurl%}/storage-types---controlling-serialization.html) decoration allows you to control the serialization behavior when non-primitive fields used with your space class.
 
@@ -737,7 +776,7 @@ See the [Controlling Serialization]({%latestjavaurl%}/storage-types---controllin
 # Runtime Files Location
 GigaSpaces generates some files while the system is running. You should change the location of the generated files location using the following system properties. See below how:
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | System Property | Description | Default |
 |:----------------|:------------|:--------|
 |`com.gigaspaces.logger.RollingFileHandler.filename-pattern`|The location of log files and their file pattern.| `<gigaspaces-xap root>\logs`|
@@ -749,17 +788,19 @@ GigaSpaces generates some files while the system is running. You should change t
 |`com.gigaspaces.grid.gsa.config-directory`|The location of the GSA configuration files. [The GigaSpaces Agent](/product_overview/service-grid.html#gsa) (GSA) manages different process types. Each process type is defined within this folder in an xml file that identifies the process type by its name. |`<gigaspaces-xap root>\config\gsa`|
 |`java.util.logging.config.file`| It indicates file path to the Java logging file location. Use it to enable finest logging troubleshooting of various GigaSpaces Services. You may control this setting via the `GS_LOGGING_CONFIG_FILE_PROP` environment variable.| `<gigaspaces-xap root>\config\gs_logging.properties`|
 
-{% exclamation %} The `com.gigaspaces.lib.platform.ext` and the `com.gs.pu-common` are useful to decrease the deployment time in case your processing unit **contains a lot of 3rd party jars files**. In such case, each GSC will download the processing unit jar file (along with all the jars it depends on) to its local working directory from the GSM, and in case of large deployments spanning tens or hundreds of GSCs this can be quite time consuming. In such cases you should consider **placing the jars on which your processing unit depends on** in a shared location on your network, and then point the `com.gs.pu-common` or `com.gigaspaces.lib.platform.ext` directory to this location.
+{% note %}
+The `com.gigaspaces.lib.platform.ext` and the `com.gs.pu-common` are useful to decrease the deployment time in case your processing unit **contains a lot of 3rd party jars files**. In such case, each GSC will download the processing unit jar file (along with all the jars it depends on) to its local working directory from the GSM, and in case of large deployments spanning tens or hundreds of GSCs this can be quite time consuming. In such cases you should consider **placing the jars on which your processing unit depends on** in a shared location on your network, and then point the `com.gs.pu-common` or `com.gigaspaces.lib.platform.ext` directory to this location.
+{%endnote%}
 
 # Log Files
-GigaSpaces generates log files for each running component . This includes GSA, GSC, GSM, Lookup service and client side. By default, these are created within the `<gigaspaces-xap-root>\logs` folder. After some time you might end up with a large number of files that are hard to maintain and search. You should backup old log files or delete these. You can use the [logging backup-policy]({%latestadmurl%}/logging-backing-custom-policy.html) to manage your log files.
+XAP generates log files for each running component . This includes GSA, GSC, GSM, Lookup service and client side. By default, these are created within the `<gigaspaces-xap-root>\logs` folder. After some time you might end up with a large number of files that are hard to maintain and search. You should backup old log files or delete these. You can use the [logging backup-policy]({%latestadmurl%}/logging-backing-custom-policy.html) to manage your log files.
 
 # Hardware Selection
 The general rule when selecting the HW to run GigaSpaces would be: The faster the better. Multi-core machines with large amount of memory would be most cost effective since these will allow GigaSpaces to provide ultimate performance leveraging large JVM heap size handling simultaneous requests with minimal thread context switch overhead.
 
 Running production systems with 30G-50G heap size is doable with some JVM tuning when leveraging multi-core machines. The recommended HW is [Intel Xeon Processor 5600 Series](http://ark.intel.com/ProductCollection.aspx?series=47915). Here is an example for [recommended server configuration](http://www.cisco.com/en/US/products/ps10280/prod_models_comparison.html):
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 |Model|Cisco UCS B200 M2 Blade Server|Cisco UCS B250 M2 Extended Memory Blade Server|
 |:----|:----------------------------:|:--------------------------------------------:|
 |Processor Sockets|2|2|
@@ -804,7 +845,8 @@ Other considerations:
 ## VM Tuning Guidelines
 
 To determine the VM memory configuration, lets assume you are using Linux/Windows OS 64 Bit with no other significant process running on it (only XAP), where 2 XAP GSCs consume 60GB (30GB each), LUS and GSM consume 0.5GB each and the guest OS consumes 2GB. The total configured memory for the virtual machine would be:
-{% highlight java %}
+
+{% highlight bash %}
 VM memory for XAP VM = (2 X 30GB) + (2 X 0.5GB) + 2GB = 63GB
 {% endhighlight %}
 
@@ -846,11 +888,11 @@ VMware HA should be disabled on virtual machines running XAP. If this is a dedic
 - [Workloads in vSphere VMs](http://www.vmware.com/resources/techresources/10220)
 
 # OS Considerations
-In general, GigaSpaces runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
+In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
 
 
 ## File Descriptors
-The GigaSpaces LRMI layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used.
+The XAP LRMI layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used.
 
 You might have multiple JVMs running on the machine. This might need to increase the default max user processes value.
 
@@ -858,13 +900,13 @@ The Linux OS by default has a relatively small number of file descriptors availa
 
 Setting the **max open file descriptors** and **max user processes** is done via the following call:
 
-{% highlight java %}
+{% highlight bash %}
 ulimit -n 32768 -u 32768
 {% endhighlight %}
 
 Alternatively, you should have the following files updated:
 
-{% highlight java %}
+{% highlight bash %}
 /etc/security/limits.conf
 
 - soft    nofile          32768
@@ -875,3 +917,10 @@ Alternatively, you should have the following files updated:
 - soft nproc 32768
 {% endhighlight %}
 
+
+You can monitor the MaxFileDescriptorCount and OpenFileDescriptorCount with the JConsole:
+
+![jmx-file-descriptors.png](/sbp/attachment_files/jmx-file-descriptors.png)
+
+
+{%learn%}{%latestadmurl%}/space-jmx-management.html{%endlearn%}
