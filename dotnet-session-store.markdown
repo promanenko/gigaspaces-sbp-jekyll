@@ -35,7 +35,7 @@ The GigaSpaces XAP.NET ASP.NET Session State Store architecture allows users to 
 With this solution, there is no need to deploy a database to store the session, so you avoid the use of expensive database replication across multiple sites. Setting up GigaSpaces for session sharing between each site is simple and does not involve any code changes to the application.
 {%endcolumn%}
 {%column width=30% %}
-{%youtube jAFZIpzdGb0 | XAP.NET ASP.NET Session State Store %}
+{%youtube fgXdQhPkXBQ | XAP.NET ASP.NET Session State Store %}
 {%endcolumn%}
 {%endsection%}
 
