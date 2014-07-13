@@ -922,5 +922,3 @@ You can monitor the MaxFileDescriptorCount and OpenFileDescriptorCount with the 
 
 ![jmx-file-descriptors.png](/sbp/attachment_files/jmx-file-descriptors.png)
 
-
-{%learn%}{%latestadmurl%}/space-jmx-management.html{%endlearn%}
