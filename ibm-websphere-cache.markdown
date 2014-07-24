@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  IBM WebSphere Cache Integration
+title:  XAP Websphere Dynamic Caching
 categories: SBP
 parent: data-access-patterns.html
 weight: 30000
