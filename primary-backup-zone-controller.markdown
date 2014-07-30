@@ -40,9 +40,9 @@ The Primary-Backup Zone Controller can be deployed as a PU or run as a stand-alo
 
 The example below will show how to use the Primary-Backup Zone Controller to place all primary instances on Zone A and all backup instances on Zone B. We will start GSCs with 3 zones, deploy a data-grid and use the Primary-Backup Zone Controller to execute the relocation activity.
 
-1. Download the [Primary-Backup Zone Controller](/attachment_files/sbp/PrimaryBackupZoneController.zip) and extract it into an empty folder. You will find the source under the `src` folder and the compiled code under the `bin` folder.
+Step 1. Download the [Primary-Backup Zone Controller](/attachment_files/sbp/PrimaryBackupZoneController.zip) and extract it into an empty folder. You will find the source under the `src` folder and the compiled code under the `bin` folder.
 
-2. Start LUS and GSM:
+Step 2. Start LUS and GSM:
 
 {% inittab 1|top %}
 
@@ -64,7 +64,7 @@ gs-agent gsa.gsc 0 gsa.lus 1 gsa.gsm 1
 
 {% endinittab %}
 
-3. Start Zone A:
+Step 3. Start Zone A:
 
 {% inittab 3|top %}
 
@@ -88,7 +88,7 @@ export GSC_JAVA_OPTIONS=-Dcom.gs.zones="A"
 
 {% endinittab %}
 
-4. Start Zone B:
+Step 4. Start Zone B:
 
 {% inittab 4|top %}
 
@@ -112,7 +112,7 @@ export GSC_JAVA_OPTIONS=-Dcom.gs.zones="B"
 
 {% endinittab %}
 
-5. Start Zone C:
+Step 5. Start Zone C:
 
 {% inittab 5|top %}
 
@@ -136,7 +136,7 @@ export GSC_JAVA_OPTIONS=-Dcom.gs.zones="C"
 
 {% endinittab %}
 
-6. Deploy a Data-Grid:
+Step 6. Deploy a Data-Grid:
 
 {% inittab 6|top %}
 
@@ -158,7 +158,7 @@ gs deploy-space -cluster schema=partitioned-sync2backup total_members=2,1 mySpac
 
 {% endinittab %}
 
-7. Run the Primary-Backup Zone Controller utility:
+Step 7. Run the Primary-Backup Zone Controller utility:
 
 {% inittab 7|top %}
 
