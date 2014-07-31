@@ -384,7 +384,7 @@ The [WAN Gateway]({%latestjavaurl%}/multi-site-replication-over-the-wan.html) sh
 
 ### Securing the XAP IMDG
 
-When using a [Secure XAP cluster]({%latestjavaurl%}/securing-your-data.html) you can pass security credentials using following parameters in the `shiro.ini` file:
+When using a [Secure XAP cluster]({%latestsecurl%}/securing-your-data.html) you can pass security credentials using following parameters in the `shiro.ini` file:
 
 {%highlight console%}
 connector.username = user

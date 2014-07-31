@@ -361,7 +361,7 @@ The lookup service runs by default as a standalone JVM process started by the GS
 
 {%section%}
 {%column width=70% %}
-The [XAP Zone]({%latestjavaurl%}/configuring-the-processing-unit-sla.html) allows you to "label" a running GSC(s) before starting it. The XAP **Zone** should be used to isolate applications and a Data-Grid running on the same network. It has been designed to allow users to deploy a processing unit into specific set of GSCs where all these **sharing the same set of LUSs and GSMs**.
+The [XAP Zone]({%latestadmurl%}/the-sla-overview.html) allows you to "label" a running GSC(s) before starting it. The XAP **Zone** should be used to isolate applications and a Data-Grid running on the same network. It has been designed to allow users to deploy a processing unit into specific set of GSCs where all these **sharing the same set of LUSs and GSMs**.
 {%endcolumn%}
 {%column width=30% %}
 {%popup /sbp/attachment_files/zones.jpg %}
@@ -625,7 +625,7 @@ For applications that are using relatively large amount of third party libraries
 See the [Tuning Java Virtual Machines]({%latestadmurl%}/tuning-java-virtual-machines.html) section and the [Java SE 6 HotSpot Virtual Machine Garbage Collection Tuning](http://java.sun.com/javase/technologies/hotspot/gc/gc_tuning_6.html) for detailed JVM tuning recommendations.
 
 # Space Memory Management
-The Space supports two [Memory Management]({%latestjavaurl%}/memory-management-facilities.html) modes:
+The Space supports two [Memory Management]({%latestadmurl%}/memory-management-facilities.html) modes:
 
 - `ALL_IN_CACHE` - this assumes all application data is stored within the space.
 - `LRU` - this assumes some of the application data is stored within the space, and all the rest is stored in some external data source.
@@ -818,7 +818,7 @@ Running production systems with 30G-50G heap size is doable with some JVM tuning
 Since most of the application activities are conducted in-memory, the CPU speed impacts your application performance fairly drastically. You might have a machine with plenty of CPU cores, but a slow CPU clock speed, which eventually slows down the application or the Data-Grid response time. So as a basic rule, pick the fastest CPU you can find. Since the Data-Grid itself and its container are highly multi-threaded components, it is important to use machines with more than a single core to host the GSC to run your Data-Grid or application. A good number for the amount of GSCs per machine is half of the total number of cores.
 
 ## Disk
-Prior to XAP 7.1, GigaSpaces Data-Grid did not overflow to a disk, and does not require a large disk space to operate.  Still, log files are generated, and for these you need at least 100M of free disk size per machine running GSC(s). Make sure you delete old log files or move them to some backup location. XAP Data-Grid may overflow data to disk when there is a long replication disconnection or delay, the location of the work directory should be on a local storage at each node in order to make this replication back log data always available to the node, this storage should have enough space to store the replication back log as explained in [Controlling the Replication Redo Log]({%latestjavaurl%}/controlling-the-replication-redo-log.html) page.
+Prior to XAP 7.1, GigaSpaces Data-Grid did not overflow to a disk, and does not require a large disk space to operate.  Still, log files are generated, and for these you need at least 100M of free disk size per machine running GSC(s). Make sure you delete old log files or move them to some backup location. XAP Data-Grid may overflow data to disk when there is a long replication disconnection or delay, the location of the work directory should be on a local storage at each node in order to make this replication back log data always available to the node, this storage should have enough space to store the replication back log as explained in [Controlling the Replication Redo Log]({%latestadmurl%}/controlling-the-replication-redo-log.html) page.
 
 # Virtualized OS
 

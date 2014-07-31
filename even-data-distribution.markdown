@@ -25,9 +25,9 @@ Partitioning refers to distribution across multiple nodes; if all of your data i
 
 # Efficient Partitioning
 
-In Gigaspaces XAP, there are six approaches to partitioning, as discussed on [Data-Partitioning]({%latestjavaurl%}/data-partitioning.html). In order to understand the full scope of partitioning, see the [data-partitioning.html]({%latestjavaurl%}/data-partitioning.html) section.
+In Gigaspaces XAP, there are six approaches to partitioning, as discussed on [Data-Partitioning]({%latestadmurl%}/data-partitioning.html). In order to understand the full scope of partitioning, see the [data-partitioning.html]({%latestadmurl%}/data-partitioning.html) section.
 
-The most common approach to partitioning is, as stated in the [Data-Partitioning]({%latestjavaurl%}/data-partitioning.html) documentation, hash-based partitioning, using an explicit value contained in a data object. This is specified via an annotation:
+The most common approach to partitioning is, as stated in the [Data-Partitioning]({%latestadmurl%}/data-partitioning.html) documentation, hash-based partitioning, using an explicit value contained in a data object. This is specified via an annotation:
 
 {% highlight java %}
 public class MyData {
@@ -44,7 +44,7 @@ public class MyData {
 }
 {% endhighlight %}
 
-The approach for efficient partitioning depends very much on how the data is used. In the case of the `MyData` class above, it's likely that different groups' data will be routed to different partitions (but not **guaranteed** - because it's possible that various groupId values end up with the same partitioning values. As usual, see the [Data-Partitioning]({%latestjavaurl%}/data-partitioning.html) documentation for more detail.)
+The approach for efficient partitioning depends very much on how the data is used. In the case of the `MyData` class above, it's likely that different groups' data will be routed to different partitions (but not **guaranteed** - because it's possible that various groupId values end up with the same partitioning values. As usual, see the [Data-Partitioning]({%latestadmurl%}/data-partitioning.html) documentation for more detail.)
 
 When a task is started to handle all of a specific groupId's data, then the **single** partition holding that data will be involved, which can yield very efficient results; if multiple requests go out to handle different groups (i.e., count all values based on groupId), then the partitions can focus on handling only the groupIds held locally, sending the results back to the original caller. As stated above, this is a representation of the Map/Reduce algorithm, which is documented in [Task Execution over the Space]({%latestjavaurl%}/task-execution-over-the-space.html).
 

@@ -15,7 +15,7 @@ weight: 200
 # Overview
 GigaSpaces being an in memory grid, is limited by the amount of memory allocated to the JVM's that make the cluster. Applications that are built using GigaSpaces and use it as a run time environment should be designed to work with this constraint. This article shows common strategies GigaSpaces applications use for Evicting old objects and make room for new data.
 
-GigaSpaces supports two cache policies, [LRU]({%latestjavaurl%}/lru-cache-policy.html) and [ALL_IN_CACHE]({%latestjavaurl%}/all-in-cache-cache-policy.html). GigaSpace evicts data only in the [LRU]({%latestjavaurl%}/lru-cache-policy.html) mode, where "oldest" objects are evicted from memory when the configured thresholds are reached.
+GigaSpaces supports two cache policies, [LRU]({%latestadmurl%}/lru-cache-policy.html) and [ALL_IN_CACHE]({%latestadmurl%}/all-in-cache-cache-policy.html). GigaSpace evicts data only in the [LRU]({%latestadmurl%}/lru-cache-policy.html) mode, where "oldest" objects are evicted from memory when the configured thresholds are reached.
 
 As the name suggests LRU is "least recently used" data and any data written first into the space become a candidate for eviction when there is no more room in the JVM. This policy works well for [Side Cache scenarios](/product_overview/caching-scenarios.html#cachingscenarios-sideCache) where the purpose of GigaSpaces is to cache frequently used data.
 
@@ -591,11 +591,11 @@ Below is a screenshot of Tenured pool of the JVM,
 
 Applications using External Data Source Integration will need some changes to the eviction functionality. Because of EDS integration the take/clear will remove the data from the database also which might not be intended.
 
-In cases where the Space is using [LRU]({%latestjavaurl%}/lru-cache-policy.html) mode,
+In cases where the Space is using [LRU]({%latestadmurl%}/lru-cache-policy.html) mode,
 
-- Take or clear operation can be triggered using the [TakeModifiers.EVICT_ONLY]({%latestjavaurl%}/lru-cache-policy.html#LRU-CachePolicy-ExplicitEvictionofObjectsfromtheSpace) which will remove the data only from space and not from the DB.
+- Take or clear operation can be triggered using the [TakeModifiers.EVICT_ONLY]({%latestadmurl%}/lru-cache-policy.html#LRU-CachePolicy-ExplicitEvictionofObjectsfromtheSpace) which will remove the data only from space and not from the DB.
 
-In [ALL_IN_CACHE]({%latestjavaurl%}/all-in-cache-cache-policy.html) mode,
+In [ALL_IN_CACHE]({%latestadmurl%}/all-in-cache-cache-policy.html) mode,
 
 - Take or clear operations will remove the data from space and database (in read-write mode), you should use
     - Lease expiration option to remove the entries from the space and free up memory. When you restart the cluster, expired data will get loaded again and fill up the entire cluster. In order to avoid this you have to propagate the lease information into the DB (using the [SpaceLease]({%latestjavaurl%}/modeling-your-data.html) property).
