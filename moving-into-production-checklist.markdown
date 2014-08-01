@@ -19,6 +19,41 @@ weight: 800
 
 {% endtip %}
 
+# OS Considerations
+In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
+
+
+## File Descriptors
+The XAP LRMI layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used.
+
+You might have multiple JVMs running on the machine. This might need to increase the default max user processes value.
+
+The Linux OS by default has a relatively small number of file descriptors available and max user processes (1024). You should make sure that your standalone clients, or GSA/GSM/GSC/LUS using a user account which have its **maximum open file descriptors (open files) and max user processes** configured to a high value. A good value is 32768.
+
+Setting the **max open file descriptors** and **max user processes** is done via the following call:
+
+{% highlight bash %}
+ulimit -n 32768 -u 32768
+{% endhighlight %}
+
+Alternatively, you should have the following files updated:
+
+{% highlight bash %}
+/etc/security/limits.conf
+
+- soft    nofile          32768
+- hard    nofile          32768
+
+/etc/security/limits.d/90-nproc.conf
+
+- soft nproc 32768
+{% endhighlight %}
+
+
+You can monitor the MaxFileDescriptorCount and OpenFileDescriptorCount with the JConsole:
+
+![jmx-file-descriptors.png](/sbp/attachment_files/jmx-file-descriptors.png)
+
 
 # Sharing Grid Management Services Infrastructure
 There are numerous ways allowing different systems/applications/groups to share the same pool of servers (in development or production environment) on the network.  A non-exhaustive list of some of the options is delineated below:
@@ -886,39 +921,4 @@ VMware HA should be disabled on virtual machines running XAP. If this is a dedic
 
 - [Enterprise Java Applications on VMware - Best Practices Guide](http://www.vmware.com/resources/techresources/1087)
 - [Workloads in vSphere VMs](http://www.vmware.com/resources/techresources/10220)
-
-# OS Considerations
-In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
-
-
-## File Descriptors
-The XAP LRMI layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used.
-
-You might have multiple JVMs running on the machine. This might need to increase the default max user processes value.
-
-The Linux OS by default has a relatively small number of file descriptors available and max user processes (1024). You should make sure that your standalone clients, or GSA/GSM/GSC/LUS using a user account which have its **maximum open file descriptors (open files) and max user processes** configured to a high value. A good value is 32768.
-
-Setting the **max open file descriptors** and **max user processes** is done via the following call:
-
-{% highlight bash %}
-ulimit -n 32768 -u 32768
-{% endhighlight %}
-
-Alternatively, you should have the following files updated:
-
-{% highlight bash %}
-/etc/security/limits.conf
-
-- soft    nofile          32768
-- hard    nofile          32768
-
-/etc/security/limits.d/90-nproc.conf
-
-- soft nproc 32768
-{% endhighlight %}
-
-
-You can monitor the MaxFileDescriptorCount and OpenFileDescriptorCount with the JConsole:
-
-![jmx-file-descriptors.png](/sbp/attachment_files/jmx-file-descriptors.png)
 
