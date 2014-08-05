@@ -28,6 +28,7 @@ This [example](/attachment_files/sbp/Mule_Multi_service_Example.zip) illustrates
 
 {% tip %}
 Make sure you have the [libraries required](#Libraries Required) located at the correct location before running the example.
+Alternatively if you are using mule 3.5 you can create you project with the maven templete mule-3.5, it will be created with all the mule jars inside the pu jar so no need to add any required libraries. 
 {% endtip %}
 
 Here are the example components:
@@ -250,18 +251,20 @@ The Approver Service Configuration using a `polling-container` running in a [Non
 
 # Building the Example
 
-Step 1. Have the correct maven bin folder (located at `\gigaspaces-xap-premium-8.0.1\tools\maven\apache-maven-3.0.2\bin`) as part of the `PATH`.
+Step 1. Have the correct maven bin folder (located at `\gigaspaces-xap-premium-10.0.0\tools\maven\apache-maven\bin`) as part of the `PATH`.
 Step 2. Have the GigaSpaces maven plug-in installed. See the [Maven Plugin]({%latestjavaurl%}/maven-plugin.html) for instructions how to install it.
 In general to install the GigaSpaces maven plug-in you should run the following:
 
 {% highlight java %}
 Windows:
-\gigaspaces-xap-premium-8.0.1\tools\maven>installmavenrep.bat
+\gigaspaces-xap-premium-10.0.0\tools\maven>installmavenrep.bat
 Unix:
-\gigaspaces-xap-premium-8.0.1\tools\maven>installmavenrep.sh
+\gigaspaces-xap-premium-10.0.0\tools\maven>installmavenrep.sh
 {% endhighlight %}
 
-Step 3. Download the [example package](/attachment_files/sbp/Mule_Multi_service_Example.zip) and extract it into `Gigaspaces Root\tools\maven`. Once extracted you will have the following folders under `Gigaspaces Root\tools\maven\my-app`:
+Step 3.
+If you are using mule 3.3:
+Download the [example package](/attachment_files/sbp/Mule_Multi_service_Example.zip) and extract it into `Gigaspaces Root\tools\maven`. Once extracted you will have the following folders under `Gigaspaces Root\tools\maven\my-app`:
 
 - common
 - feeder
@@ -269,10 +272,16 @@ Step 3. Download the [example package](/attachment_files/sbp/Mule_Multi_service_
 - verifier
 - monitor
 
+for mule 3.5:
+ 1. create your project with the cmd: 
+{% highlight java %}
+\mvn os:create -DartifactId=<your project name> -Dtemplate=mule-3.5
+{% endhighlight %}
+
 Step 4. To build the example run the following command:
 
 {% highlight java %}
-\gigaspaces-xap-premium-8.0.1\tools\maven\my-app>mvn
+\gigaspaces-xap-premium-10.0.0\tools\maven\my-app>mvn
 {% endhighlight %}
 
 Once the example libraries will be successfully created, you will be able to deploy the example.
@@ -285,15 +294,19 @@ In order to deploy the different Processing unit comprising this example:
 - Use the following commands to deploy the Processing unit libraries:
 
 {% highlight java %}
-\gigaspaces-xap-premium-8.0.1\bin\gs pudeploy -cluster schema=partitioned-sync2backup
+\gigaspaces-xap-premium-10.0.0\bin\gs pudeploy -cluster schema=partitioned-sync2backup 
 	total_members=2,1 -properties embed://dataGridName=space -max-instances-per-vm 1
 	-override-name space /templates/datagrid
 
-\gigaspaces-xap-premium-8.0.1\bin\gs pudeploy ..\tools\maven\my-app\verifier\target\my-app-verifier.jar
-\gigaspaces-xap-premium-8.0.1\bin\gs pudeploy ..\tools\maven\my-app\approver\target\my-app-approver.jar
-\gigaspaces-xap-premium-8.0.1\bin\gs pudeploy ..\tools\maven\my-app\feeder\target\my-app-feeder.jar
+\gigaspaces-xap-premium-10.0.0\bin\gs pudeploy ..\tools\maven\my-app\verifier\target\my-app-verifier.jar
+\gigaspaces-xap-premium-10.0.0\bin\gs pudeploy ..\tools\maven\my-app\approver\target\my-app-approver.jar
+\gigaspaces-xap-premium-10.0.0\bin\gs pudeploy ..\tools\maven\my-app\feeder\target\my-app-feeder.jar
 {% endhighlight %}
 
+with mule 3.5 you can deply from you project with the cmd:
+{% highlight java %}
+\mvn os:deploy -Dgroups=<your jini group>
+{% endhighlight %}
 {% exclamation %} You may find the different Processing Unit libraries under the `target` folder of each Processing Unit.
 
 Once the different processing will be deployed you should have the following displayed as part of the GS-UI:
@@ -371,14 +384,14 @@ The Monitor Service using the following Classes to implement the dynamic scaling
 In order to deploy the Monitor Service run the following:
 
 {% highlight java %}
-\gigaspaces-xap-premium-8.0.1\bin\gs pudeploy ..\tools\maven\my-app\monitor\target\my-app-monitor.jar
+\gigaspaces-xap-premium-10.0.0\bin\gs pudeploy ..\tools\maven\my-app\monitor\target\my-app-monitor.jar
 {% endhighlight %}
 
 ## Testing Dynamic Scalability
 To see how the Verifier Service scale up, deploy the Feeder with 2 instances:
 
 {% highlight java %}
-\gigaspaces-xap-premium-8.0.1\bin\gs pudeploy -cluster total_members=2 ..\tools\maven\my-app\feeder\target\my-app-feeder.jar
+\gigaspaces-xap-premium-10.0.0\bin\gs pudeploy -cluster total_members=2 ..\tools\maven\my-app\feeder\target\my-app-feeder.jar
 {% endhighlight %}
 
 The Monitor Service will increment the amount of verifier instances when there will be 50 ,100, 150 and 200 Data objects with `state=0` within the IMDG.
@@ -396,7 +409,7 @@ select count(*) from com.mycompany.app.common.Data WHERE state='0'
 To scale Down the verifier Service undeploy the Feeder PU.
 
 {% highlight java %}
-\gigaspaces-xap-premium-8.0.1\bin\gs undeploy my-app-feeder
+\gigaspaces-xap-premium-10.0.0\bin\gs undeploy my-app-feeder
 {% endhighlight %}
 
 The Monitor Service will decrement the amount of verifier instances when there will be 50 ,40 30 and 20 Data objects with `state=0` within the IMDG.
