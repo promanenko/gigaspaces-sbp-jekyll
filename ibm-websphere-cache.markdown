@@ -9,16 +9,16 @@ weight: 30000
 {%summary%}{%endsummary%}
 
 {% tip %}
-**Summary:** {% excerpt %}TODO{% endexcerpt %}<br/>
+**Summary:** {% excerpt %}{% endexcerpt %}<br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
-**Recently tested with GigaSpaces version**: TODO <br/>
+**Recently tested with GigaSpaces version**: <br/>
 
 
 {% endtip %}
 
 # Overview
 
-TODO
+
 
 
 

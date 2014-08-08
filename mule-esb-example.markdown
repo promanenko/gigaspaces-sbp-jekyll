@@ -28,7 +28,7 @@ This [example](/attachment_files/sbp/Mule_Multi_service_Example.zip) illustrates
 
 {% tip %}
 Make sure you have the [libraries required](#Libraries Required) located at the correct location before running the example.
-Alternatively if you are using mule 3.5 you can create you project with the maven templete mule-3.5, it will be created with all the mule jars inside the pu jar so no need to add any required libraries. 
+Alternatively if you are using mule 3.5 you can create you project with the maven template mule-3.5, it will be created with all the mule jars inside the pu jar so no need to add any required libraries.
 {% endtip %}
 
 Here are the example components:
@@ -303,7 +303,7 @@ In order to deploy the different Processing unit comprising this example:
 \gigaspaces-xap-premium-10.0.0\bin\gs pudeploy ..\tools\maven\my-app\feeder\target\my-app-feeder.jar
 {% endhighlight %}
 
-with mule 3.5 you can deply from you project with the cmd:
+with mule 3.5 you can deploy from you project with the cmd:
 {% highlight java %}
 \mvn os:deploy -Dgroups=<your jini group>
 {% endhighlight %}

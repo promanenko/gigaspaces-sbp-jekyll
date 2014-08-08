@@ -17,7 +17,7 @@ With many systems such as pricing systems, risk management, trading and other an
 {%endcolumn%}
 {%endsection%}
 
-This best practive demonstrate how to calculate Min, Max, Avg and Sum for objects stored within the space. There is no need to retrieve the entire data set from the space to the client side , iterate the result set and perform the aggregation. This would be an expensive activity as it might return a large amount of data into the client application. 
+This best practice demonstrate how to calculate Min, Max, Avg and Sum for objects stored within the space. There is no need to retrieve the entire data set from the space to the client side , iterate the result set and perform the aggregation. This would be an expensive activity as it might return a large amount of data into the client application.
 
 Custom Aggregators allows you to perform the entire aggregation activity at the space side avoiding any data retrieval back to the client side. Only the result of each aggregation activity performed with each partition is returned back to the client side where all the results are reduced and returned to the client application. Such aggregation activity utilizes the partitioned nature of the data-grid allowing each partition to execute the aggregation with its local data in parallel, where all the partitions intermediate results are fully aggregated at the client side using the relevant reducer implementation.
 
@@ -29,7 +29,7 @@ The following pre-defined aggregators are available:
 |Task|Description|
 |:---|:----------|
 |[AverageTask](https://github.com/GigaSpaces-ProfessionalServices/dotnet-aggregators/blob/master/src/GigaSpaces.Core.Executors/Tasks/AverageTask.cs)|An average operation to be performed on a specific partition in the space.|
-|[MaximumTask](https://github.com/GigaSpaces-ProfessionalServices/dotnet-aggregators/blob/master/src/GigaSpaces.Core.Executors/Tasks/MaximumTask.cs)|A maximum aggregation operartion to be performed on a specific partition in the space.
+|[MaximumTask](https://github.com/GigaSpaces-ProfessionalServices/dotnet-aggregators/blob/master/src/GigaSpaces.Core.Executors/Tasks/MaximumTask.cs)|A maximum aggregation operation to be performed on a specific partition in the space.
 |[MininimumTask](https://github.com/GigaSpaces-ProfessionalServices/dotnet-aggregators/blob/master/src/GigaSpaces.Core.Executors/Tasks/MinimumTask.cs)|A minimum aggregation operation to be performed on a specific partition in the space.|
 |[SumSpacePropertyTask](https://github.com/GigaSpaces-ProfessionalServices/dotnet-aggregators/blob/master/src/GigaSpaces.Core.Executors/Tasks/SumSpacePropertyTask.cs)|A sum performed on a space property in a specific partition in the space.|
 |[SumSpaceObjectTask](https://github.com/GigaSpaces-ProfessionalServices/dotnet-aggregators/blob/master/src/GigaSpaces.Core.Executors/Tasks/SumSpaceObjectTask.cs)|A sum performed on a space object in a specific partition in the space.|
