@@ -222,7 +222,7 @@ If it is running within the GSC, it finds the lookup via the `LOOKUPLOCATORS` or
 Here is a simple configuration you should place within your pu.xml to disable the lookup service startup, disable the space registration with the lookup service, and disable the space registration with the Rmi registry, when the space starts as a PU or running as a standalone:
 
 {%highlight xml%}
-    <os-core:space id="space" url="/./myspace" >
+    <os-core:embedded-space id="space" name="myspace" >
         <os-core:properties>
             <props>
                 <prop key="com.j_spaces.core.container.directory_services.jini_lus.start-embedded-lus">false</prop>
@@ -231,7 +231,7 @@ Here is a simple configuration you should place within your pu.xml to disable th
                 <prop key="com.j_spaces.core.container.embedded-services.httpd.enabled">false</prop>
             </props>
         </os-core:properties>
-     </os-core:space>
+     </os-core:embedded-space>
 {%endhighlight%}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
@@ -673,7 +673,7 @@ When running with `ALL_IN_CACHE`, the memory management:
 When running with `ALL_IN_CACHE`, you should make sure the default memory management parameters are tuned according the JVM heap size. A large heap size (over 2 G RAM) requires special attention. Here is an example of memory manager settings for a **10 G heap size**:
 
 {% highlight xml %}
-<os-core:space id="space" url="/./mySpace" >
+<os-core:embedded-space id="space" name="mySpace" >
     <os-core:properties>
         <props>
             <prop key="space-config.engine.memory_usage.high_watermark_percentage">95</prop>
@@ -682,14 +682,14 @@ When running with `ALL_IN_CACHE`, you should make sure the default memory manage
             <prop key="space-config.engine.memory_usage.low_watermark_percentage">92</prop>
         </props>
     </os-core:properties>
-</os-core:space>
+</os-core:embedded-space>
 {% endhighlight %}
 
 # Local Cache
 The [local cache]({%latestjavaurl%}/local-cache.html) is used as a client side cache that stores objects the client application reads from the space. It speeds up repeated read operations of the same object. The `readById`/`readByIds` operation has a special optimization with a local cache that speeds up the retrieval time of the object from the local cache, in the case that it is already cached. The local cache evicts objects once a threshold is met. When there is a client application with a large heap size, you might want to configure the local cache eviction parameters to control the eviction behavior:
 
 {% highlight xml %}
-<os-core:space id="space" url="jini://*/*/mySpace" />
+<os-core:space-proxy id="space" name="mySpace" />
 
 <os-core:local-cache id="localCacheSpace" space="space" update-mode="PULL" >
     <os-core:properties>

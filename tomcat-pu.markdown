@@ -159,7 +159,7 @@ The `pu.xml` should include:
 <beans 
 	<bean id="tomcat7" class="com.gigaspaces.tomcat.Tomcat7">
 ....
-	<os-core:space id="space" url="/./space" />
+	<os-core:embedded-space id="space" name="space" />
 </beans>
 {%endhighlight%}
 
@@ -176,7 +176,7 @@ The `pu.xml` should include:
 <beans 
 	<bean id="tomcat7" class="com.gigaspaces.tomcat.Tomcat7">
 ....
-	<os-core:space id="space" url="/./space" />
+	<os-core:embedded-space id="space" name="space" />
 </beans>
 {%endhighlight%}
 
@@ -196,7 +196,7 @@ The `pu.xml` should include:
 
 	<bean id="tomcat7" class="com.gigaspaces.tomcat.Tomcat7">
 ....
-	<os-core:space id="space" url="jini://*/*/space" />
+	<os-core:space-proxy id="space" name="space" />
 	<os-core:local-cache id="localCacheSpace" space="space">
 		<os-core:properties>
 		<props>

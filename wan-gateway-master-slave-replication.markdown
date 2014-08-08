@@ -72,7 +72,7 @@ The master-slave topology configuration is simply implemented through delegators
 
 	<os-events:annotation-support />
 
-	<os-core:space id="space" url="/./wanSpaceUS" gateway-targets="gatewayTargets" />
+	<os-core:embedded-space id="space" name="wanSpaceUS" gateway-targets="gatewayTargets" />
 	<os-core:giga-space id="gigaSpace" space="space" />
 
 	<os-core:giga-space-context />
@@ -143,7 +143,7 @@ The master-slave topology configuration is simply implemented through delegators
 
 	<os-events:annotation-support />
 
-	<os-core:space id="space" url="/./wanSpaceGB" />
+	<os-core:embedded-space id="space" name="wanSpaceGB" />
 	<os-core:giga-space id="gigaSpace" space="space" />
 
 	<os-core:giga-space-context />
@@ -208,7 +208,7 @@ The master-slave topology configuration is simply implemented through delegators
 
 	<os-events:annotation-support />
 
-	<os-core:space id="space" url="/./wanSpaceHK" />
+	<os-core:embedded-space id="space" name="wanSpaceHK" />
 	<os-core:giga-space id="gigaSpace" space="space" />
 
 	<os-core:giga-space-context />

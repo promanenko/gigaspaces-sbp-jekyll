@@ -78,7 +78,7 @@ This is ID Generator `pu.xml`:
 	<os-core:annotation-support />
 	<context:component-scan base-package="com.gigaspaces.idgenerator.pu" />
     <os-core:giga-space-context/>
-    <os-core:space id="IDGeneratoSpace" url="/./IDGeneratorSpace" />
+    <os-core:embedded-space id="IDGeneratoSpace" name="IDGeneratorSpace" />
     <os-core:local-tx-manager id="transactionManager" space="IDGeneratoSpace" />
 	<tx:annotation-driven transaction-manager="transactionManager"   />
     <os-core:giga-space id="gigaSpace" space="IDGeneratoSpace" tx-manager="transactionManager"   />
@@ -101,11 +101,11 @@ This is ID Generator `pu.xml`:
 {% tabcontent The Client %}
 The following should be added to your PU `pu.xml` used to deploy the client application:
 
-{% highlight java %}
+{% highlight xml %}
 <context:component-scan base-package="com.gigaspaces.idgenerator.client" />
 <os-core:giga-space-context/>
 
-<os-core:space id="IDGeneratoSpace" url="jini://*/*/IDGeneratorSpace" />
+<os-core:space-proxy id="IDGeneratoSpace" name="IDGeneratorSpace" />
 <os-core:local-tx-manager id="IDGeneratortransactionManager" space="IDGeneratoSpace" />
 <tx:annotation-driven transaction-manager="IDGeneratortransactionManager"   />
 <os-core:giga-space id="IDGeneratogigaSpace" space="IDGeneratoSpace" tx-manager="IDGeneratortransactionManager"   />

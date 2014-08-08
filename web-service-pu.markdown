@@ -91,7 +91,7 @@ The configuration includes:
 	<bean id="service" class="com.example.customerservice.server.CustomerServiceImpl" />
 
 	<os-core:giga-space-context/>
-  	<os-core:space id="space" url="/./webServiceSpace">
+  	<os-core:embedded-space id="space" name="webServiceSpace">
   	</os-core:space>
   	<os-core:giga-space id="gigaSpace" space="space"/>
 

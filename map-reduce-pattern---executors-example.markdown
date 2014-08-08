@@ -334,7 +334,7 @@ The `pu.xml` used to export the Service and start the space described below:
 <!-- Support the @RemotingService annotation on a service-->
 <os-remoting:annotation-support />
 
-<os-core:space id="space" url="/./space" />
+<os-core:embedded-space id="space" name="space" />
 
 <os-core:giga-space id="gigaSpace" space="space"/>
 

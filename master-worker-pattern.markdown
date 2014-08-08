@@ -189,7 +189,7 @@ public class Worker {
 	<context:component-scan base-package="org.openspaces.example.masterworker.nonblocking"/>
 	<!-- Enable support for @Polling annotation -->
 	<os-events:annotation-support />
-	<os-core:space id="space" url="jini://*/*/mySpace" />
+	<os-core:space-proxy id="space" name="mySpace" />
 	<os-core:giga-space id="gigaSpace" space="space"/>
     <os-core:giga-space-context/>
     <os-remoting:annotation-support/>
@@ -480,7 +480,7 @@ public class Worker implements ClusterInfoAware{
 	<context:component-scan base-package="org.openspaces.example.masterworker.blocking"/>
 	<!-- Enable support for @Polling annotation -->
 	<os-events:annotation-support />
-	<os-core:space id="space" url="jini://*/*/mySpace" />
+	<os-core:space-proxy id="space" name="mySpace" />
 	<os-core:giga-space id="gigaSpace" space="space"/>
     <os-core:giga-space-context/>
     <os-remoting:annotation-support/>

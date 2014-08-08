@@ -98,7 +98,7 @@ This example includes:
 
 {% highlight xml %}
 <!-- A bean representing a space (an IJSpace implementation). -->
-<os-core:space id="space" url="/./processorSpace" />
+<os-core:embedded-space id="space" name="processorSpace" />
 
 <!-- A wrapper bean to the space to provide OpenSpaces simplified space
 	API (built on top of IJSpace/JavaSpace). -->

@@ -116,7 +116,7 @@ The {myUserSpaceDAO}} includes the GigaSpaces DAO.
 		<property name="userDAO" ref="myUserSpaceDAO" />
 	</bean>
 
-	<os-core:space id="space" url="jini://*/*/mySpace" />
+	<os-core:space-proxy id="space" name="mySpace" />
 	<os-core:giga-space id="gigaSpace" space="space"/>
 
 	<bean id="myUserSpaceDAO" class="com.vaannila.dao.UserDAOSpaceImpl">
@@ -194,7 +194,7 @@ The {myUserSpaceDAO}} includes the GigaSpaces DAO.
         The space is configured to connect to a mirror, and uses the configured external data source
         to perform the initial load operation from the database when the Space starts up.
     -->
-    <os-core:space id="space" url="/./mySpace" schema="persistent" mirror="true"
+    <os-core:embedded-space id="space" name="mySpace" schema="persistent" mirror="true"
                    external-data-source="hibernateDataSource">
         <os-core:properties>
             <props>
@@ -205,7 +205,7 @@ The {myUserSpaceDAO}} includes the GigaSpaces DAO.
                 <prop key="cluster-config.cache-loader.central-data-source">true</prop>
             </props>
         </os-core:properties>
-    </os-core:space>
+    </os-core:embedded-space>
 
     <!--
         Defines a local Jini transaction manager.
@@ -283,13 +283,13 @@ The {myUserSpaceDAO}} includes the GigaSpaces DAO.
         The mirror space. Uses the Hiberante external data source. Persists changes done on the Space that
         connects to this mirror space into the database using Hibernate.
     -->
-	<os-core:space id="mirror" url="/./mirror-service" schema="mirror" external-data-source="hibernateDataSource" >
+	<os-core:embedded-space id="mirror" name="mirror-service" schema="mirror" external-data-source="hibernateDataSource" >
 		<os-core:properties>
 			<props>
 				<prop key="space-config.mirror-service.cluster.name">mySpace</prop>
 			</props>
 		</os-core:properties>
-	</os-core:space>
+	</os-core:embedded-space>
 
 </beans>
 {% endhighlight %}

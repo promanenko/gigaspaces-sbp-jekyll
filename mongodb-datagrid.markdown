@@ -114,7 +114,7 @@ To modify the `MongoDB URL` used with the example update the `pu.xml` within the
 
 To run the Data Grid in Cache miss mode update the `pu.xml` within the `Datagrid-mongo.jar` to have:
 {% highlight java %}
-<os-core:space id="space" url="/./datagrid-mongo"
+<os-core:embedded-space id="space" name="datagrid-mongo"
         space-data-source="mongospaceDataSource" mirror="true" schema="persistent">
         <os-core:properties>
                <props>
@@ -139,7 +139,7 @@ To run the Data Grid in Cache miss mode update the `pu.xml` within the `Datagrid
 					   
                </props>
         </os-core:properties>
-</os-core:space>
+</os-core:embedded-space>
 {% endhighlight %}
 
 The following controls how Cache miss works:

@@ -84,7 +84,7 @@ pu.xml for the processor is now split into two parts. Space is defined in the pu
     <!--
         A bean representing a space (an IJSpace implementation).
     -->
-    <os-core:space id="space" url="/./processorSpace">
+    <os-core:embedded-space id="space" name="processorSpace">
 		<os-core:filter-provider ref="remotingServiceExporter"/>
 	</os-core:space>
 

@@ -447,7 +447,7 @@ public class UOWProcessorFactory implements UOWProcessorService{
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<os-core:giga-space-context/>
 	<os-events:annotation-support />
-	<os-core:space id="space" url="/./space"/>
+	<os-core:embedded-space id="space" name="space"/>
 	<os-core:local-tx-manager id="transactionManager" space="space" default-timeout="5000" />
 	<os-core:giga-space id="gigaSpace" space="space" tx-manager="transactionManager"/>
 	<os-remoting:service-exporter id="serviceExporter" />

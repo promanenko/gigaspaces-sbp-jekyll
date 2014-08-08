@@ -76,7 +76,7 @@ The pass-through topology configuration is implemented through delegators across
 	<!-- Enable support for @Polling annotation -->
 	<os-events:annotation-support />
 
-	<os-core:space id="space" url="/./wanSpaceUS" gateway-targets="gatewayTargets" />
+	<os-core:embedded-space id="space" name="wanSpaceUS" gateway-targets="gatewayTargets" />
 	<os-core:giga-space id="gigaSpace" space="space" />
 
 	<os-core:giga-space-context />
@@ -150,7 +150,7 @@ The pass-through topology configuration is implemented through delegators across
 	<!-- Enable support for @Polling annotation -->
 	<os-events:annotation-support />
 
-	<os-core:space id="space" url="/./wanSpaceGB" gateway-targets="gatewayTargets" />
+	<os-core:embedded-space id="space" name="wanSpaceGB" gateway-targets="gatewayTargets" />
 	<os-core:giga-space id="gigaSpace" space="space" />
 
 	<os-core:giga-space-context />
@@ -225,7 +225,7 @@ The pass-through topology configuration is implemented through delegators across
 	<!-- Enable support for @Polling annotation -->
 	<os-events:annotation-support />
 
-	<os-core:space id="space" url="/./wanSpaceHK" gateway-targets="gatewayTargets" />
+	<os-core:embedded-space id="space" name="wanSpaceHK" gateway-targets="gatewayTargets" />
 	<os-core:giga-space id="gigaSpace" space="space" />
 
 	<os-core:giga-space-context />
