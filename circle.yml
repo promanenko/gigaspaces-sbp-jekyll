@@ -10,7 +10,7 @@ checkout:
     - rm -rf wiki 
     - git clone https://github.com/Gigaspaces/gigaspaces-wiki-jekyll.git ./wiki
     - cd ./wiki && git submodule init && git submodule update 
-    - cd ./wiki/sbp && git pull
+    - cd ./wiki/sbp && git checkout master && git pull
 
 ## Customize dependencies
 dependencies:
