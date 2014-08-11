@@ -9,11 +9,12 @@ checkout:
   post:
     - rm -rf wiki 
     - git clone https://github.com/Gigaspaces/gigaspaces-wiki-jekyll.git ./wiki
-    - cd ./wiki
+    - pushd ./wiki
     - pwd 
     - git submodule init
     - git submodule update
-    - cd ./sbp
+    - popd 
+    - pushd ./wiki/sbp
     - pwd
     - git pull 
     - git commit -am "Auto-update sbp submodule"
