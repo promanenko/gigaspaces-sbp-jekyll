@@ -6,9 +6,10 @@ parent: solutions.html
 weight: 250
 ---
 {% summary page %} {% endsummary %}
+
 {% tip %}
-**Summary:** {% excerpt %}This pattern presents the HTTP Session sharing best practice for IIS servers and .NET apps{% endexcerpt %}<br/>
-**Author**:  Ronnie Guha<br/>
+**Summary:** {% excerpt %}This pattern presents the HTTP Session sharing blueprint for IIS servers and .NET apps{% endexcerpt %}<br/>
+**Author**: Ronnie Guha<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 9.7.0 x86<br/>
 **Last Update:** May 2014<br/>
 
