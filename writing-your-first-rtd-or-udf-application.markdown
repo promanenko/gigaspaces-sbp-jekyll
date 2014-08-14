@@ -12,9 +12,9 @@ weight: 800
 
 This section shows you how to write your first RTD or UDF application using the GigaSpaces-Excel integration.
 
-{% refer %}See some basic and advanced code examples for [working with UDF and RTD](./rtd-and-udf-examples---gigaspaces-excel-integration.html).{% endrefer %}
+Please read the [XAP-Excel integration prerequisites](./prerequisites---gigaspaces-excel-integration.html) before you proceed.
 
-{% include /sbp/prerequisites---gigaspaces-excel-integration.markdown %}
+{% refer %}See some basic and advanced code examples for [working with UDF and RTD](./rtd-and-udf-examples---gigaspaces-excel-integration.html).{% endrefer %}
 
 # Writing Your First RTD/UDF Application
 
