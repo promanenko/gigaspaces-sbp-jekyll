@@ -14,10 +14,8 @@ The following FAQs deal with the GigaSpaces Excel Integration solutions.
 
 # General FAQs
 
-- [What are the **Prerequisites**?](#Prerequisites)
+- [What are the **Prerequisites**?](prerequisites---gigaspaces-excel-integration.html)
 - [Why does the Space Viewer toolbar not show up in Excel?](#The Space Viewer toolbar does not show up in Excel)
-
-{% include /sbp/prerequisites---gigaspaces-excel-integration.markdown %}
 
 # The Space Viewer toolbar does not show up in Excel
 
