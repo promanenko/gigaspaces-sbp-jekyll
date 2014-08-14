@@ -30,9 +30,7 @@ The example demonstrates the following:
 
 {% lampon %} **[Download the example](/attachment_files/sbp/ExcelStocks.zip)** and extract it into your `<GigaSpaces Root>\Examples` directory.
 
-{% refer %}Getting Started with RTD and UDF? See the [Writing Your First RTD/UDF Application](./writing-your-first-rtd-or-udf-application.html) section.{% endrefer %}
-
-{% include /sbp/prerequisites---gigaspaces-excel-integration.markdown %}
+{% refer %}Getting Started with RTD and UDF? See the [Writing Your First RTD/UDF Application](./writing-your-first-rtd-or-udf-application.html) section and review the [prerequisites](./prerequisites---gigaspaces-excel-integration.html).{% endrefer %}
 
 # Example Structure
 
