@@ -597,7 +597,7 @@ The threads stack size many times should be tuned. Its default size may be too h
 On Windows, the default thread stack size is read from the binary (java.exe). As of Java SE 6, this value is 320k in the 32-bit VM and 1024k in the 64-bit VM.
 You can reduce your stack size by running with the -Xss option. For example:
 {% highlight bash %}
-java -server -Xss64k
+java -server -Xss384k
 {% endhighlight %}
 
 On some versions of Windows, the OS may round up thread stack sizes using very coarse granularity. If the requested size is less than the default size by 1K or more, the stack size is rounded up to the default; otherwise, the stack size is rounded up to a multiple of 1 MB. 64k is the least amount of stack space allowed per thread.
