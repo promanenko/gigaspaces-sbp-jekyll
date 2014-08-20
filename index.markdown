@@ -13,6 +13,7 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 {: .table .table-bordered}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
+|[Storm Integration](./storm-integration.html) | Advanced | This pattern explains how to integrate XAP with Storm.|
 |[Kafka Integration](./kafka-integration.html) | Advanced | This pattern explains how to integrate XAP with Kafka.|
 |[Cache Interface](./cache-interface.html) | Beginner | This pattern explains how to implement a cache interface using the Map API.|
 |[Moving from Hibernate to Space](./moving-from-hibernate-to-space.html) | Beginner | Moving from Database Centric into In-Memory Model. Can be used when moving from **J2EE Session Bean** into XAP.|
