@@ -325,21 +325,23 @@ Geo report displays a map of users’ geographical location. Depending on the vo
 
 IP address converted to country using [MaxMind GeoIP database](http://dev.maxmind.com/). The database is a binary file loaded into `GeoIPBolt’s` heap. `GeoIpLookupService` ensures that it’s loaded only once per JVM.
 
-## Building the Application
+## Installing and building the Application
 
-Step 1. [Download](http://www.gigaspaces.com/LatestProductVersion) and [install](http://wiki.gigaspaces.com/wiki/display/XAP95/Installing+GigaSpaces) XAP
+Step 1. Download [{%download%}](http://www.gigaspaces.com/LatestProductVersion) XAP.
 
-Step 2.	Install Maven and the GigaSpaces Maven plug-in
+Step 2. [install]({%latestjavaurl%}/installation.html) XAP.
 
-Step 3.	The application source can be found under [INSERT GITHUB URL HERE]
+Step 3.	Install Maven and the GigaSpaces Maven plug-in
 
-Step 4.	Build the project by running `mvn clean install`
+Step 4.	Download the application source code [{%download%}](https://github.com/fe2s/xap-storm)
 
-## Deploying in development environment
+Step 5.	Build the project by running `mvn clean install`
+
+## Deploying in the development environment
 
 Step 1.	Follow this [documentation](https://storm.incubator.apache.org/documentation/Setting-up-a-Storm-cluster.html) to install and run Zookeeper, Nimbus, Supervisor and optionally Storm UI.
 
-Step 2.	Start a [Grid Service Agent](http://wiki.gigaspaces.com/wiki/display/XAP95/The+Grid+Service+Agent) by running the `gs-agent.sh/bat` script
+Step 2.	Start a [Grid Service Agent](/product_overview/service-grid.html#gsa) by running the `gs-agent.sh/bat` script
 
 Step 3.	Deploy space and Web PU by running the following from project root folder:
 
@@ -351,9 +353,11 @@ Step 3.	Deploy space and Web PU by running the following from project root folde
 Step 4.	Add `apache-storm-0.9.2-incubating/bin` to your `$PATH`
 
 Step 5.	Run the following to deploy topology to Storm cluster
+
 {%highlight console%}
  storm jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar com.gigaspaces.storm.googleanalytics.topology.GoogleAnalyticsTopology google-analytics 127.0.0.1
 {%endhighlight%}
+
 Step 6.	Run feeder
 {%highlight console%}
 java -jar ./feeder/target/feeder-1.0-SNAPSHOT.jar 127.0.0.1
