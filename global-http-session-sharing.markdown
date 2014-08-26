@@ -355,7 +355,7 @@ The `shiro.ini` file should to be placed within the `WEB-INF` folder. See below 
 
 The web application should include the following libraries within its `\WEB-INF\lib` folder:
 
-* gs-session-manager-{{site.latest_maven_version}}.jar
+* gs-session-manager-{%version maven-version %}.jar
 * gs-runtime.jar
 
 {% note %}
@@ -570,13 +570,13 @@ Developers should include the following dependencies in pom.xml file.
 	<dependency>
 			<groupId>com.gigaspaces.httpsession</groupId>
 			<artifactId>gs-runtime</artifactId>
-			<version>{{site.latest_maven_version}}</version>
+			<version>{%version maven-version %}</version>
 	</dependency>
 
 	<dependency>
 			<groupId>com.gigaspaces.httpsession</groupId>
 			<artifactId>gs-session-manager</artifactId>
-			<version>{{site.latest_maven_version}}</version>
+			<version>{%version maven-version %}</version>
 	</dependency>
 {%endhighlight%}
 
