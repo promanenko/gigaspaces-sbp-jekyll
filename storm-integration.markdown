@@ -6,7 +6,10 @@ parent: data-access-patterns.html
 weight: 40
 ---
 
-{% summary page %}This pattern explains how to use Storm with XAP{% endsummary %}
+{% summary page %}This pattern explains how:
+- XAP can be used to scale Storm activity by using a distributed IMDG acting as its system of record instead of a slow database.
+- How XAP can act as a distributed broker for the Storm Spouts buffering high speed streams insteam of traditional slow messaging.
+{% endsummary %}
 {% tip %}
 **Author**:Oleksiy Dyagilev<br/>
 **Recently tested with GigaSpaces version**: XAP 10.0<br/>
@@ -163,7 +166,7 @@ Here is an example how to use `XAPTransactionalTridentSpout`:
 {%highlight java%}
  Config conf = new Config();
  conf.setMaxSpoutPending(20);
- conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space?groups=XAPTransactionalTridentSpoutTest-test");
+ conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space");
  TridentTopology topology = new TridentTopology();
  TridentState wordCounts = topology
                  .newStream("spout1", spout)
@@ -187,7 +190,7 @@ XAP Trident state implementation supports all state types – non-transactional,
 {%highlight java%}
  Config conf = new Config();
  conf.setMaxSpoutPending(20);
- conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space ");
+ conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space");
  StateFactory stateFactory = XAPStateFactory.transactional();
  TridentState wordCounts = topology
                  .newStream("spout1", spout).parallelismHint(16)
@@ -247,9 +250,8 @@ Example:
  }
 {%endhighlight%}
 
-# Example
 
-## Real-time Google Analytics
+# Real-time Google Analytics Example
 
 In this section we demonstrate how to build highly available, scalable equivalent of *Real-time Google Analytics* application and deploy it to cloud with one click using *Cloudify*.
 
@@ -281,13 +283,13 @@ Rest service converts JSON documents to space object and writes them to the stre
 
 We use pure Storm to build topology. There are several reasons why we don’t use Trident for this application. We are tolerant to page views loss if some Storm node fails. We don’t need exactly-once processing semantic. Instead, we want to maximize throughput and minimize latency.
 
-## Google Analytics Topology. High level overview.
+## Google Analytics Topology - High level overview.
 
 ![alt tag](/sbp/attachment_files/storm/google-analytics-topology.png)
 
 PageView spout forks five branches, each branch calculates its report and can be scaled independently. The final bolt in the branch writes data to XAP space.  In the next sections we take a closer look at branches design.
 
-## Top urls topology branch
+## Top urls Topology Branch
 
 Top urls report displays top 10 visited urls for the last ten seconds. Topology implements distributed rolling count algorithm. The report is updated every second.
 
@@ -299,7 +301,7 @@ The url and its rolling count flow to `IntermediateRankingsBolt` which maintains
 
 Top referrals topology branch is identical to top urls one. The only difference in is that we calculate ‘referral’ rather than ‘url’ tuple field.
 
-## Active users topology branch
+## Active Users Topology Branch
 
 Active users report displays how many people on the site right now. We assume that if user hasn’t opened any page for the last N seconds, then user has left the site. Users are uniquely identified by ‘sessionId’ tuple field. For demo purpose N is configured to 5 seconds, though it should be much longer in real life application.
 
@@ -309,7 +311,7 @@ Tuples flow from spout to `PartitionedActiveUsersBolt` grouped by ‘sessionId�
 
 `TotalActiveUsersBolt` maintains a map of [source_task, count] and emits the total count for all sources. Report is written to XAP.
 
-## Page view time series topology branch
+## Page View Time Series Topology Branch
 
 Page view time series report displays the dynamic of visited pages for last minute. The chart is updated every second.
 
@@ -317,7 +319,7 @@ Page view time series report displays the dynamic of visited pages for last minu
 
 `PageViewCountBolt` calculates the number of page views and passes local count to `PageViewTimeSeriesBolt` every second. `PageViewTimeSeriesBolt` maintains a sliding window counter and writes report to XAP space.
 
-## Geo topology branch
+## Geo Topology Branch
 
 Geo report displays a map of users’ geographical location. Depending on the volume of traffic from particular country, country is filled with different colors on the map.
 
@@ -325,7 +327,7 @@ Geo report displays a map of users’ geographical location. Depending on the vo
 
 IP address converted to country using [MaxMind GeoIP database](http://dev.maxmind.com/). The database is a binary file loaded into `GeoIPBolt’s` heap. `GeoIpLookupService` ensures that it’s loaded only once per JVM.
 
-## Installing and building the Application
+## Installing and building the Demo Application
 
 Step 1. Download [{%download%}](http://www.gigaspaces.com/LatestProductVersion) XAP.
 
@@ -337,7 +339,7 @@ Step 4.	Download the application source code [{%download%}](https://github.com/f
 
 Step 5.	Build the project by running `mvn clean install`
 
-## Deploying in the development environment
+## Deploying in the Development Environment
 
 Step 1.	Follow this [documentation](https://storm.incubator.apache.org/documentation/Setting-up-a-Storm-cluster.html) to install and run Zookeeper, Nimbus, Supervisor and optionally Storm UI.
 
@@ -367,7 +369,7 @@ Step 7.	Open browser `http://localhost:8090/web/` to view Google Analytics UI
 
 Step 8.	To undeploy topology run `storm kill google-analytics`
 
-## Deploying in development environment with embedded Storm
+## Deploying in Development Environment with Embedded Storm
 
 Step 1.	To run topology in embedded Storm you don’t need to install Zookeeper and Storm. Follow all steps from previous section except deployment to Strom.
 
@@ -382,7 +384,7 @@ Alternatively you can `GoogleAnalyticsTopology` from your IDE.
 {%endhighlight%}
 
 
-## Deploying to cloud
+## Deploying on the Cloud
 
 {%note%}
  Please note, recipes tested with Centos 6 only
