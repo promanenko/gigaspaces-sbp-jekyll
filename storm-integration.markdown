@@ -6,9 +6,9 @@ parent: data-access-patterns.html
 weight: 40
 ---
 
-{% summary page %}This pattern explains how:
-- XAP can be used to scale Storm activity by using a distributed IMDG acting as its system of record instead of a slow database.
-- How XAP can act as a distributed broker for the Storm Spouts buffering high speed streams insteam of traditional slow messaging.
+{% summary page %}This pattern explains how:<br/>
+- XAP can be used to scale Storm activity by using a distributed IMDG acting as its system of record instead of a slow database.<br/>
+- How XAP can act as a distributed broker for the Storm Spouts buffering high speed streams insteam of traditional slow messaging.<br/>
 {% endsummary %}
 {% tip %}
 **Author**:Oleksiy Dyagilev<br/>
