@@ -99,5 +99,5 @@ GigaSpace space=DataGridConnectionUtility.getSpace("myGrid");
 ## Further reading:
 
 - [Modeling and Accessing Your Data]({%latestjavaurl%}/modeling-your-data.html)
-- [Deploying and Interacting with the Space]({%latestjavaurl%}/administrators-guide.html)
+- [Deploying and Interacting with the Space]({%latestjavaurl%}/deploying-and-interacting-with-the-space.html)
 

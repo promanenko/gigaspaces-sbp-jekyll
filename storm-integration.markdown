@@ -363,7 +363,7 @@ Step 6.	Run feeder
 java -jar ./feeder/target/feeder-1.0-SNAPSHOT.jar 127.0.0.1
 {%endhighlight%}
 
-Step 7.	Open browser [http://localhost:8090/web/](http://localhost:8090/web/) to view Google Analytics UI
+Step 7.	Open browser `http://localhost:8090/web/` to view Google Analytics UI
 
 Step 8.	To undeploy topology run `storm kill google-analytics`
 
