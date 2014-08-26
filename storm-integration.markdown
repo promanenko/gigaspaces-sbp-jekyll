@@ -299,7 +299,7 @@ Tuples flow from spout to `UrlRollingCountBolt` grouped by ‘url’. `UrlRollin
 
 The url and its rolling count flow to `IntermediateRankingsBolt` which maintains pair of (url, count) in sorted by count order and emits its top 10 urls to the final stage. `TotalUrlRankingBolt` calculates the global top 10 urls and writes report object to XAP space. The primitives to implement rolling count algorithm can be found in [storm-starter](https://github.com/apache/incubator-storm/tree/master/examples/storm-starter) project.
 
-Top referrals topology branch is identical to top urls one. The only difference in is that we calculate ‘referral’ rather than ‘url’ tuple field.
+Top referrals topology branch is identical to top urls one. The only difference in is that we calculate `referral` rather than `url` tuple field.
 
 ## Active Users Topology Branch
 
@@ -307,7 +307,7 @@ Active users report displays how many people on the site right now. We assume th
 
 ![alt tag](/sbp/attachment_files/storm/active-users.png)
 
-Tuples flow from spout to `PartitionedActiveUsersBolt` grouped by ‘sessionId’. For every sessionId  `PartitionedActiveUsersBolt`  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.
+Tuples flow from spout to `PartitionedActiveUsersBolt` grouped by `sessionId`. For every sessionId  `PartitionedActiveUsersBolt`  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.
 
 `TotalActiveUsersBolt` maintains a map of [source_task, count] and emits the total count for all sources. Report is written to XAP.
 
