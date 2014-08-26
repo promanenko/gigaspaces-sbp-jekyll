@@ -180,7 +180,7 @@ Trident has first-class abstractions for reading from and writing to stateful so
 
 In Trident topology that is persisting state via this mechanism, the overall throughput is almost certainly constrained by the performance of the state persistence.  This is a good place where XAP can step in and provide extremely high performance persistence for stream processing state.
 
-![alt tag](/sbp/attachment_files/storm/trident-state.png)
+![alt tag](/sbp/attachment_files/storm/TridentXAPState.jpg)
 
 XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of `XAPStateFactory` class:
 
