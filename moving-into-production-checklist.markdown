@@ -895,18 +895,17 @@ Have one XAP GSC JVM instance per virtual machine. Typically, this is not a requ
 
 Increasing the JVM heap space to accommodate large data grid partition instance capacity is better than running a second instance of on the same single virtual machine. If increasing the JVM heap size is not an option, then consider placing the second GSC JVM on a separate newly created virtual machine, thus promoting more effective horizontal scalability. As you increase the number of XAP GSC, also increase the number of virtual machines to maintain a 1:1 ratio among the XAP GSC JVM and the virtual machines.
 
-You should have minimum of **four vCPU** virtual machine running with a VM running a singular XAP GSC. This should provide enough CPU power to handle both JVM garbage collection activity and application related JVM activity.
+You should have minimum of **four vCPU** virtual machine running with a VM running a single XAP GSC. This should provide enough CPU power to handle both JVM garbage collection activity and application related JVM activity. For extreme low latency and highly concurrent applications accessing the data grid with multiple threads/clients you may need more than four vCPUs per virtual machine.
 
 ## VM Placement
 You may deploy a data-grid to provision multiple copies of the same data on any virtual machine. It is possible to accidentally place two redundant data copies on the same ESX/ESXi host. This is not optimal if a host fails. To create a more robust configuration, use VM1-to-VM2 anti-affinity rules to indicate to vSphere that VM1 and VM2 can never be placed on the same host because they hold replicated instances. You may use XAP Zones to control each replicated data-grid instances location to provision these on specific GSCs/VMs.
 
 ## vMotion, DRS Cluster with XAP
-When you first commission the data management system, place Vmware Distributed Resource Scheduler (DRS) in manual mode to prevent an automatic VMware vSphere® vMotion® migration that can impact response times.
-vMotion can complement XAP features during scheduled maintenance to help minimize downtime impact due-to hardware and software upgrades. To speed up vMotion migration process it is recommended to trigger vMotion migrations over a 10GbE network interface.
+Once you install XAP, place Vmware Distributed Resource Scheduler (DRS) in manual mode to prevent an automatic VMware vSphere® vMotion® migration that can impact XAP response times. vMotion can complement XAP features during scheduled maintenance to help minimize downtime impact due-to hardware and software upgrades. To speed up vMotion migration process it is recommended to trigger vMotion migrations over a 10GbE network interface.
 
-Do not allow vMotion operations with a VM running the lookup service as the latency introduced to this process can cause members of XAP cluster to falsely suspect that other members are dead.
+Avoid vMotion operations with a VM running the lookup service (LUS) as the latency introduced to this process can cause members of XAP cluster to falsely suspect that other members are unavailable.
 
-Use DRS clusters dedicated to XAP. If this is not an option and XAP has to run in a shared DRS cluster make sure that DRS rules are set up that will not use vMotion to migrate XAP virtual machines.
+Use DRS clusters dedicated to XAP. If this is not an option and XAP has to run in a shared DRS cluster make sure that DRS rules are set up to prevent vMotion migrating XAP processes into virtual machines.
 
 In some cases a vMotion migration might not succeed and instead fails back due-to a rapidly changing volatile memory space, which can be the case with partitioned data-grid cluster and in some cases also replicated data-grid. The fail back is a fail-safe mechanism to the source virtual machine and it does not impact the source virtual machine.
 
