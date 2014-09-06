@@ -98,7 +98,7 @@ With the above approach, you can leverage multiple network cards within the same
 # Ports
 GigaSpaces uses TCP/IP for most of its remote operations. The following components within GigaSpaces require open ports:
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | Service | Description | Configuration Property | Default value |
 |:--------|:------------|:-----------------------|:--------------|
 |[Lookup Service listening port](/product_overview/the-lookup-service.html) |Used as part of the lookup discovery protocol.|`com.sun.jini.reggie.initialUnicastDiscoveryPort` System property|XAP 6: **4162**{% wbr %}XAP 7: **4164**{% wbr %}XAP 8: **4166** {% wbr %}XAP 9: **4174**|
@@ -212,6 +212,7 @@ See below for examples of [Space URL]({%latestjavaurl%}/the-space-configuration.
 - `/./space?groups=A,B` - this space URL means that the started space registers itself with group A and B. To access such a space via a remote client, it needs to use the following space URL: `jini://*/*/space?groups=A` or `jini://*/*/space?groups=B`.
 
 ## Space Configuration with Unit Tests
+
 When running unit tests, you might want these set up so that no remote client can access the space they are running. This includes regular clients or the GS-UI.
 
 {% tip %}
@@ -222,16 +223,16 @@ If it is running within the GSC, it finds the lookup via the `LOOKUPLOCATORS` or
 Here is a simple configuration you should place within your pu.xml to disable the lookup service startup, disable the space registration with the lookup service, and disable the space registration with the Rmi registry, when the space starts as a PU or running as a standalone:
 
 {%highlight xml%}
-    <os-core:embedded-space id="space" name="myspace" >
-        <os-core:properties>
-            <props>
-                <prop key="com.j_spaces.core.container.directory_services.jini_lus.start-embedded-lus">false</prop>
-                <prop key="com.j_spaces.core.container.directory_services.jini_lus.enabled">false</prop>
-                <prop key="com.j_spaces.core.container.directory_services.jndi.enabled">false</prop>
-                <prop key="com.j_spaces.core.container.embedded-services.httpd.enabled">false</prop>
-            </props>
-        </os-core:properties>
-     </os-core:embedded-space>
+<os-core:embedded-space id="space" name="myspace">
+    <os-core:properties>
+        <props>
+            <prop key="com.j_spaces.core.container.directory_services.jini_lus.start-embedded-lus">false</prop>
+            <prop key="com.j_spaces.core.container.directory_services.jini_lus.enabled">false</prop>
+            <prop key="com.j_spaces.core.container.directory_services.jndi.enabled">false</prop>
+            <prop key="com.j_spaces.core.container.embedded-services.httpd.enabled">false</prop>
+        </props>
+    </os-core:properties>
+</os-core:embedded-space>
 {%endhighlight%}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
@@ -917,6 +918,6 @@ If the changes are too rapid and vMotion is not able to complete the iterative c
 VMware HA should be disabled on virtual machines running XAP. If this is a dedicated XAP Grid DRS cluster, you can disable HA across the cluster. For a shared cluster, it is important to exclude XAP virtual machines from HA. Set up anti-affinity rules between the virtual machines running XAP preventing primary and backup of the same partition to run on the same ESX host within the DRS cluster.
 
 ## References
-- GigaSpaces' [VMWare guidelines](/release_notes/97vmware-guidelines.html)
+- XAP's [VMWare guidelines](/release_notes/100vmware-guidelines.html)
 - [Enterprise Java Applications on VMware - Best Practices Guide](http://www.vmware.com/resources/techresources/1087)
 - [Workloads in vSphere VMs](http://www.vmware.com/resources/techresources/10220)
