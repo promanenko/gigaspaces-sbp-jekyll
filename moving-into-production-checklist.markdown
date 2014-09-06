@@ -917,7 +917,6 @@ If the changes are too rapid and vMotion is not able to complete the iterative c
 VMware HA should be disabled on virtual machines running XAP. If this is a dedicated XAP Grid DRS cluster, you can disable HA across the cluster. For a shared cluster, it is important to exclude XAP virtual machines from HA. Set up anti-affinity rules between the virtual machines running XAP preventing primary and backup of the same partition to run on the same ESX host within the DRS cluster.
 
 ## References
-
+- GigaSpaces' [VMWare guidelines](/release_notes/97vmware-guidelines.html)
 - [Enterprise Java Applications on VMware - Best Practices Guide](http://www.vmware.com/resources/techresources/1087)
 - [Workloads in vSphere VMs](http://www.vmware.com/resources/techresources/10220)
-
