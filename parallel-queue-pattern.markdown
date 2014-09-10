@@ -6,7 +6,7 @@ parent: processing.html
 weight: 700
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}The Parallel Queue Pattern - High speed data processing pattern for low-latency systems{% endexcerpt %}<br/>

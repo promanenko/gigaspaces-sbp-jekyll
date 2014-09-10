@@ -8,14 +8,14 @@ weight: 1000
 
 {% summary page %}The Unit of work Pattern - Parallel atomic ordered data processing for associated data objects{% endsummary %}
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.0<br/>
 **Last Update:** Feb 2011<br/>
 
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
+
 
 {% endtip %}
 

@@ -6,7 +6,7 @@ parent: data-access-patterns.html
 weight: 1200
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}Access GgaSpaces Data-Grid via ODBC Driver{% endexcerpt %}<br/>

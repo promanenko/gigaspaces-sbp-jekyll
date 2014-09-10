@@ -53,7 +53,7 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Priority Based Queue](./priority-based-queue.html)| Advanced | Messaging based pattern. Can be used when moving from **J2EE JMS** Quality of Service into XAP.|
 |[Parallel Queue Pattern](./parallel-queue-pattern.html)| Advanced |Messaging based pattern. Can be used when moving from **J2EE JMS Service Activator Aggregator Strategy/MDB** into XAP.|
 |[Unit Of Work](./unit-of-work.html)| Advanced |Messaging based pattern. Can be used when moving from **J2EE JMS** Unit of Order into XAP.|
-|[Drools Rule Engine Integration](./drools-rule-engine-integration.html)| Advanced | Scaling business rule management system based application.|
+|[Drools Rule Engine Integration](./xap-drools-integration.html)| Advanced | Scaling business rule management system based application.|
 |[Spring Batch PU](./spring-batch-pu.html)| Advanced | Complex Batch Processing using [Spring Batch](http://static.springsource.org/spring-batch).|
 |[JTA-XA Example](./jta-xa-example.html) | Advanced | Integrating GigaSpaces with an external JMS Server using XA. Atomikos is used as the JTA Transaction provider. Apache ActiveMQ is used as a the JMS provider.|
 |[XAP.NET Custom Aggregators](./aggregators.html) | Advanced | Implemeting custom Aggregators with XAP.Net|

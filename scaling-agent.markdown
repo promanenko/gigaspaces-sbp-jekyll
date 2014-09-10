@@ -6,7 +6,7 @@ parent: production.html
 weight: 1300
 ---
 
-{% compositionsetup %}
+
 
 {% summary %}Implementing a dynamic scalable web application with GigaSpaces XAP.{% endsummary %}
 

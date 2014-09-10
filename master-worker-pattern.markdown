@@ -6,7 +6,7 @@ parent: processing.html
 weight: 500
 ---
 
-{% compositionsetup %}
+
 
 {% summary %}Implementing the Master-Worker Pattern with GigaSpaces XAP.{% endsummary %}
 

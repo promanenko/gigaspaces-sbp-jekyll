@@ -6,7 +6,7 @@ parent: data-access-patterns.html
 weight: 1400
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}This article illustrates the usage of Task Executors to rapidly load data into the In-Memory-Data-Grid{% endexcerpt %}<br/>

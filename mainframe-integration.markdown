@@ -6,7 +6,7 @@ parent: solutions.html
 weight: 300
 ---
 
-{% compositionsetup %}
+
 {% summary page %} {% endsummary %}
 
 {% tip %}

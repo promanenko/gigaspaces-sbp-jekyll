@@ -6,7 +6,7 @@ parent: data-access-patterns.html
 weight: 400
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}This page covers some of the concepts to consider when partitioning data. It does not replace the load-balancing pages, where the concept is explored in greater detail, but provides a slightly higher-level view.{% endexcerpt %}<br/>

@@ -6,7 +6,7 @@ parent: data-access-patterns.html
 weight: 600
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}This page describes two ways to determine the partition load in a Gigaspaces grid programmatically.{% endexcerpt %}<br/>

@@ -6,7 +6,7 @@ parent: processing.html
 weight: 200
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}Event based remoting example{% endexcerpt %}<br/>

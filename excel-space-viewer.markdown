@@ -16,7 +16,7 @@ weight: 300
 
 {% endtip %}
 
-{% compositionsetup %}
+
 
 # Overview
 

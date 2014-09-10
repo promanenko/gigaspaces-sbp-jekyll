@@ -6,7 +6,7 @@ parent: processing.html
 weight: 400
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}the Map-Reduce Pattern - This example illustrates the usage of Executors Remoting (Service Executors) and Task Executors to process data in parallel.{% endexcerpt %}<br/>

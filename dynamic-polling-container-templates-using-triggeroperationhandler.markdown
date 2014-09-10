@@ -6,7 +6,7 @@ parent: data-access-patterns.html
 weight: 300
 ---
 
-{% compositionsetup %}
+
 
 {% tip %}
 **Summary:** {% excerpt %}This article illustrates how to use TriggerOperationHandler{% endexcerpt %}<br/>

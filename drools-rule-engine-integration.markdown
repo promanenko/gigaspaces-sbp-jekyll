@@ -6,7 +6,7 @@ parent: processing.html
 weight: 100
 ---
 
-{% compositionsetup %}
+
 {% summary page %} {% endsummary %}
 {% tip %}
 **Summary:** {% excerpt %}This article illustrates how to integrate the Drools Rule Engine with GigaSpaces XAP{% endexcerpt %}<br/>
