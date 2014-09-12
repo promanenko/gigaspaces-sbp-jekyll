@@ -23,11 +23,19 @@ Real-time processing is becoming very popular, and Storm is a popular open sourc
 
 Storm has many use cases: realtime analytics, online machine learning, continuous computation, distributed RPC, ETL, and more. Storm is fast: a benchmark clocked it at over a million tuples processed per second per node. It is scalable, fault-tolerant, guarantees your data will be processed, and is easy to set up and operate.
 
+{%section%}
+{%column width=70% %}
 This pattern integrates XAP with Storm. XAP is used as stream data source and fast reliable persistent storage, whereas Storm is in charge of data processing. We support both pure Storm and Trident framework.
 
 As part of this integration we provide classic **Word Counter** and **Twitter Reach** implementations on top of XAP and Trident.
 
 Also, we demonstrate how to build highly available, scalable equivalent of **Realtime Google Analytics** application with XAP and Storm. Application can be deployed to cloud with one click using Cloudify.
+{%endcolumn%}
+{%column width=30% %}
+{%youtube c9L06fKbbW8 | XAP Storm Integration%}
+{%endcolumn%}
+{%endsection%}
+
 
 # Storm in a Nutshell
 Storm is a real time, open source data streaming framework that functions entirely in memory.  It constructs a processing graph that feeds data from an input source through processing nodes.  The processing graph is called a "topology".  The input data sources are called "spouts", and the processing nodes are called "bolts".  The data model consists of tuples.  Tuples flow from Spouts to the bolts, which execute user code. Besides simply being locations where data is transformed or accumulated, bolts can also join streams and branch streams.
