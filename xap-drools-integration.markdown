@@ -435,8 +435,23 @@ Add %JAVA_HOME%/bin to your PATH system variable
 ![drools1](/sbp/attachment_files/drools/drools11.png)
 {%endaccord%}
 
+{%accord parent=acc0 |title=Step 2: Maven Installation%}
 
-{%accord parent=acc0 |title=Step 2: XAP Installation%}
+Confirm Maven is installed by running the mvn –version in your command line
+
+![drools1](/sbp/attachment_files/drools/drools30.png)
+
+If Maven is not installed, [download Maven](http://maven.apache.org/download.cgi) and add M2_HOME to your system variables
+
+![drools1](/sbp/attachment_files/drools/drools31.png)
+
+Add %M2_HOME%/bin to your PATH system variable
+
+![drools1](/sbp/attachment_files/drools/drools32.png)
+
+{%endaccord%}
+
+{%accord parent=acc0 |title=Step 3: XAP Installation%}
 If XAP is not installed [download XAP Premium Edition](http://www.gigaspaces.com/xap-download) and add JSHOMEDIR to your system variables
 
 ![drools1](/sbp/attachment_files/drools/drools12.png)
@@ -447,21 +462,21 @@ Add %JSHOMEDIR%/bin to your PATH system variable
 ![drools1](/sbp/attachment_files/drools/drools13.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 3: Download Example%}
+{%accord parent=acc0 |title=Step 4: Download Example%}
 
 Download and extract the [Drools Integration](https://www.dropbox.com/sh/gp9cu9ftfbaf63m/AABmtv88mEQho2RMhZroFqvia?dl=0)
 
 ![drools1](/sbp/attachment_files/drools/drools14.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 4: Start XAP agent%}
+{%accord parent=acc0 |title=Step 5: Start XAP agent%}
 Navigate to the XAP bin directory and double-click gs-agent.bat
 
 ![drools1](/sbp/attachment_files/drools/drools15.png)
 {%endaccord%}
 
 
-{%accord parent=acc0 |title=Step 5: Start Web management Console%}
+{%accord parent=acc0 |title=Step 6: Start Web management Console%}
 Start and login to the Web Management Console by double-clicking gs-webui.bat
 and then entering http://localhost:8099 into an Internet Browser (Firefox or Google Chrome is recommended)
 
@@ -472,13 +487,13 @@ and then entering http://localhost:8099 into an Internet Browser (Firefox or Goo
 ![drools1](/sbp/attachment_files/drools/drools18.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 6: Deploy PU%}
+{%accord parent=acc0 |title=Step 7: Deploy PU%}
 Click on the Hosts Tab and find the Deploy drop-down. Choose Processing Unit…
 
 ![drools1](/sbp/attachment_files/drools/drools19.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 7: Upload file%}
+{%accord parent=acc0 |title=Step 8: Upload file%}
 Click on Upload File and navigate to the mycompany-space/target directory inside the Distributed Drools project. Double-click the mycompany-space.jar and click Deploy
 
 ![drools1](/sbp/attachment_files/drools/drools20.png)
@@ -487,44 +502,44 @@ Click on Upload File and navigate to the mycompany-space/target directory inside
 {%endaccord%}
 
 
-{%accord parent=acc0 |title=Step 8: View Data Grid%}
+{%accord parent=acc0 |title=Step 9: View Data Grid%}
 Confirm that mycompany-space was created by clicking on the Data Grid tab.
 
 ![drools1](/sbp/attachment_files/drools/drools22.png)
 
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 9: Open Eclipse%}
+{%accord parent=acc0 |title=Step 10: Open Eclipse%}
 Open the workspace in an Eclipse IDE
 
 ![drools1](/sbp/attachment_files/drools/drools23.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 10: Load Rules%}
+{%accord parent=acc0 |title=Step 11: Load Rules%}
 Run DroolsRuleLoader.java and FactLoader.java as a Java Application
 
 ![drools1](/sbp/attachment_files/drools/drools24.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 11: View KnowledgeBase in Space%}
+{%accord parent=acc0 |title=Step 12: View KnowledgeBase in Space%}
 Confirm that the KnowledgeBasesWrappers and Applicant Facts were loaded into the Space
 
 ![drools1](/sbp/attachment_files/drools/drools25.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 12: Deploy web services%}
+{%accord parent=acc0 |title=Step 13: Deploy web services%}
 Click back onto the Hosts Tab and deploy the mycompany-web-services.war
 
 ![drools1](/sbp/attachment_files/drools/drools26.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 13: View web services%}
+{%accord parent=acc0 |title=Step 14: View web services%}
 Click on the Applications Tab and confirm the Web Services URL and PORT
 
 ![drools1](/sbp/attachment_files/drools/drools27.png)
 {%endaccord%}
 
-{%accord parent=acc0 |title=Step 14: Test the rules%}
+{%accord parent=acc0 |title=Step 15: Test the rules%}
 Open an Internet Browser and begin testing the Decision and Generic Data Lookup Services
 
 http://localhost:8080/mycompany-web-services/mycompany/rest/com.mycompany.app.model.facts.Applicant/1
