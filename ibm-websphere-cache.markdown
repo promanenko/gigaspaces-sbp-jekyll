@@ -45,7 +45,11 @@ WebSphere allows administrators to configure the Dynamic Cache Service to use Gi
 
 GigaSpace’s XAP features increase the capabilities of WebSphere’s DynaCache beyond the limitations of the default dynamic cache engine and data replication service. While DynaCache can only provide caching across replicated and synchronized WebSphere application servers, GigaSpaces XAP provides a truly distributed and remote caching architecture. WebSphere administrators no longer need to worry about data loss due to cluster failures, redeployments and upgrades. Additionally, scaling the Data Cache Tier will no longer be a function of adding additional WebSphere Application Server instances.
 
-If you are currently using DynaCache, you can simply use the administrative console or wsadmin commands to replace WebSphere’s default cache provider with GigaSpace’s XAP. You do not have to make any changes to the code interacting with the default dynamic cache or caching data model. In the Demo: Step-By-Step Walkthrough section we will show how to switch to GigaSpace’s XAP IMDG in just a few configuration changes. Please read the GigaSpaces XAP Integration with IBM Dynamic Cache for a detailed walkthrough and additional introduction information.
+If you are currently using DynaCache, you can simply use the administrative console or wsadmin commands to replace WebSphere’s default cache provider with GigaSpace’s XAP. You do not have to make any changes to the code interacting with the default dynamic cache or caching data model. In the Demo: Step-By-Step Walkthrough section we will show how to switch to GigaSpace’s XAP IMDG in just a few configuration changes.
+
+{%comment%}
+ Please read the GigaSpaces XAP Integration with IBM Dynamic Cache for a detailed walkthrough and additional introduction information.
+{%endcomment%}
 
 {%comment%}
 # Use cases
