@@ -464,7 +464,7 @@ Add %JSHOMEDIR%/bin to your PATH system variable
 
 {%accord parent=acc0 |title=Step 4: Download Example%}
 
-Download and extract the [Drools Integration](https://www.dropbox.com/sh/gp9cu9ftfbaf63m/AABmtv88mEQho2RMhZroFqvia?dl=0)
+Download and extract the [Drools Integration](https://github.com/Gigaspaces/xap-drools-integration)
 
 ![drools1](/sbp/attachment_files/drools/drools14.png)
 {%endaccord%}
