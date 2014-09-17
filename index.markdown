@@ -10,7 +10,7 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 
 # Data Access Patterns
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
 |[Storm Integration](./storm-integration.html) | Advanced | This pattern explains how to integrate XAP with Storm.|
@@ -39,12 +39,13 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Schema Evolution](./schema-evolution.html)| Advanced | Leveraging different techniques to enhance the application data model without IMDG downtime.|
 |[Distributed Bitmap](./distributed-bitmap.html) | Advanced| Use XAP to distribute a bitmap across a partitioned cluster. |
 |[Modeling your data](./modeling-your-data.html) | Beginner| Moving from a centralized to a distributed data store. |
+|[XAP as Hibernate Second Level Cache](./gigaspaces-for-hibernate-orm-users.html) | Advanced| Using XAP as a 2nd-level distributed cache for your Hibernate-based database integration|
 
 
 
 # Parallel Processing & Messaging Patterns
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
 |[Map-Reduce Pattern - Executors Example](./map-reduce-pattern---executors-example.html)| Beginner | Implementing Task Executors and Service Executors to perform parallel queries or parallel processing across multiple IMDG partitions. Can be used when moving from **J2EE EJB**/RMI/IIOP into XAP.|
@@ -64,7 +65,7 @@ jta-xa-example.html
 
 # Setup Production Environment
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
 |[Embedding Tomcat as a Web Container](./tomcat-pu.html)| Beginner | This article presents embedding Tomcat 7 within the XAP data grid|
@@ -91,7 +92,7 @@ jta-xa-example.html
 
 # WAN Based Deployment
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
 |[WAN Gateway Multi-Master Replication](./wan-replication-gateway.html)| Beginner | Multi-Master WAN replication example.|
@@ -102,7 +103,7 @@ jta-xa-example.html
 
 # Solutions
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
 |[Exporting/Import data](./export-import-tool.html) | Beginner | Export and import data from / into a space.|
