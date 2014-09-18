@@ -44,5 +44,7 @@ Please read the [XAP-Excel integration prerequisites](./prerequisites---gigaspac
 
 # What's Next?
 
-{% refer %}See the [GigaSpaces-Excel Market-Data Example](./gigaspaces-excel-market-data-example.html).{% endrefer %}
-{% refer %}Back to The [Excel that Scales Solution](./excel-that-scales-solution.html) section.{% endrefer %}
+{% refer %}
+See the [GigaSpaces-Excel Market-Data Example](./gigaspaces-excel-market-data-example.html).
+Back to The [Excel that Scales Solution](./excel-that-scales-solution.html) section.
+{% endrefer %}

@@ -637,6 +637,8 @@ namespace TickInfo
 
 # What's Next?
 
-{% refer %}[Write Your First RTD/UDF Application](./writing-your-first-rtd-or-udf-application.html){% endrefer %}
-{% refer %}[See the Market-Data Example](./gigaspaces-excel-market-data-example.html){% endrefer %}
-{% refer %}Back to The [Excel that Scales Solution](./excel-that-scales-solution.html) section{% endrefer %}
+{% refer %}
+[Write Your First RTD/UDF Application](./writing-your-first-rtd-or-udf-application.html)
+[See the Market-Data Example](./gigaspaces-excel-market-data-example.html)
+Back to The [Excel that Scales Solution](./excel-that-scales-solution.html) section.
+{% endrefer %}
