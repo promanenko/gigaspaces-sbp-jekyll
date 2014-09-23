@@ -304,6 +304,8 @@ The event processor of choice will be the Polling Container which will be listen
 
 [Space Based Remoting]({%currentjavaurl%}/space-based-remoting-overview.html) is simply a combination of an interface located in the common module and an implementation of the interface which is deployed collocated with the space. The interface is shared by both the space and the client(s) via the common module. To expose the interface as a Remoting Service a simple annotation was added to the implementation class as well as a annotation scan within the [pu.xml]({%latestjavaurl%}/configuring-processing-unit-elements.html).
 
+{%inittab%}
+{%tabcontent Configuration%}
 {%highlight xml%}
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -353,7 +355,9 @@ The event processor of choice will be the Polling Container which will be listen
 
 </beans>
 {%endhighlight%}
+{%endtabcontent%}
 
+{%tabcontent Java %}
 {%highlight java%}
 @RemotingService
 public class RulesExecutionServiceImpl implements IRulesExecutionService {
@@ -384,6 +388,8 @@ public class RulesExecutionServiceImpl implements IRulesExecutionService {
     }
 }
 {%endhighlight%}
+{%endtabcontent%}
+{%endinittab%}
 
 As with any execution against a partitioned space a routing key is required for the [Hash-Based Routing]({%currentadmurl%}/data-partitioning.html) mechanism to determine which partition hosts the client’s requested data. The routing key can also simply be set by adding an annotation but this time to one of the parameters inside the method signature.
 
