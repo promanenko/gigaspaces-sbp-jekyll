@@ -251,55 +251,42 @@ In addition to hosting data this processing unit will take advantage of XAP’s 
 The event processor of choice will be the Polling Container which will be listening for specific events to occur on the Space. As part of our integration pattern we have chosen to decouple the adding/removing of Rule Events to the Space from the compilation and injection of those rules to their respective KnowledgeBase. Since loading a single instance of a KnowledgeBase creates a bottleneck for a queue of 100+ rules it would make sense to allow the client (remote client proxy) to fire and forget while the server (space) does its work at its own pace. Upon notification of an event, the collocated event handler will look up the KnowledgeBase from the Data Grid and add the new rule to the KnowledgeBase assuming compilation was successful. It will also update metadata type Space Classes to keep track of the KnowledgeBase contents for transparency.
 
 {%highlight java%}
-   @SpaceDataEvent
-    public DroolsRuleAddEvent addRule(DroolsRuleAddEvent droolsRuleEvent) {
-    	String ruleSet = droolsRuleEvent.getRuleSet();
-		String knowledgePackageName = droolsRuleEvent.getPackageName();
-		String ruleName = droolsRuleEvent.getRuleName();
+@SpaceDataEvent
+public DroolsRuleAddEvent addRule(DroolsRuleAddEvent droolsRuleAddEvent) {
+	String ruleSet = droolsRuleAddEvent.getRuleSet();
+	String knowledgePackageName = droolsRuleAddEvent.getPackageName();
+	String ruleName = droolsRuleAddEvent.getRuleName();
 
-		try {
-    		KnowledgeBaseWrapper knowledgeBaseWrapper = knowledgeBaseWrapperDao.readByRuleSet(ruleSet);
-            if(knowledgeBaseWrapper == null) {
-            	knowledgeBaseWrapper = new KnowledgeBaseWrapper(ruleSet);
+	try {
+		KnowledgeBaseWrapper knowledgeBaseWrapper = knowledgeBaseWrapperDao.read(ruleSet);
+            	if(knowledgeBaseWrapper == null) {
+            		knowledgeBaseWrapper = createKnowledgeBaseWrapper(ruleSet);
+            	}
 
-                knowledgeBaseWrapper.setKnowledgeBase(KnowledgeBaseFactory.newKnowledgeBase());
-                knowledgeBaseWrapper.setTotalKnowledgePackages(new Integer(0));
-                knowledgeBaseWrapper.setTotalRules(new Integer(0));
-            }
+            	KnowledgePackage knowledgePackage = knowledgePackageDao.read(ruleSet, knowledgePackageName);
+            	if(knowledgePackage == null) {
+            		knowledgePackage = createKnowledgePackage(knowledgeBaseWrapper, knowledgePackageName, ruleSet);
+            	}
 
-            KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(new PackageBuilderConfiguration(properties));
-            kbuilder.add(ResourceFactory.newByteArrayResource(droolsRuleEvent.getRuleBytes()), ResourceType.getResourceType(droolsRuleEvent.getOriginalResourceType()));
+            	if(!knowledgePackage.getRules().containsKey(ruleName)) {
+            		DroolsRule droolsRule = createDroolsRule(droolsRuleAddEvent);
+            		knowledgePackageDao.addRule(knowledgePackage, ruleName, droolsRule);
 
-            if(kbuilder.hasErrors()) {
-                for(KnowledgeBuilderError error : kbuilder.getErrors()) {
-                    log.error(error.getMessage() + " on lines " + Arrays.toString(error.getLines()));
-                }
-                throw new IllegalArgumentException("Could not parse Rule: " + ruleName + " type: " + droolsRuleEvent.getOriginalResourceType());
-            }
+            		addKnowledgePackages(knowledgeBaseWrapper, droolsRuleAddEvent, ruleName);
+            		knowledgeBaseWrapperDao.write(knowledgeBaseWrapper);
 
-            KnowledgeBase knowledgeBase = knowledgeBaseWrapper.getKnowledgeBase();
-            knowledgeBase.addKnowledgePackages(kbuilder.getKnowledgePackages());
-
-            KnowledgePackage knowledgePackage = lookupKnowledgePackage(ruleSet, knowledgePackageName);
-            if(!knowledgePackage.getRules().containsKey(ruleName)) {
-            	updateKnowledgePackageAndDroolsRule(droolsRuleEvent, knowledgePackage);
-
-            	knowledgeBaseWrapper.setTotalKnowledgePackages(knowledgeBaseWrapper.getTotalKnowledgePackages() + 1);
-            	knowledgeBaseWrapper.setTotalRules(knowledgeBaseWrapper.getTotalRules() + 1);
-
-                knowledgeBaseWrapperDao.write(knowledgeBaseWrapper);
-                log.info(String.format("Rule '%s' compiled successfully", ruleName));
-            }else {
-                log.info(String.format("Rule '%s' already exists in knowledgePackage '%s'", ruleName, knowledgePackageName));
-            }
+                	log.info(String.format("Rule '%s' compiled successfully", ruleName));
+            	}else {
+                	log.info(String.format("Rule '%s' already exists in knowledgePackage '%s'", ruleName, knowledgePackageName));
+            	}
         }catch(Exception e) {
             log.info(String.format("Rule '%s' failed compilation for ruleset", ruleName));
             log.error(e.getMessage(), e);
         }
 
-        droolsRuleEvent.setProcessed(Boolean.TRUE);
+	droolsRuleAddEvent.setProcessed(Boolean.TRUE);
         return null;
-    }
+ }
 {%endhighlight%}
 
 [Space Based Remoting]({%currentjavaurl%}/space-based-remoting-overview.html) is simply a combination of an interface located in the common module and an implementation of the interface which is deployed collocated with the space. The interface is shared by both the space and the client(s) via the common module. To expose the interface as a Remoting Service a simple annotation was added to the implementation class as well as a annotation scan within the [pu.xml]({%latestjavaurl%}/configuring-processing-unit-elements.html).
