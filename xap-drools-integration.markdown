@@ -74,7 +74,7 @@ Storing the KnowledgeBase’s data in each clustered JVM memory is redundant and
 
 ### Consistency
 
-Similar to the concerns of load-balancing, enterprise applications would require all clustered JVMs to not only store identical data but also ensure consistency upon any change. Instead of building a custom solution to update the entire cluster, XAP could be used to ensure data consistency. By utilizing XAP’s built-in [Routing Mechanism]{%currentjavaurl%}/routing-in-partitioned-spaces.html), all instances of the cluster can seamlessly be routed to the unique partition that is storing the relevant KnowledgeBase(s) and always receive a consistent result.
+Similar to the concerns of load-balancing, enterprise applications would require all clustered JVMs to not only store identical data but also ensure consistency upon any change. Instead of building a custom solution to update the entire cluster, XAP could be used to ensure data consistency. By utilizing XAP’s built-in [Routing Mechanism]({%currentjavaurl%}/routing-in-partitioned-spaces.html), all instances of the cluster can seamlessly be routed to the unique partition that is storing the relevant KnowledgeBase(s) and always receive a consistent result.
 
 ### Scalability
 
