@@ -19,15 +19,44 @@ weight: 800
 
 {% endtip %}
 
-# OS Considerations
-In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). No special OS tuning is required for most of the applications. See below for OS tuning recommendations that most of the applications running on GigaSpaces might need.
+In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). See below tuning and configuration recommendations that most of the applications running on GigaSpaces XAP might need.
+
+# File Descriptors
+
+The XAP LRMI communication layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used both on the client and server side. You might have multiple JVMs running on the machine. This might need to increase the default max user processes value.
+
+On Linux OS - without the right file descriptors settings you will have **Too many open files** error messages at the XAP processes log files displayed or on the client side. Low file descriptors values will impact application stability and ability for clients to connect to the XAP grid.  You will have to set both **System** level File Descriptor Limit and also **Process** level File Descriptor Limit to high values to avoid these problems. See below how.
+
+## System File Descriptor Limit
+
+To change the number of file descriptors in Linux, do the following as the `root` user:
+
+Edit the following line in the `/etc/sysctl.conf` file:
+
+{%highlight bash %}
+fs.file-max = 300000
+{% endhighlight %}
+300000 will be the new file descriptor limit that you want to set.
+
+Apply the change by running the following command:
+
+{%highlight bash %}
+/sbin/sysctl -p
+{% endhighlight %}
+
+Verify your settings using:
+{%highlight bash %}
+cat /proc/sys/fs/file-max 
+{% endhighlight %}
+
+OR 
+
+{%highlight bash %}
+sysctl fs.file-max
+{% endhighlight %}
 
 
-## File Descriptors
-The XAP LRMI layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used.
-
-You might have multiple JVMs running on the machine. This might need to increase the default max user processes value.
-
+## Process File Descriptor Limit
 The Linux OS by default has a relatively small number of file descriptors available and max user processes (1024). You should make sure that your standalone clients, or GSA/GSM/GSC/LUS using a user account which have its **maximum open file descriptors (open files) and max user processes** configured to a high value. A good value is 32768.
 
 Setting the **max open file descriptors** and **max user processes** is done via the following call:
@@ -49,7 +78,7 @@ Alternatively, you should have the following files updated:
 - soft nproc 32768
 {% endhighlight %}
 
-
+## Monitoring Utilized File Descriptors
 You can monitor the MaxFileDescriptorCount and OpenFileDescriptorCount with the JConsole:
 
 ![jmx-file-descriptors.png](/sbp/attachment_files/jmx-file-descriptors.png)
@@ -147,7 +176,7 @@ You may need to change the `com.gs.transport_protocol.lrmi.max-conn-pool` value 
 Client total # of open connections = com.gs.transport_protocol.lrmi.max-conn-pool * # of partitions
 {% endhighlight %}
 
-This may result very large amount of connections started at the client side resulting "Too many open files" error. You should increase the OS' max file descriptors amount by calling the following before running the client application (on UNIX):
+This may result very large amount of connections started at the client side resulting **Too many open files** error. You should increase the OS' max file descriptors amount by calling the following before running the client application (on UNIX):
 
 {% highlight bash %}
 ulimit -n 65536
