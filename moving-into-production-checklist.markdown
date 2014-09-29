@@ -78,6 +78,8 @@ Alternatively, you should have the following files updated:
 - soft nproc 32768
 {% endhighlight %}
 
+See [increase-open-files-limit](https://rtcamp.com/tutorials/linux/increase-open-files-limit/) for more details.
+
 ## Monitoring Utilized File Descriptors
 You can monitor the MaxFileDescriptorCount and OpenFileDescriptorCount with the JConsole:
 
