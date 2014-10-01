@@ -648,6 +648,22 @@ For example - with default `maxBufferSize` size and 100 threads :
 
 With large objects and batch operations (readMultiple , writeMultiple , Space Iterator) increasing the maxBufferSize may improve the performance.
 
+### MaxDirectMemorySize
+
+This JVM option specifies the maximum total size of java.nio (New I/O package) direct buffer allocations. It is used with network data transfer and serialization activity.
+
+The default value for direct memory buffers depends on your version of your JVM. Oracle HotSpot has a default equal to maximum heap size (`-Xmx` value), although some early versions may default to a particular value. To control this specific memory area use the `-XX:MaxDirectMemorySize`. See example below:
+
+{% highlight bash %}
+java -XX:MaxDirectMemorySize=2g myApp
+{% endhighlight %}
+
+Format:
+{% highlight bash %}
+-XX:MaxDirectMemorySize=size[g|G|m|M|k|K]`
+{% endhighlight %}
+
+
 Some useful references:
 
 - [Getting Started with the G1 Garbage Collector](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html)
