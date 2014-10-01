@@ -14,7 +14,7 @@ weight: 800
 **Summary:** The following list should provide you with the main activities to be done prior moving your system into production. Reviewing this list and executing the relevant recommendations should result in a stable environment with a low probability of unexpected behavior or failures that are result of a GigaSpaces environment mis configuration.
 <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
-**Recently tested with GigaSpaces version**: XAP 8.0<br/>
+**Recently tested with GigaSpaces version**: XAP 10.0<br/>
 **Last Update:** April 2014<br/>
 
 {% endtip %}
