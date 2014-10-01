@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/Gigaspaces/gigaspaces-sbp-jekyll/tree/master.png?style=badge)](https://circleci.com/gh/Gigaspaces/gigaspaces-sbp-jekyll/tree/master)
+
 gigaspaces-sbp-jekyll
 =====================
 
