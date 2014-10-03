@@ -2,14 +2,14 @@
 layout: post
 title:  Managing XAP with init.d
 categories: SBP
-parent: solutions.html
-weight: 800
+weight: 1900
+parent: production.html
 ---
 
 
-{% summary page %}{% endsummary %}
+{% summary page %}{%endsummary %}
 {% tip %}
-**Summary**: TODO  <br>
+**Summary**: This pattern explains how to manage XAP with init.d.  <br>
 **Author**:Patrick May<br/>
 **Recently tested with GigaSpaces version**: XAP 10.0<br/>
 **Last Update:** Sept 2014<br/>
