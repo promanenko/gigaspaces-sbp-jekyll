@@ -11,7 +11,7 @@ parent: production.html
 {% summary page %} {% endsummary %}
 
 {% tip %}
-**Summary:**This article illustrates how to ensure accurate time across the cluster <br/>
+**Summary:** This article illustrates how to ensure accurate time across the cluster <br/>
 **Author:** John Burke<br/>
 **Last Update:** October 2014<br/>
 {% endtip %}
@@ -65,6 +65,8 @@ Users of all operating systems can decide to use time server pools, even if thei
 
 
 
+
+# Advanced Configuration 
 
 The more advanced method is to find a small number of time servers which are very close to the cluster in terms of network hops and latency, and ideally have a very low deviation of latency. The following [site](http://support.ntp.org/bin/view/Servers/WebHome) contains a list of global timeservers, both those belonging to pools and non-associated servers, with an indication as to whether the server allows public access in the case of non-pool servers.
 
