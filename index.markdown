@@ -61,8 +61,6 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[XAP.NET Custom Aggregators](./aggregators.html) | Advanced | Implemeting custom Aggregators with XAP.Net|
 
 
-jta-xa-example.html
-
 # Setup Production Environment
 
 {: .table .table-bordered .table-condensed}
