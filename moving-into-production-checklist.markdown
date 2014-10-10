@@ -600,7 +600,7 @@ These settings are good for cases where you are running a IMDG or when the busin
 For JDK 1.6 - CMS mode - good for low latency scenarios:
 
 {% highlight bash %}
--server -Xms8g -Xmx8g -Xmn300m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
+-server -Xms8g -Xmx8g -Xmn2g -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
 -XX:CMSInitiatingOccupancyFraction=60 -XX:+UseCMSInitiatingOccupancyOnly
 -XX:MaxPermSize=256m -XX:+ExplicitGCInvokesConcurrent -XX:+UseCompressedOops
 -XX:+CMSClassUnloadingEnabled -XX:+CMSParallelRemarkEnabled
@@ -623,6 +623,10 @@ In case your JVM is throwing an 'OutOfMemoryException', the JVM process should b
 SUN -XX:+HeapDumpOnOutOfMemoryError -XX:OnOutOfMemoryError="kill -9 %p"
 JROCKIT -XXexitOnOutOfMemory
 {% endtip %}
+
+## Young generation Size (Xmn)
+
+This setting controls the size of the heap allocated for the young generation objects  it represents all the objects which have a short life of time. Young generation objects are in a specific location into the heap, where the garbage collector will pass often. All new objects are created into the young generation region (called "eden"). When an object survive is still "alive" after more than 2-3 gc cleaning, then it will be swap has an "old generation" : they are "survivor". A recommended value for the `Xmn` should be 33% of the `Xmx` value.
 
 ## Thread Stack Tuning (Xss)
 The threads stack size many times should be tuned. Its default size may be too high. In Java SE 6, the default on Sparc is 512k in the 32-bit VM, and `1024k` in the 64-bit VM. On x86 Solaris/Linux it is `320k` in the 32-bit VM and 1024k in the 64-bit VM.
