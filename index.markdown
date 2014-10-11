@@ -84,6 +84,8 @@ This section contains GigaSpaces XAP known patterns, solutions and best practice
 |[Recipes For XAP Cloud Deployment](./automated-xap-deployment-with-cloudify.html)| Advanced | Recipes For XAP Cloud Deployment.|
 |[Puppet to install and configure XAP](./puppet-xap-module.html)| Advanced | This pattern explains how to use Puppet to install and configure XAP.|
 |[Managing XAP with init.d](./initd.html)| Beginner | This pattern explains how to manage XAP with init.d.|
+|[Ensuring Accurate Time Across the Cluster](./cluster-time-sync.html)| Beginner | This pattern explains how to setup cluster wide time synchronization.|
+
 
 
 
