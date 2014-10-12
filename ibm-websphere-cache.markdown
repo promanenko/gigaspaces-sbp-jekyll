@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  XAP Websphere Dynamic Caching
+title:  XAP Integration WebSphere Dynamic Cache
 categories: SBP
 parent: data-access-patterns.html
 weight: 60
@@ -50,46 +50,10 @@ If you are currently using DynaCache, you can simply use the administrative cons
 Please read the GigaSpaces XAP Integration with IBM Dynamic Cache [{%pdf%}](/sbp/download_files/DynamicCache.pdf) document for a detailed walkthrough and additional introduction information.
 
 
-{%comment%}
-# Use cases
-
-### In-Line Cache
-With this mechanism, the IMDG is the system of record. The database data is loaded into the IMDG when it is started. The IMDG is responsible for loading the data and pushing updates back into the database. The database can be updated in synchronously or asynchronously.
-
-• When running in all-in-cache cache policy mode, all data is loaded from the database into the cache once it is started.
-
-• When running in LRU cache policy mode, a subset of the data is loaded from the database into the cache when it is started. Data is evicted from the cache based on available memory or a maximum amount of cache objects. Once there is a cache miss, the cache looks for the data within the underlying data-source. If matching data is found, it is loaded into the cache and delivered to the application.
-
-![drools1](/sbp/attachment_files/dynacache/cache1.png)
 
 
-### HTTP Session Sharing
-It’s becoming increasingly important for organizations to share HTTP session data across multiple data centers, multiple web server instances or different types of web servers. Here are a few scenarios where HTTP session sharing is required:
 
-•	Multiple different Web Servers running your Web Application - You may be porting your application from one web server to another and there will be a period of time when both types of servers need to be active in production.
-
-•	Web Application is broken into multiple modules - When applications are modularized such that different functionalities are deployed across multiple server instances. For example, you may have login, basic info, check-in and shopping functionalities split into separate modules and deployed individually across different servers for manageability or scalability. In order for the user to be presented with a single, seamless, and transparent application, session data needs to be shared between all the servers.
-
-•	Reduce Web application memory footprint - The web application storing all sessions within the web application process heap is consuming large amounts of memory. Having the session stored within a remote process will reduce web application utilization avoiding garbage collocation and long pauses.
-
-•	Multiple Data-Center deployment - You may need to deploy your application across multiple data centers for high-availability, scalability or flexibility, so session data will need to be replicated.
-
-The following diagram depicts a common use case where there are multiple data centers connected across the WAN, and each is running a different type of web server.
-
-![drools1](/sbp/attachment_files/dynacache/cache2.png)
-
-### WebSphere Commerce Server Performance
-The WebSphere Commerce Server is an IBM e-commerce framework that is widely used in retail environments of many sizes. The WebSphere Commerce Server contains the components for the various B2B and B2C functionalities needed in a retail environment.
-
-WebSphere Commerce Server applications heavily leverage DynaCache to reduce database roundtrips and thus gain improved performance in terms of latency. WebSphere Commerce uses DynaCache to store entire JSP(s), page fragments, and commands. While DynaCache stores portions of its data in the available heap space of the clustered WebSphere Commerce Servers, the remaining overflow of data persists to disk. By using GigaSpace’s XAP as an alternative caching provider, the WebSphere Commerce Server applications are not captive to the limited shared-memory of the server cluster nor will they pay the penalty of overflowing their data to disk.
-
-E-Commerce web sites aspiring to manage high volumes of traffic might find that the default caching provider of the WebSphere Commerce Server will not scale to meet SLA requirements. With only a few simple configurations changes this bottleneck can be removed by using GigaSpace’s XAP as the alternative caching provider.
-
-{%endcomment%}
-
-# Example
-
-## Requirements
+# Demo Requirements
 
 The following technology is required to run this demo
 
@@ -109,7 +73,7 @@ An Application Server from the WebSphere Family <br>
 •	GigaDynaCacheTestWeb.war
 
 
-## Setup
+# Run Demo with Dynamic Cache as WebSphere Caching Provider
 
 
 {%accordion id=acc0%}
@@ -205,7 +169,7 @@ Step 2: Go back to the Cache Monitor Page and click “Refresh Statistics”
 
 <br>
 
-## Run Demo with GigaSpaces’ XAP as WebSphere Caching Provider
+# Run Demo with GigaSpaces’ XAP as WebSphere Caching Provider
 
 {%accord parent=acc0 | title=Add GigaSpaces Jars to IBM Extension Classloader %}
 
