@@ -217,7 +217,7 @@ public class UOWFeederMain {
 		}
 
 		GigaSpace space = new GigaSpaceConfigurer(new UrlSpaceConfigurer(
-				"jini://*/*/space").lookupGroups(groups).lookupLocators(locators).noWriteLease(true)).gigaSpace();
+				"jini://*/*/space").lookupGroups(groups).lookupLocators(locators)).gigaSpace();
 
 		UOWProcessorService uowService = new ExecutorRemotingProxyConfigurer<UOWProcessorService>(
 				space, UOWProcessorService.class).proxy();

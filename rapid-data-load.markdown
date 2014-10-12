@@ -117,7 +117,6 @@ public class LoaderRequest implements DistributedTask<String, String>{
 			maxPartitions = Integer.valueOf(gigaspace.getSpace().getURL().getProperty(SpaceURL.CLUSTER_TOTAL_MEMBERS)).intValue();
 		}
 
-		gigaspace.getSpace().setNOWriteLeaseMode(true);
 		DataGenerator.createCurrencyGroups(maxPartitions);
 
 		LastPrice lastPriceBatch[] = null;
