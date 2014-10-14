@@ -71,7 +71,7 @@ If you do not have an already deployed space with data, you will need to deploy 
 
 {% highlight console %}
 cd target
-java -classpath D:\gigaspaces-xap-premium-9.7.0-ga\lib\required\*;export-1.0-SNAPSHOT.jar;AccountClass.jar com.gigaspaces.tools.importexport.SpaceDataImportExportMain -e -l 127.0.0.1 -s space
+java -classpath D:\gigaspaces-xap-premium-10.0.1-ga\lib\required\*;target\*;AccountClass.jar com.gigaspaces.tools.importexport.SpaceDataImportExportMain -e -l 127.0.0.1 -s space
 {% endhighlight %}
 
 In this case we are using a simple Account POJO.
@@ -99,9 +99,8 @@ For each exported space class data `< XAP root\bin >` will have a zip file with 
 Once you restart the data grid you can reload your data back. This will reload the data from the zip files into the space:
 {% highlight console %}
 cd target
-java -classpath D:\gigaspaces-xap-premium-9.7.0-ga\lib\required\*;export-1.0-SNAPSHOT.jar com.gigaspaces.tools.importexport.SpaceDataImportExportMain -e -l 127.0.0.1 -s space
+java -classpath D:\gigaspaces-xap-premium-10.0.1-ga\lib\required\*;target\*;AccountClass.jar com.gigaspaces.tools.importexport.SpaceDataImportExportMain -i -l 127.0.0.1 -s space
 {% endhighlight %}
-
 
 {%note%}
 A space read call for each class is executed before trying to perform any import.
