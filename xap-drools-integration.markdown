@@ -422,7 +422,7 @@ Confirm Java is installed by running the java –version in your command line
 
 ![drools1](/sbp/attachment_files/drools/drools8.png)
 
-If Java is not installed, download Java [{%download%}](https://java.com/en/download/index.jsp) and add JAVA_HOME to your system variables
+If Java is not installed, download Java {%download https://java.com/en/download/index.jsp%} and add JAVA_HOME to your system variables
 ![drools1](/sbp/attachment_files/drools/drools9.png)
 
 
@@ -437,7 +437,7 @@ Confirm Maven is installed by running the mvn –version in your command line
 
 ![drools1](/sbp/attachment_files/drools/drools11.png)
 
-If Maven is not installed, download Maven [{%download%}](http://maven.apache.org/download.cgi) and add M2_HOME to your system variables
+If Maven is not installed, download Maven {%download http://maven.apache.org/download.cgi%} and add M2_HOME to your system variables
 
 ![drools1](/sbp/attachment_files/drools/drools12.png)
 
@@ -448,7 +448,7 @@ Add %M2_HOME%/bin to your PATH system variable
 {%endaccord%}
 
 {%accord parent=acc0 |title=Step 3: XAP Installation%}
-If XAP is not installed [{%download%}](http://www.gigaspaces.com/xap-download) and add JSHOMEDIR to your system variables
+If XAP is not installed {%download http://www.gigaspaces.com/xap-download%} and add JSHOMEDIR to your system variables
 
 ![drools1](/sbp/attachment_files/drools/drools14.png)
 

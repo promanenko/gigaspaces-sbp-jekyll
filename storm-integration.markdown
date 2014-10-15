@@ -337,13 +337,13 @@ IP address converted to country using [MaxMind GeoIP database](http://dev.maxmin
 
 ## Installing and building the Demo Application
 
-Step 1. Download [{%download%}](http://www.gigaspaces.com/LatestProductVersion) XAP.
+Step 1. Download {%download http://www.gigaspaces.com/LatestProductVersion%} XAP.
 
 Step 2. [install]({%latestjavaurl%}/installation.html) XAP.
 
 Step 3.	Install Maven and the GigaSpaces Maven plug-in
 
-Step 4.	Download the application source code [{%download%}](https://github.com/fe2s/xap-storm)
+Step 4.	Download the application source code {%download https://github.com/fe2s/xap-storm%}
 
 Step 5.	Build the project by running `mvn clean install`
 

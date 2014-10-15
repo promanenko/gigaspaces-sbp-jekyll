@@ -27,16 +27,18 @@ Since version 3.1, the `Spring Framework` provides support for transparently add
 
 
 
-{%info title=Benefits when using XAP as a Spring caching provider: %}
+{%vbar title=Benefits when using XAP as a Spring caching provider: %}
 
 -	**Decreased Latency** –  Ability to utilize local cache across all server instances for localized reads, greatly reducing serialization across the wire
 
 -	**Scalability** – Horizontally scalable and partitioned cache with flexible cache entry routing
 
 -	**High Availability** – Each partition has a backup instance deployable on a different JVM, host, or availability zone.
-{%endinfo%}
+{%endvbar%}
 
 
+
+Download the example {%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
 
 
 # Configuring the Cache Storage
@@ -76,8 +78,5 @@ Here is an example how to configure the Local Cache:
 </bean>
 {%endhighlight%}
 
-{%refer%}
-Download the example {%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
-{%endrefer%}
 
 
