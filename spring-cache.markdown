@@ -5,12 +5,38 @@ categories: SBP
 parent: data-access-patterns.html
 weight: 101
 ---
-{% summary page %}This article shows how to  use the Spring Cache Abstraction Provider with GigaSpaces XAP{% endsummary %}
- {% tip %}
- **Author**:  Ali Hodroj, Director of Solution Architecture, GigaSpaces<br/>
- **Recently tested with XAP version**: XAP 9.7<br/>
- **Last Update:** Feb 2014<br/>
-{% endtip %}
+
+{% summary page %}This article shows how to  use the Spring Cache Abstraction Provider with GigaSpaces XAP {% endsummary %}
+
+
+{% panel %}
+{%section%}
+{%column width=40% %}
+{%align center%}
+**Author**<br>
+Ali Hodroj <br>
+Director of Solution Architecture, GigaSpaces
+{%endalign%}
+{%endcolumn%}
+{%column   width=20% %}
+{%align center%}
+**XAP Version** {%wbr%}
+XAP 9.7
+{%endalign%}
+{%endcolumn%}
+{%column  width=20% %}
+**Last Updated**  <br>
+October 2014
+{%endcolumn%}
+{%column  width=20% %}
+{%align center%}
+**Download example** <br>
+{%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
+{%endalign%}
+{%endcolumn%}
+{%endsection%}
+{% endpanel %}
+
 
 
 
@@ -37,8 +63,6 @@ Since version 3.1, the `Spring Framework` provides support for transparently add
 {%endvbar%}
 
 
-
-Download the example {%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
 
 
 # Configuring the Cache Storage
