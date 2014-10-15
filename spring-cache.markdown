@@ -5,10 +5,10 @@ categories: SBP
 parent: data-access-patterns.html
 weight: 101
 ---
-{% summary page %}This article shows how to  use the Spring Cache Abstractions Provider with GigaSpaces XAP{% endsummary %}
+{% summary page %}This article shows how to  use the Spring Cache Abstraction Provider with GigaSpaces XAP{% endsummary %}
  {% tip %}
  **Author**:  Ali Hodroj, Director of Solution Architecture, GigaSpaces<br/>
- **Recently tested with GigaSpaces version**: XAP 9.7<br/>
+ **Recently tested with XAP version**: XAP 9.7<br/>
  **Last Update:** Feb 2014<br/>
 {% endtip %}
 
@@ -35,6 +35,7 @@ Since version 3.1, the `Spring Framework` provides support for transparently add
 
 -	**High Availability** – Each partition has a backup instance deployable on a different JVM, host, or availability zone.
 {%endinfo%}
+
 
 
 
@@ -75,5 +76,8 @@ Here is an example how to configure the Local Cache:
 </bean>
 {%endhighlight%}
 
+{%refer%}
+Download the example {%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
+{%endrefer%}
 
 
