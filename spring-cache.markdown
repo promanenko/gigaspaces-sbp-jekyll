@@ -11,24 +11,24 @@ weight: 101
 
 {% panel %}
 {%section%}
-{%column width=40% %}
+{%column width=25% %}
 {%align center%}
 **Author**<br>
 Ali Hodroj <br>
 Director of Solution Architecture, GigaSpaces
 {%endalign%}
 {%endcolumn%}
-{%column   width=20% %}
+{%column   width=25% %}
 {%align center%}
 **XAP Version** {%wbr%}
 XAP 9.7
 {%endalign%}
 {%endcolumn%}
-{%column  width=20% %}
+{%column  width=25% %}
 **Last Updated**  <br>
 October 2014
 {%endcolumn%}
-{%column  width=20% %}
+{%column  width=25% %}
 {%align center%}
 **Download example** <br>
 {%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
