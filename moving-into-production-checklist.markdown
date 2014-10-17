@@ -21,6 +21,31 @@ weight: 800
 
 In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, Solaris, AIX, HP, etc). See below tuning and configuration recommendations that most of the applications running on GigaSpaces XAP might need.
 
+# Monitoring
+
+Having reliable monitoring functionality tracking XAP and its surroundings is an important task to be completed **before moving into production**. Correctly monitoring the XAP environment will allow you to proactively take actions (manually/ automatically) before any system failure avoiding bad user experience, data loss or abnormal sudden system shutdown. You may identify an increase with the system usage to allocate additional CPU or memory resources, or identify broken components to be addressed before these actually impact system health or correct system behavior.
+
+The monitoring functionality should track the following:
+- Service Grid statistics 
+- Data Grid statistics
+- Event Containers (Polling / Notify / Archiver) statistics
+- Remote Service statistics
+- Remote communication statistics
+- Client Local cache / view statistics
+- Web application statistics
+- Mirror Service statistics
+- Replication statistics
+- Admin Alerts (CPU Utilization, Garbage Collection Alert, Replication Channel Disconnection Alert , etc)
+- Log files
+
+For all service grid components (`GSA` , `LUS` , `GSM` , `GSC`) you should monitor Thread count , CPU utilization, file descriptors count , memory utilization and network utilization.
+
+You may publish this information in real-time to any enterprise monitoring system you may have (CA Wily introscope, HP Operations Manager , IBM Tivoli , etc) to be correlated with your existing application monitoring. You may also generate daily / hourly reports of this information to be shared with relevant entities within your organization to be processed offline to estimate required system capacity and size upon system growth.
+
+{% note %}
+Please approach [GigaSpaces support](mailto:support@gigaspaces.com?subject=XAP Monitoring tools) team for Monitoring tools provided as part of GigaSpaces professional services. These can be adapted to fit your exact requirements. 
+{%endnote%}
+
 # File Descriptors
 
 The XAP LRMI communication layer opens network connections dynamically. With large scale applications or with clients that are running a large number of threads accessing the Data-Grid, you might end up having a large number of file descriptors used both on the client and server side. You might have multiple JVMs running on the machine. This might need to increase the default max user processes value.
