@@ -26,6 +26,7 @@ In general, XAP runs on every OS supporting the JVM technology (Windows, Linux, 
 Having reliable monitoring functionality tracking XAP and its surroundings is an important task to be completed **before moving into production**. Correctly monitoring the XAP environment will allow you to proactively take actions (manually/ automatically) before any system failure avoiding bad user experience, data loss or abnormal sudden system shutdown. You may identify an increase with the system usage to allocate additional CPU or memory resources, or identify broken components to be addressed before these actually impact system health or correct system behavior.
 
 The monitoring functionality should track the following:
+
 - Service Grid statistics 
 - Data Grid statistics
 - Event Containers (Polling / Notify / Archiver) statistics
