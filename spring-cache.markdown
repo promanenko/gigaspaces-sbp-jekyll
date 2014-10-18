@@ -6,39 +6,39 @@ parent: data-access-patterns.html
 weight: 101
 ---
 
-{% summary page %}This article shows how to  use the Spring Cache Abstraction Provider with GigaSpaces XAP {% endsummary %}
-
+{% mute %}This article shows how to  use the Spring Cache Abstraction Provider with  XAP{% endmute %}
 
 {% panel %}
 {%section%}
-{%column width=25% %}
-{%align center%}
-**Author**<br>
-Ali Hodroj <br>
-Director of Solution Architecture, GigaSpaces
-{%endalign%}
+{%column width=15% %}
+**XAP Version**<br>
+**Last Updated**<br>
+**Reference**<br>
+**Example**
 {%endcolumn%}
-{%column   width=25% %}
-{%align center%}
-**XAP Version** {%wbr%}
-XAP 9.7
-{%endalign%}
-{%endcolumn%}
-{%column  width=25% %}
-**Last Updated**  <br>
-October 2014
-{%endcolumn%}
-{%column  width=25% %}
-{%align center%}
-**Download example** <br>
+{%column  width=50% %}
+9.7<br>
+October 2014<br>
+[Spring Framework](http://docs.spring.io/spring-framework/docs/4.0.x/spring-framework-reference/html/cache.html)<br>
 {%git https://github.com/GigaSpaces-ProfessionalServices/spring-cache-abstraction %}
+{%endcolumn%}
+{%column  width=10% %}
+{%align right%}
+**Author**
+{%endalign%}
+{%endcolumn%}
+{%column  width=25% %}
+{%align center%}
+Ali Hodroj <br>
+Director of Solution Architecture<br>
+GigaSpaces
 {%endalign%}
 {%endcolumn%}
 {%endsection%}
 {% endpanel %}
 
 
-
+{%summary%}{%endsummary%}
 
 
 # Introduction
