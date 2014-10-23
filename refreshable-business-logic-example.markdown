@@ -7,7 +7,7 @@ weight: 1100
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Refreshable Business Logic example.{% endexcerpt %}<br/>
+**Summary:**  Refreshable Business Logic example. <br/>
 **Author**: Shravan (Sean) Kumar, Solutions Architect, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1.3<br/>
 

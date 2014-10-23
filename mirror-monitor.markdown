@@ -7,7 +7,7 @@ weight: 700
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Mirror Service Monitoring Utility{% endexcerpt %}<br/>
+**Summary:**  Mirror Service Monitoring Utility <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1<br/>
 **Last Update:** April 2010<br/>

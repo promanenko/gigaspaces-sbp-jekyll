@@ -9,7 +9,7 @@ weight: 600
 
 
 {% tip %}
-**Summary:** {% excerpt %}This page describes two ways to determine the partition load in a Gigaspaces grid programmatically.{% endexcerpt %}<br/>
+**Summary:**  This page describes two ways to determine the partition load in a Gigaspaces grid programmatically. <br/>
 **Author**: Joe Ottinger, Technology Evangelist, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1.2<br/>
 

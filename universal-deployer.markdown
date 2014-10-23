@@ -9,7 +9,7 @@ weight: 1500
 {% summary page %} {% endsummary %}
 
 {% tip %}
-**Summary:** {% excerpt %}GigaSpaces Universal Deployer tool. Allows deploying composite applications without any coding.{% endexcerpt %}<br/>
+**Summary:**  GigaSpaces Universal Deployer tool. Allows deploying composite applications without any coding. <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.1<br/>
 **Last Update:** April 2011<br/>

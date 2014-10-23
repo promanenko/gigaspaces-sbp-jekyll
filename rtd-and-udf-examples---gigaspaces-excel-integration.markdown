@@ -7,7 +7,7 @@ weight: 700
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Basic and advanced code examples for using RTD and UDF with the GigaSpaces-Excel integration.{% endexcerpt %}<br/>
+**Summary:**  Basic and advanced code examples for using RTD and UDF with the GigaSpaces-Excel integration. <br/>
 **Author**: Pini Cohen, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 6.6<br/>
 **Contents:**<br/>

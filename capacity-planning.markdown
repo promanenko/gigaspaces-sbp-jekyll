@@ -7,7 +7,7 @@ weight: 100
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Capacity Planning - voodoo or simple math?{% endexcerpt %}<br/>
+**Summary:**  Capacity Planning - voodoo or simple math? <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Contents:**<br/>
 

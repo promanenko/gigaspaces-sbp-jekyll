@@ -9,7 +9,7 @@ weight: 700
 
 
 {% tip %}
-**Summary:** {% excerpt %}The Parallel Queue Pattern - High speed data processing pattern for low-latency systems{% endexcerpt %}<br/>
+**Summary:**  The Parallel Queue Pattern - High speed data processing pattern for low-latency systems <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.0<br/>
 **Last Update:** Feb 2011<br/>

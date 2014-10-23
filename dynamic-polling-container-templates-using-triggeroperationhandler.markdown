@@ -9,7 +9,7 @@ weight: 300
 
 
 {% tip %}
-**Summary:** {% excerpt %}This article illustrates how to use TriggerOperationHandler{% endexcerpt %}<br/>
+**Summary:**  This article illustrates how to use TriggerOperationHandler <br/>
 **Author**: Shravan (Sean) Kumar, Solutions Architect, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 9.0.0<br/>
 

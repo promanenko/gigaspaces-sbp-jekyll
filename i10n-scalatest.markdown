@@ -9,7 +9,7 @@ weight: 700
 {% summary  %}We describe here a technique for implementing a XAP integration (i10n) test using a scalatest [FunSuite](http://www.scalatest.org/getting_started_with_fun_suite).{% endsummary %}
 
 {% tip %}
-**Summary:** {% excerpt %}A technique for implementing a XAP integration test using a scalatest{% endexcerpt %}<br/>
+**Summary:**  A technique for implementing a XAP integration test using a scalatest <br/>
 **Author**: Jason Nerothin, Senior Solutions Architect, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 9.7.2<br/>
 **Last Update:** May 2014<br/>

@@ -7,7 +7,7 @@ weight: 500
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}This example shows the usage of Microsoft Excel spreadsheets and GigaSpaces XAP for working with stock market data. It also demonstrates the building of Excel RTD and UDF components in C# .NET.{% endexcerpt %}<br/>
+**Summary:**  This example shows the usage of Microsoft Excel spreadsheets and GigaSpaces XAP for working with stock market data. It also demonstrates the building of Excel RTD and UDF components in C# .NET. <br/>
 **Author**: Pini Cohen, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 6.6<br/>
 **Contents:**<br/>

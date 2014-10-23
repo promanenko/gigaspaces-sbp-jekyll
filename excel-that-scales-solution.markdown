@@ -7,7 +7,7 @@ weight: 500
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Available functionality, how to develop the integration components and how to configure, deploy and run the GigaSpaces-Excel solution.{% endexcerpt %}<br/>
+**Summary:**  Available functionality, how to develop the integration components and how to configure, deploy and run the GigaSpaces-Excel solution. <br/>
 **Author**: Pini Cohen, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP.NET 6.6<br/>
 **Contents:**<br/>

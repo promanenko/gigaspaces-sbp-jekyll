@@ -103,15 +103,13 @@ This approach is called Space Based Architecture, and the way to achieve it is t
 
 This section provides instructions on switching your existing Hibernate local cache, typically EhCache, with GigaSpaces. This will give you a powerful distributed cache with multiple clients and advanced clustering.
 ![TwoSteps.jpg](/attachment_files/TwoSteps.jpg)
+
 **To switch your Hibernate cache provider to GigaSpaces and use GigaSpaces distributed caching:**
 
-1. Download the GigaSpaces {% refer %} [Download Page](http://www.gigaspaces.com/xap-download) {% endrefer %}
-2. Install GigaSpaces. If you need help, refer to the [installation instructions]({%latestjavaurl%}/installation.html).
+1. Download the GigaSpaces  [Download Page](http://www.gigaspaces.com/xap-download) <br>
+2. Install GigaSpaces. If you need help, refer to the [installation instructions]({%latestjavaurl%}/installation.html).<br>
 3. This step is different if you are managing your Hibernate configuration using Spring (refer to the Spring documentation, ORM Data Access, section 12.2.2), or directly using `hibernate.properties` or `hibernate.cfg.xml`. Select the relevant tab below.
 
-{% c %}
- [http://www.springframework.org/docs/reference/orm.html](http://www.springframework.org/docs/reference/orm.html)
-{% endc %}
 
 {% inittab hibernateconfig %}
 {% tabcontent Spring Configuration %}
@@ -119,10 +117,6 @@ This section provides instructions on switching your existing Hibernate local ca
 **Spring Configuration**
 
 Edit your SessionFactory Setup. This is the section inside your Spring Application Context File that controls the relevant Hibernate configuration (refer to the [Spring documentation, ORM Data Access](http://static.springframework.org/spring/docs/2.5.x/reference/orm.html), section 12.2.2).
-
-{% c %}
- [http://www.springframework.org/docs/reference/orm.html](http://www.springframework.org/docs/reference/orm.html)
-{% endc %}
 
 **Add or modify** the following properties under `<property name="hibernateProperties">`:
 

@@ -9,7 +9,7 @@ weight: 400
 
 
 {% tip %}
-**Summary:** {% excerpt %}the Map-Reduce Pattern - This example illustrates the usage of Executors Remoting (Service Executors) and Task Executors to process data in parallel.{% endexcerpt %}<br/>
+**Summary:**  the Map-Reduce Pattern - This example illustrates the usage of Executors Remoting (Service Executors) and Task Executors to process data in parallel. <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1<br/>
 **Last Update:** Dec 2010<br/>

@@ -10,7 +10,7 @@ weight: 300
 {% summary page %} {% endsummary %}
 
 {% tip %}
-**Summary:** {% excerpt %}Mainframe (Z/OS) based systems integration with GigaSpaces.{% endexcerpt %}<br/>
+**Summary:**  Mainframe (Z/OS) based systems integration with GigaSpaces. <br/>
 **Authors**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 9<br/>
 **Creation Update:** Dec 2011<br/>

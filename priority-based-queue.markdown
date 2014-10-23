@@ -7,7 +7,7 @@ weight: 800
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Implementing Priority based Queue{% endexcerpt %}<br/>
+**Summary:**  Implementing Priority based Queue <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0<br/>
 **Last Update**: Feb 2011<br/>

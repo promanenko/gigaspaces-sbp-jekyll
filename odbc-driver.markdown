@@ -9,7 +9,7 @@ weight: 1200
 
 
 {% tip %}
-**Summary:** {% excerpt %}Access GgaSpaces Data-Grid via ODBC Driver{% endexcerpt %}<br/>
+**Summary:**  Access GgaSpaces Data-Grid via ODBC Driver <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 7.1<br/>
 **Last Update:** April 2010<br/>

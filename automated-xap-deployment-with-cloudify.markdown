@@ -8,7 +8,7 @@ weight: 1700
 
 {% summary page %} {% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}Recipes For XAP Cloud Deployment{% endexcerpt %}<br/>
+**Summary:**  Recipes For XAP Cloud Deployment <br/>
  *Author*: DeWayne Filppi, Director of Solution Architecture, GigaSpaces<br/>
  *Recently tested with GigaSpaces version*: XAP 9.6.0<br/>
  *Last Update:* Nov 2013 <br/>

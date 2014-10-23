@@ -7,7 +7,7 @@ weight: 600
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}JMX Space Statistics Agent{% endexcerpt %}<br/>
+**Summary:**  JMX Space Statistics Agent <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 6.6<br/>
 **Contents:**<br/>

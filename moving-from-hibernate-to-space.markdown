@@ -9,7 +9,7 @@ weight: 1100
 
 
 {% tip %}
-**Summary:** {% excerpt %}Moving Spring/Hibernate Application to GigaSpaces{% endexcerpt %}<br/>
+**Summary:**  Moving Spring/Hibernate Application to GigaSpaces <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0<br/>
 **Last Update:** Feb 2011<br/>

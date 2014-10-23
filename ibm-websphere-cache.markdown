@@ -9,7 +9,7 @@ weight: 60
 {%summary%}{%endsummary%}
 
 {% tip %}
-**Summary:**{% excerpt %}This article illustrates how to integrate IBM's DynaCache with GigaSpaces XAP{% endexcerpt %}<br/>
+**Summary:** This article illustrates how to integrate IBM's DynaCache with GigaSpaces XAP <br/>
 **Author**: Allen Terleto<br/>
 **Recently tested with GigaSpaces version**: XAP 9.7<br/>
 **Last Update:** September 2014<br/>

@@ -7,7 +7,7 @@ weight: 300
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}The Excel space viewer allows you to create customized views of data for spaces running in your network.{% endexcerpt %}<br/>
+**Summary:**  The Excel space viewer allows you to create customized views of data for spaces running in your network. <br/>
 **Author**: Pini Cohen, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: GigaSpaces 6.5 GA (build 2352)<br/>
 **Contents:**<br/>

@@ -7,7 +7,7 @@ weight: 400
 ---
 
 {% tip %}
-**Summary:** {% excerpt %}Observable WAN - Multi-site WAN performance detection{% endexcerpt %}<br/>
+**Summary:** Observable WAN - Multi-site WAN performance detection <br/>
 **Author**: DeWayne Filppi<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.4<br/>
 **Last Update:** March 2012<br/>

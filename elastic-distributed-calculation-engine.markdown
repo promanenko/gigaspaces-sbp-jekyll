@@ -11,7 +11,7 @@ weight: 100
 {% summary %} {% endsummary %}
 
 {% tip %}
-**Summary:** {% excerpt %}Elastic Distributed Calculation Engine implementation using Map-Reduce approach.{% endexcerpt %}<br/>
+**Summary:**  Elastic Distributed Calculation Engine implementation using Map-Reduce approach. <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0.3<br/>
 **Last Update:** Sep 2011<br/>

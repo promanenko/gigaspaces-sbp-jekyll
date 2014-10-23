@@ -9,7 +9,7 @@ weight: 900
 
 {% summary page %} {% endsummary %}
 {% tip %}
-**Summary:** {% excerpt %}GigaSpaces Spring Batch Elastic Processing Unit{% endexcerpt %}<br/>
+**Summary:**  GigaSpaces Spring Batch Elastic Processing Unit <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 8.0. Spring Batch 2.1.6.<br/>
 **Last Update:** March 2011<br/>
