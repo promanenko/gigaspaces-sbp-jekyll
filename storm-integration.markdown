@@ -6,16 +6,37 @@ parent: data-access-patterns.html
 weight: 40
 ---
 
-{% summary page %}This pattern explains how:<br/>
-- XAP can be used to scale Storm activity by using a distributed IMDG acting as its system of record instead of a slow database.<br/>
-- How XAP can act as a distributed broker for the Storm Spouts buffering high speed streams instead of traditional slow messaging.<br/>
-{% endsummary %}
-{% tip %}
-**Author**:Oleksiy Dyagilev<br/>
-**Recently tested with GigaSpaces version**: XAP 10.0<br/>
-**Last Update:** August 2014<br/>
-{% endtip %}
+{% mute %}This pattern explains how XAP can be used to:<br/>- scale Storm activity by using a distributed IMDG acting as its system of record instead of a slow database.<br/>- act as a distributed broker for the Storm Spouts buffering high speed streams instead of traditional slow messaging.{% endmute %}
 
+{% panel %}
+{%section%}
+{%column width=15% %}
+**XAP Version**<br>
+**Last Updated**<br>
+**Reference**<br>
+**Example**
+{%endcolumn%}
+{%column  width=50% %}
+10.0<br>
+August 2014<br>
+[Storm](https://storm.incubator.apache.org)<br>
+{%git https://github.com/fe2s/xap-storm %}
+{%endcolumn%}
+{%column  width=10% %}
+{%align right%}
+**Author**
+{%endalign%}
+{%endcolumn%}
+{%column  width=25% %}
+{%align center%}
+Oleksiy Dyagilev
+{%endalign%}
+{%endcolumn%}
+{%endsection%}
+{% endpanel %}
+
+
+{%summary%}{%endsummary%}
 
 # Introduction
 
@@ -341,7 +362,7 @@ Step 1. Download {%download http://www.gigaspaces.com/LatestProductVersion%} XAP
 
 Step 2. [install]({%latestjavaurl%}/installation.html) XAP.
 
-Step 3.	Install Maven and the GigaSpaces Maven plug-in
+Step 3.	Install Maven and the XAP Maven plug-in
 
 Step 4.	Download the application source code {%download https://github.com/fe2s/xap-storm%}
 

@@ -6,12 +6,38 @@ parent: data-access-patterns.html
 weight: 50
 ---
 
-{% summary page %}This pattern explains how to use Kafka with XAP.{% endsummary %}
-{% tip %}
-**Author**:Oleksiy Dyagilev<br/>
-**Recently tested with GigaSpaces version**: XAP 9.6<br/>
-**Last Update:** Feb 2014<br/>
-{% endtip %}
+{% mute %} This pattern explains how to use Kafka with XAP.{% endmute %}
+
+{% panel %}
+{%section%}
+{%column width=15% %}
+**XAP Version**<br>
+**Last Updated**<br>
+**Reference**<br>
+**Example**
+{%endcolumn%}
+{%column  width=50% %}
+9.6<br>
+February 2014<br>
+[Apache Kafka](http://kafka.apache.org)<br>
+{%zip /download_files/sbp/kafka-integration.tar %}
+{%endcolumn%}
+{%column  width=10% %}
+{%align right%}
+**Author**
+{%endalign%}
+{%endcolumn%}
+{%column  width=25% %}
+{%align center%}
+Oleksiy Dyagilev
+{%endalign%}
+{%endcolumn%}
+{%endsection%}
+{% endpanel %}
+
+
+{%summary%}{%endsummary%}
+
 
 # Introduction
 
@@ -112,11 +138,11 @@ Here is an example of the Kafka Space Synchronization Endpoint configuration:
 Please consult Kafka documentation for the full list of available producer properties.
 The default properties applied to Kafka producer are the following:
 
-{: .table .table-bordered}
+{: .table .table-bordered .table-condensed}
 |Property|Default value|Description|
 |:-------|:------------|:----------|
-|key.serializer.class|com.epam.openspaces.persistency.kafka.protocol.impl.serializer.KafkaMessageKeyEncoder|Message key serializer of default Gigaspace-Kafka protocol|
-|serializer.class|com.epam.openspaces.persistency.kafka.protocol.impl.serializer.KafkaMessageEncoder|Message serializer of default Gigaspace-Kafka protocol|
+|key.serializer.class|com.epam.openspaces.persistency.kafka.<br>protocol.impl.serializer.KafkaMessageKeyEncoder|Message key serializer of default Gigaspace-Kafka protocol|
+|serializer.class|    com.epam.openspaces.persistency.kafka.<br>protocol.impl.serializer.KafkaMessageEncoder|Message serializer of default Gigaspace-Kafka protocol|
 
 You can override the default properties if there is a need to customize GigaSpace-Kafka protocol. See Customization section below for details.
 
