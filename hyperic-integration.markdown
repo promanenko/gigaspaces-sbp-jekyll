@@ -6,6 +6,8 @@ parent: production.html
 weight: 500
 ---
 
+{%summary%}{%endsummary%}
+
 # Overview
 
 [Hyperic](http://www.hyperic.com/) is a global monitoring system and this page describes a quick GigaSpaces integration that I made during a consulting session.

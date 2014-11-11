@@ -6,12 +6,12 @@ parent: production.html
 weight: 100
 ---
 
+{%summary%}{%endsummary%}
+
 {% tip %}
 **Summary:**  Capacity Planning - voodoo or simple math? <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Contents:**<br/>
-
-{% toc minLevel=1|maxLevel=1|type=flat|separator=pipe %}
 
 {% endtip %}
 
