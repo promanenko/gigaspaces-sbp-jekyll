@@ -6,7 +6,7 @@ weight: 2100
 parent: production.html
 ---
 
-{% mute %}This tool allows to refresh business logic without any system downtime and data loss.{% endmute %}
+{% mute %}This tool allows business logic to be refreshed without any system downtime and data loss.{% endmute %}
 
 {% panel %}
 {%section%}
@@ -38,39 +38,44 @@ Ask Pavlo <br>
 
 {%summary%}{%endsummary%}
 
+This tool allows business logic to be refreshed without any system downtime and data loss (hot deploy). See XAP documentation for details.
+
+The Tool will restart all processing units defined by the user. Old deployment files for specified pu's will be moved to a temporary folder. New files will be copied to the XAP deploy folder. After that the application will discover all processing units and restart them.
 
 
-Tool will restart all processing units defined by user.
+# Stateful PU restart
 
-New files will be copied to the deploy folder. After that application will discover all processing units and restart them.
+1. The tool discovers all processing unit instances and identifies their Space mode.
+2. All backups are restarted (each instance in a separate thread).
+3. All primaries are restarted. If the `double_restart` option is enabled, primaries are restarted twice to return to the original state (one by one). Without this option, primary partitions  are  restarted one time (each instance in a separate thread). Use `double_restart` if all instances should be placed in the “original” vm.
 
+# Stateless PU restart
 
-
-
-# Stateful PU restart.
-
-1. Tool discover all processing unit instances and identifies their space mode.
-2. All backups restarted
-3. All primaries restarted. If 'double_restart' option enabled, primaries restarted twice to return to the original state.
+- the tool discover all processing unit instances and restarts them (each instance in separate thread).
 
 
 # Build
 
-For build use:
 
+Source files (`xap-hot-redeploy` folder) can be located anywhere on your machine.
+
+Building the tool:
+
+{%highlight console%}
 mvn clean install
-Note, that tests will be skipped in this case. How to build with tests see in Tests section.
+{%endhighlight%}
 
+Note, that tests will be skipped in this case. How to build with tests see in the [tests section](#1).
 
 
 # Run
 
-Copy jar(war) file with new classes to the xap-hot-redeploy folder.
-Configure options in config.properties file.
-Run run.sh (run.bat) script.
+1. Copy new jar(war) files with new classes to the `xap-hot-redeploy` folder.
+2. Configure options in `xap-hot-redeploy/config.properties` file.
+3. Run `run.sh (run.bat)` script from xap-hot-redeploy folder.
 
 
-Parameters in config.properties file.
+Runtime configuration `config.properties` file.
 
 {: .table   .table-condensed  .table-bordered}
 | Option                   | Optional/required | Default value                        | Description                                                                                                                         |
@@ -128,28 +133,52 @@ If there are any problems during the hot-redeploy, you will see an error message
 
 All details about hot-redeploy process you can see in `hot-redeploy.log` file.
 
+{%anchor 1%}
+
 # Tests
 
+If you want to build tool with running tests use:
 
-If you want to build tool with running tests use
-```
+{%highlight console%}
 mvn clean install -DskipTests=false
-```
->PREREQUISITES for running tests:
+{%endhighlight%}
+
+#### PREREQUISITES for running tests:
 
  * run gs-agent.sh/bat
  * lookup group and locator should be set to default values
  * properties should be set in `/tool/src/test/resources/config.properties` file
- * make sure that there is no pu with name "space" deployed already
+ * make sure that there is no pu with name `space` deployed already
+
 
 # Rollback
 
+Rollback functionality helps to avoid the loss of data, if errors occurred during the redeploy (for example - broken pu file).
+When errors occur, the tool searches for backup GSM's. If there are more than one GSM in the system, they will be restarted one by one. If there is only one GSM in system, the tool will look for empty GSC and restart it.
+In  case the rollback finished successfully, all pu's for redeploy return to its original  version.
 
-Rollback functionality helps to avoid loosing data, if errors occured during the redeploy (for example - broken pu file).
-When some errors occured tool search for backup GSM. If threre are more than one GSM in system, they will be restarted one by one. If there is only one GSM in system, tool look for empty GSC and restart it.
-In this cases rollback finished successfuly and all pus for redeploy return to them original version.
+If no backup GSM and no empty container are found, the rollback will fail and the system state is unstable.
 
-If backup GSM and empty container not found rollback faild and system state is unstable.
+Rollback working example:
 
-[gigaspaces wiki]:http://wiki.gigaspaces.com/wiki/display/XAP96/Deploying+onto+the+Service+Grid#DeployingontotheServiceGrid-HotDeploy
-[SSH login without password]:http://www.linuxproblem.org/art_9.html
+{%highlight console%}
+
+17:03:48,679  INFO main StatefulPuRestarter:restartAllInstances:105 - Restarting pu space with type STATEFUL
+17:03:48,681  INFO pool-6-thread-1 PuInstanceRestarter:restartPUInstance:36 - restarting instance 1 on 127.0.0.1[127.0.0.1] GSC PID:7612 mode:backup...
+17:04:49,294  INFO pool-6-thread-1 PuInstanceRestarter:restartPUInstance:43 - done
+17:10:35,739  INFO main RollbackChecker:doRollback:100 - Do rollback..
+17:10:35,739  INFO main RollbackChecker:doRollback:106 - There is one GSM in system. Try to find empty GSC
+17:10:35,740  INFO main RollbackChecker:doRollback:109 - Restarting GSC with id 2
+17:10:53,683  INFO main RollbackChecker:doRollback:119 - Rollback completed successfully
+17:10:53,684  WARN main HotRedeployMain:redeploy:44 - Hot redeploy failed. Rollback successfully completed
+{%endhighlight%}
+
+### Minimal configuration for rollback:
+
+In order for the rollback to work, the following minimal topology needs to be available:
+
+* At least one backup GSM should be deployed.
+
+or
+
+* If n = count of primary pu instances, you should have n + 1 GSC deployed.
