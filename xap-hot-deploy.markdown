@@ -29,7 +29,8 @@ November 2014<br>
 {%endcolumn%}
 {%column  width=25% %}
 {%align center%}
-Ask Pavlo <br>
+Anna Babich - Anna_Babich@epam.com <br>
+Pavlo Romanenko - Pavlo_Romanenko@epam.com <br>
 {%endalign%}
 {%endcolumn%}
 {%endsection%}
@@ -38,24 +39,21 @@ Ask Pavlo <br>
 
 {%summary%}{%endsummary%}
 
-This tool allows business logic to be refreshed without any system downtime and data loss (hot deploy). See XAP documentation for details.
+This tool allows business logic running as a PU to be refreshed (rolling PU upgrade) without any system downtime and data loss. The tool using the hot deploy approach , placing new PU code on the GSM PU deploy folder and later restart each PU instance. See XAP Hot Deploy documentation for details.
 
-The Tool will restart all processing units defined by the user. Old deployment files for specified pu's will be moved to a temporary folder. New files will be copied to the XAP deploy folder. After that the application will discover all processing units and restart them.
+To refresh the PU code the tool restarts all processing units for a given PU. Old deployment files for the specified PU will be moved into a temporary folder to be used in case the upgrade fails. New PU files will be copied to the XAP deploy folder prior the restart phase. The tool identifies all running PU instances and restart them once by one. Once the process is completed both primary and backup PU instances will run updated logic.
 
-
-# Stateful PU restart
+# Stateful PU Restart
 
 1. The tool discovers all processing unit instances and identifies their Space mode.
 2. All backups are restarted (each instance in a separate thread).
 3. All primaries are restarted. If the `double_restart` option is enabled, primaries are restarted twice to return to the original state (one by one). Without this option, primary partitions  are  restarted one time (each instance in a separate thread). Use `double_restart` if all instances should be placed in the “original” vm.
 
-# Stateless PU restart
+# Stateless PU Restart
 
-- the tool discover all processing unit instances and restarts them (each instance in separate thread).
-
+- The tool discover all processing unit instances and restarts them (each instance in separate thread).
 
 # Build
-
 
 Source files (`xap-hot-redeploy` folder) can be located anywhere on your machine.
 
@@ -66,7 +64,6 @@ mvn clean install
 {%endhighlight%}
 
 Note, that tests will be skipped in this case. How to build with tests see in the [tests section](#1).
-
 
 # Run
 
