@@ -48,6 +48,10 @@ This best practice will show you:
 2.	Run Multiple-Applications Session Sharing – sharing the same session between different applications running in different Web servers - Tomcat and JBoss.
 
 
+
+
+
+
 {%comment%}
 Prior running the lab
 
