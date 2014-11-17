@@ -51,6 +51,7 @@ This tutorial will show you:
 # Prior running the Tutorial
 
 Make sure you have enough disk space to install:
+
 - XAP 10 - 150MB
 - Tomcat 7.0.23 - 80MB
 - JBoss 7 - 200MB
