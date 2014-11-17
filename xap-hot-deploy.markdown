@@ -51,7 +51,7 @@ To refresh the PU code the tool restarts all processing units for a given PU. Ol
 
 # Stateless PU Restart
 
-- The tool discover all processing unit instances and restarts them (each instance in separate thread).
+The tool discover all processing unit instances and restarts them (each instance in separate thread).
 
 # Build
 
