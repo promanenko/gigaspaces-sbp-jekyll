@@ -1,5 +1,5 @@
 ---
-layout: post100
+layout: post
 title:   Enabling HTTP Session Failover
 categories: SBP
 weight: 200

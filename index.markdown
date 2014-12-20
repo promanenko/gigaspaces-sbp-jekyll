@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Solutions, Patterns & Best Practices
+title:  Examples, Solutions, Patterns & Best Practices
 categories: SBP
 ---
 
@@ -14,9 +14,17 @@ The patterns below are presented as is. While most of them are used in real life
 # Examples
 
 {: .table .table-bordered .table-condensed}
-| Example | Level | Description |
-|:--------------|:------|:------------|
-|[<nobr>Your first web application</nobr>](./first-web-app.html) | Beginner | This tutorial explains how your existing web JEE web application can benefit from the XAP platform  |
+| Example | Description |
+|:--------------|:------|
+|[<nobr>Your first XAP application</nobr>](./first-xap-app.html) |  This tutorial explains how to build your first XAP Application in 4 easy steps, from basic API usage to scaling your application and making it highly available.  |
+|[Your first WEB application](./first-web-app.html) | This tutorial explains how your existing web JEE web application can benefit from the XAP platform, showing you how to deploy a simple standard web application into the XAP environment  |
+|[Your first JPA application](./first-jpa-app.html) | This tutorial explains how the sample Spring PetClinic application can be fine tuned to use GigaSpaces XAP JPA API and deployed into the GigaSpaces XAP platform. |
+|[Deploying and Interacting with the Space](./deploying-and-interacting-with-the-space.html) | This section covers the main APIs of GigaSpaces XAP |
+|[Data Example](./first-real-time-big-data-analytics-app.html) |This example gives an extensive overview of the OpenSpaces APIs, the Processing Unit concept and the configuration options in the sla.xml and pu.xml files |
+|[Order Management Tutorial](./a-typical-sba-application.html) | This section describes SBA from an application development perspective. It focuses on developing a high-throughput, event-driven, service-oriented application using GigaSpaces XAP and Space-Based Architecture. |
+|[A Typical SBA Application](./xap-order-management-tutorial.html) |  In this tutorial, you will see three core space-based concepts in action: architecture, application deployment, and scaling.  |
+|[Your First Real Time Big Data Analytics Application](./first-real-time-big-data-analytics-app.html) | This tutorial shows  a Real-time (RT) Analytics system using Twitter as an example, and show in details how these challenges can be met by using   XAP.  |
+
 
 
 

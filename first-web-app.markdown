@@ -1,8 +1,8 @@
 ---
-layout: post100
+layout: post
 title:  Your First Web Application
 categories: SBP
-weight: 100
+weight: 200
 parent: examples.html
 ---
 
