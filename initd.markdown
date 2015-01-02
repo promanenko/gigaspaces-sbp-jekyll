@@ -494,7 +494,7 @@ public abstract class AbstractGridComponentMonitor implements Runnable
     synchronized(threadMonitor_) { threadMonitor_.notifyAll(); }
     }
 }  // end AbstractGridComponentMonitor
-{%endhighlight}
+{%endhighlight%}
 
 and
 
