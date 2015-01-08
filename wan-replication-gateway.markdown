@@ -55,7 +55,7 @@ Directory of D:\gigaspaces-xap-premium-{%latestxaprelease%}-ga\deploy
 09/11/2011  04:42 AM    <DIR>          wan-space-US
 {% endhighlight %}
 
-Step 3. Please move into the `scripts` folder and edit the `setExampleEnv.bat/sh` to include correct values for `NIC_ADDR` as the machine IP and `GS_HOME` to have Gigaspaces root folder location.
+Step 3. Please move into the `scripts` folder and edit the `setExampleEnv.bat/sh` to include correct values for `NIC_ADDR` as the machine IP and `GS_HOME` to have GigaSpaces root folder location.
 
 # Running the Example
 You will find within the `scripts` folder running scripts to start [Grid Service Agent](/product_overview/service-grid.html#gsa) for each site and a deploy script for all sites. This will allow you to run the entire setup on one machine to test. Here are the steps to run the example:
