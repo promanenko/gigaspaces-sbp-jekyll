@@ -279,7 +279,7 @@ The pass-through topology configuration is implemented through delegators across
 
 1. Download the [WAN_Replication_PassThrough.zip](/attachment_files/sbp/WAN_Replication_PassThrough.zip). It includes two folders: **deploy** and **scripts**.
 2. Please extract the file and and copy the content of the **deploy** folder into `\<GIGASPACES_HOME>\deploy` folder.
-3. Extract the `scripts` folder to an arbitrary location and edit the `setExampleEnv.bat/sh` script to include correct values for `NIC_ADDR` as the machine IP and `JSHOMEDIR` as the GigaSpaces root folder location.
+3. Extract the `scripts` folder to an arbitrary location and edit the `setExampleEnv.bat/sh` script to include correct values for `NIC_ADDR` as the machine IP and `GS_HOME` as the GigaSpaces root folder location.
 
 The `scripts` folder contains the necessary scripts to start the [Grid Service Agent](/product_overview/service-grid.html#gsa) for each cluster, in addition to a deploy script `deployAll.bat/sh` which will be used to automate the deployment of all three gateways and space instances. This will allow you to run the entire setup on one machine to simplify testing. Here are the steps to run the example:
 
