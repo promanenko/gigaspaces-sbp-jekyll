@@ -37,7 +37,7 @@ The internal architecture of the setup includes a clustered space and a Gateway,
 
 # Installing the Example
 
-Step 1. Download the [WAN_Gateway_example.zip](/attachment_files/sbp/WAN_Gateway_example.zip). It includes two folders: **deploy** and **scripts**.
+Step 1. Download the [WAN_Gateway_example.zip](https://github.com/Gigaspaces/wan-gateway-examples/archive/master.zip). It includes two folders: **deploy** and **scripts**. View on [GitHub](https://github.com/Gigaspaces/wan-gateway-examples/tree/master/WAN_Replication_MultiMaster)
 
 Step 2. Please extract the file and and copy the content of the **deploy folder** into `\gigaspaces-xap-premium-{%latestxaprelease%}-ga\deploy` folder. It should looks like this:
 
