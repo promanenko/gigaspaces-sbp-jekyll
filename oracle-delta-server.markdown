@@ -189,7 +189,7 @@ If the space is not partitioned we simply read all employees from the table and 
 
 # Running the example
 
-1. Download the example from [GitHub|https://github.com/Gigaspaces/oracle-delta-server].
+1. Download the example from {%git https://github.com/Gigaspaces/oracle-delta-server%}.
 2. Change the Database properties according to your environment:
 
 {%highlight java%}
