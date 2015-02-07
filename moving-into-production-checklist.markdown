@@ -11,10 +11,10 @@ weight: 800
 
 
 {% tip %}
-**Summary:** The following list should provide you with the main activities to be done prior moving your system into production. Reviewing this list and executing the relevant recommendations should result in a stable environment with a low probability of unexpected behavior or failures that are result of a GigaSpaces environment mis configuration.
+**Summary:** The following list should provide you with the main activities to be done prior moving your system into production. Reviewing this list and executing the relevant recommendations should result in a stable environment with a low probability of unexpected behavior or failures that are result of a GigaSpaces XAP environment misconfiguration.
 <br/>
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
-**Recently tested with GigaSpaces version**: XAP 10.0<br/>
+**Recently tested with GigaSpaces XAP version**: XAP 10.0<br/>
 **Last Update:** April 2014<br/>
 
 {% endtip %}
@@ -118,12 +118,12 @@ There are numerous ways allowing different systems/applications/groups to share 
 
 1. Outside of XAP:  Dedicated hardware for each group, each set of servers runs an independent XAP runtime environment (aka Service Grid) without sharing the same server between different groups.  This naive approach is good for simple or temporary scenarios. In this case each XAP runtime environment is isolated from each other using [different LOOKUPLOCATORS](#RunningMultipleLocators) or [different LOOKUPGROUPS](#RunningMultipleGroups) value.
 
-2. [Using Multiple Zones](#RunningMultipleZones):  A single XAP runtime environment spans all servers, where each group of GigaSpaces containers (across several machines) are labeled with a specific Zone.  You may have multiple Zones used by different containers on the same server. For example, have on server A two containers labeled with zoneX and four containers labeled with zoneY and on server B two containers labeled with zoneX and four containers labeled with zoneY.
+2. [Using Multiple Zones](#RunningMultipleZones):  A single XAP runtime environment spans all servers, where each group of XAP containers (across several machines) are labeled with a specific Zone.  You may have multiple Zones used by different containers on the same server. For example, have on server A two containers labeled with zoneX and four containers labeled with zoneY and on server B two containers labeled with zoneX and four containers labeled with zoneY.
 At deployment time, application services (aka processing Unit) are deployed using a specific Zone. This instructs the system to provision the services into the corresponding containers.  Use of multiple Zones breaks logically the runtime environment into different segments.
 
-3. [Using Multiple Lookup Groups (multicast lookup discovery)](#RunningMultipleGroups):  All servers running multiple GigaSpaces runtime environments, where each GigaSpaces container using a specific Lookup Group when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup group. Use of multiple lookup group breaks logically the Infrastructure into different segments. The Lookup Group value controlled via the `LOOKUPGROUPS` environment variable. When using this option you should make sure multicast is enabled on all machines.
+3. [Using Multiple Lookup Groups (multicast lookup discovery)](#RunningMultipleGroups):  All servers running multiple XAP runtime environments, where each XAP container using a specific Lookup Group when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup group. Use of multiple lookup group breaks logically the Infrastructure into different segments. The Lookup Group value controlled via the `LOOKUPGROUPS` environment variable. When using this option you should make sure multicast is enabled on all machines.
 
-4. [Using Multiple Lookup Locators (unicast lookup discovery)](#RunningMultipleLocators): All servers running multiple GigaSpaces runtime environments, where each GigaSpaces container using a specific Lookup locator when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup locator. Use of multiple lookup locators breaks logically the Infrastructure into different segments. If you have multiple lookup services running on the same server, each will use a different listening port. You may control this port using the `com.sun.jini.reggie.initialUnicastDiscoveryPort` system property. The Lookup Locators value controlled via the `LOOKUPLOCATORS` environment variable.
+4. [Using Multiple Lookup Locators (unicast lookup discovery)](#RunningMultipleLocators): All servers running multiple XAP runtime environments, where each XAP container using a specific Lookup locator when registering with the Lookup Service.  At deployment time, application services (aka processing Unit) are deployed using a specific lookup locator. Use of multiple lookup locators breaks logically the Infrastructure into different segments. If you have multiple lookup services running on the same server, each will use a different listening port. You may control this port using the `com.sun.jini.reggie.initialUnicastDiscoveryPort` system property. The Lookup Locators value controlled via the `LOOKUPLOCATORS` environment variable.
 
 5. Using a shared XAP runtime environment: A single XAP runtime environment spans all servers, with no use of Zones or Lookup Groups/Locators.   Application services share the servers and allocation done in a random manner without using any pre-defined segmentation.
 
@@ -133,7 +133,7 @@ Devising the appropriate resource sharing strategy for your system should consid
 XAP provides consultancy services for the environment planning stage that addresses the above as well as other considerations impacting your environment. For more information see [GigaPro Services](http://www.gigaspaces.com/content/gigapro-full-services-offering-xap-customers)
 
 # Binding the Process into a Machine IP Address
-In many cases, the machines that are running GigaSpaces (i.e., a GSA, GSM, or GSC), or running GigaSpaces client applications (e.g., web servers or standalone JVM/.Net/CPP processes) have multiple network cards with multiple IP addresses. To make sure that the GigaSpaces processes or the GigaSpaces client application processes bind themselves to the correct IP addresses - accessible from another machines - you should use the `NIC_ADDR` environment variable, or the [java.rmi.server.hostname](http://docs.oracle.com/javase/7/docs/api/java/rmi/server/package-summary.html) system property. Both should be set to the IP of the machine (one of them in case of a machine with multiple IP addresses). Without having this environment/property specified, in some cases, a client process is not able to be notified of events generated by the GigaSpaces runtime environment or the space.
+In many cases, the machines that are running GigaSpaces XAP (i.e., a GSA, GSM, or GSC), or running GigaSpaces XAP client applications (e.g., web servers or standalone JVM/.Net/CPP processes) have multiple network cards with multiple IP addresses. To make sure that the XAP processes or the XAP client application processes bind themselves to the correct IP addresses - accessible from another machines - you should use the `NIC_ADDR` environment variable, or the [java.rmi.server.hostname](http://docs.oracle.com/javase/7/docs/api/java/rmi/server/package-summary.html) system property. Both should be set to the IP of the machine (one of them in case of a machine with multiple IP addresses). Without having this environment/property specified, in some cases, a client process is not able to be notified of events generated by the XAP runtime environment or the space.
 
 Examples:
 
@@ -153,7 +153,7 @@ With the above approach, you can leverage multiple network cards within the same
 {% exclamation %} For more information, see [How to Configure an Environment With Multiple Network-Cards (Multi-NIC)]({%latestadmurl%}/network-multi-nic.html)
 
 # Ports
-GigaSpaces uses TCP/IP for most of its remote operations. The following components within GigaSpaces require open ports:
+GigaSpaces XAP uses TCP/IP for most of its remote operations. The following components within XAP require open ports:
 
 {: .table .table-bordered .table-condensed}
 | Service | Description | Configuration Property | Default value |
@@ -162,7 +162,7 @@ GigaSpaces uses TCP/IP for most of its remote operations. The following componen
 |[LRMI listening port]({%latestadmurl%}/tuning-communication-protocol.html)|Used with client-space and space-space communication. |`com.gs.transport_protocol.lrmi.bind-port` System property. |variable, random|
 |RMI registry listening port |Used as an alternative directory service.| `com.gigaspaces.system.registryPort` System property|10098 and above.|
 |Webster listening port|Internal web service used as part of the application deployment process. |`com.gigaspaces.start.httpPort` System property|9813|
-|[Web UI Agent]({%latestadmurl%}/web-management-console.html)|GigaSpaces Dashboard Web Application. | `com.gs.webui.port` System property|8099|
+|[Web UI Agent]({%latestadmurl%}/web-management-console.html)|GigaSpaces XAP Dashboard Web Application. | `com.gs.webui.port` System property|8099|
 
 Here are examples of how to set different LRMI listening ports for the GS-UI, and another set of ports for the GSA/GSC/GSM/Lookup Service:
 
@@ -217,7 +217,7 @@ or by lowering the `com.gs.transport_protocol.lrmi.max-conn-pool` value.
 The LRMI connection thread pool is a server side component. It is in charge of executing the incoming LRMI invocations. It is a single thread pool within the JVM that executes all the invocations, from all the clients and all the replication targets.
 
 {% tip %}
-In some cases you might need to increase the LRMI Connection thread pool maximum size. Without this tuning activity, the system might hang in case there would be large amount of concurrent access. See the [LRMI Configuration]({%latestadmurl%}/tuning-communication-protocol.html#LRMI+Configuration) for details about the GigaSpaces Communication Protocol options. Using a value as **1024** for the LRMI Connection Thread Pool should be sufficient for most large scale systems.
+In some cases you might need to increase the LRMI Connection thread pool maximum size. Without this tuning activity, the system might hang in case there would be large amount of concurrent access. See the [LRMI Configuration]({%latestadmurl%}/tuning-communication-protocol.html#LRMI+Configuration) for details about the GigaSpaces XAP Communication Protocol options. Using a value as **1024** for the LRMI Connection Thread Pool should be sufficient for most large scale systems.
 {% endtip %}
 
 # Lookup Locators and Groups
@@ -228,14 +228,14 @@ There are 2 main options for how to discover a lookup service:
 - **Via locator(s)** - Unicast Discovery mode. With this option a specific IP (or hostname) used indicating the machine running the lookup service. This option can be used when multicast communication is disabled on the network, or when you want to avoid the overhead involved with the multicast discovery.
 - **Via group(s)** - Multicast Discovery mode. relevant **only when the network supports multicast**. This is a "tag" you assign to the lookup.  Clients that want to register with this lookup service, or search for a service proxy, need to use this specific group when discovering the lookup service.
 
-To configure the GigaSpaces runtime components (GSA,GSC,GSM,LUS) to use unicast discovery you should set the `LOOKUPLOCATORS` variable:
+To configure the GigaSpaces XAP runtime components (GSA,GSC,GSM,LUS) to use unicast discovery you should set the `LOOKUPLOCATORS` variable:
 
 {% highlight bash %}
 export LOOKUPLOCATORS=MachineA,MachineB
 ./gs-agent.sh &
 {% endhighlight %}
 
-To configure the GigaSpaces runtime components (GSA,GSC,GSM,LUS) to use multicast discovery you should set the `LOOKUPGROUPS` variable:
+To configure the GigaSpaces XP runtime components (GSA,GSC,GSM,LUS) to use multicast discovery you should set the `LOOKUPGROUPS` variable:
 
 {% highlight bash %}
 export LOOKUPGROUPS=Group1,Group2
@@ -247,7 +247,7 @@ When running multiple systems on the same network infrastructure, you should iso
 {% comment %}
 
 {% tip %}
-By default every GigaSpaces component (Client, Lookup Service, GSC, GSM) look for a lookup service using the multicast discovery protocol. This has some overhead. If you would like to avoid this overhead (both on the client side and Lookup Service, GSC, GSM), you should disable the multicast discovery using the following system property:
+By default every GigaSpaces XAP component (Client, Lookup Service, GSC, GSM) look for a lookup service using the multicast discovery protocol. This has some overhead. If you would like to avoid this overhead (both on the client side and Lookup Service, GSC, GSM), you should disable the multicast discovery using the following system property:
 `com.gs.multicast.enabled=false`
 
 In such a case, make sure clients have their lookup locators set correctly to have the lookup service machine names or IP listed.
@@ -293,7 +293,7 @@ Here is a simple configuration you should place within your pu.xml to disable th
 {%endhighlight%}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
-In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces runtime environment]({%latestadmurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
+In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces XAP runtime environment]({%latestadmurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
 
 You should plan the initial number of GSCs and GSMs based on the application memory footprint, and the amount of processing you might need. The most basic deployment should include 2 GSMs (running on different machines), 2 Lookup services (running on different machines), and 2 GSCs (running on each machine). These host your Data-Grid or any other application components (services, web servers, Mirror) that you deploy.
 
@@ -350,7 +350,7 @@ call gs-agent.bat
 {%anchor RunningMultipleGroups %}
 
 ## Running Multiple Groups
-You may have a set of LUS/GSM managing GSCs associated to a specific group. Let's assume you would like to "break" your network into 2 groups. Here is how you should start the GigaSpaces runtime environment:
+You may have a set of LUS/GSM managing GSCs associated to a specific group. Let's assume you would like to "break" your network into 2 groups. Here is how you should start the GigaSpaces XAP runtime environment:
 
 {%accordion id=acc3%}
 {%accord parent=acc3 | title=Step 1. Run gs-agent starting LUS/GSM with GroupX: %}
@@ -396,7 +396,7 @@ gs deploy-space -cluster schema=partitioned total_members=2 spaceY
 {% anchor RunningMultipleLocators%}
 
 ## Running Multiple Locators
-You may have a set of LUS/GSM managing GSCs associated to a specific locator. Let's assume you would like to "break" your network into 2 groups using different lookup locators. Here is how you should start the GigaSpaces runtime environment:
+You may have a set of LUS/GSM managing GSCs associated to a specific locator. Let's assume you would like to "break" your network into 2 groups using different lookup locators. Here is how you should start the GigaSpaces XAP runtime environment:
 
 {%accordion id=acc1 %}
 {%accord parent=acc1 | title=Step 1. Run gs-agent starting LUS/GSM with a lookup service listening on port 8888:%}
@@ -542,7 +542,7 @@ To avoid the need to load the same library into each PU instance classloader run
 
 {%section%}
 {%column width=70% %}
-In most cases, the applications using GigaSpaces are leveraging machines with very fast CPUs, where the amount of temporary objects created is relatively large for the JVM garbage collector to handle with its default settings. This means careful tuning of the JVM is very important to ensure stable and flawless behavior of the application.
+In most cases, the applications using XAP are leveraging machines with very fast CPUs, where the amount of temporary objects created is relatively large for the JVM garbage collector to handle with its default settings. This means careful tuning of the JVM is very important to ensure stable and flawless behavior of the application.
 
 Below represents the different XAP processes a virtual or a physical machine may run:
 {%endcolumn%}
@@ -718,7 +718,7 @@ Modify the path and file names appropriately. You will need to use a different f
 {% include /COM/jconsolejmapwarning.markdown %}
 
 ## Soft References LRU Policy
-In the attempt to provide the highest level of performance possible, GigaSpaces takes advantage of features in the Java language that allows for effective caching in the face of memory demands. In particular, the [SoftReference](http://docs.oracle.com/javase/6/docs/api/java/lang/ref/SoftReference.html) class is used to store data up until there is a need for explicit garbage collection, at which point the data stored in soft references will be collected if possible. The system default is 1000, which represents the amount of time (in milliseconds) they will survive past their last reference. `-XX:SoftRefLRUPolicyMSPerMB` is the parameter that allows you to determine how much data is cached by allowing the JVM to control how long it endures; A recommended setting this value to **500** in active, dynamic systems:
+In the attempt to provide the highest level of performance possible, XAP takes advantage of features in the Java language that allows for effective caching in the face of memory demands. In particular, the [SoftReference](http://docs.oracle.com/javase/6/docs/api/java/lang/ref/SoftReference.html) class is used to store data up until there is a need for explicit garbage collection, at which point the data stored in soft references will be collected if possible. The system default is 1000, which represents the amount of time (in milliseconds) they will survive past their last reference. `-XX:SoftRefLRUPolicyMSPerMB` is the parameter that allows you to determine how much data is cached by allowing the JVM to control how long it endures; A recommended setting this value to **500** in active, dynamic systems:
 
 {% highlight bash %}
 -XX:SoftRefLRUPolicyMSPerMB=500
@@ -733,7 +733,7 @@ For applications that are using relatively large amount of third party libraries
 -XX:PermSize=512m -XX:MaxPermSize=512m
 {% endhighlight %}
 
-{% exclamation %} GigaSpaces is a Java-based product. .Net and C++ applications using GigaSpaces should also be aware the usage of the JVM libraries as part of the .Net and C++ client libraries.
+{% exclamation %} GigaSpaces XAP is a Java-based product. .Net and C++ applications using XAP should also be aware the usage of the JVM libraries as part of the .Net and C++ client libraries.
 
 See the [Tuning Java Virtual Machines]({%latestadmurl%}/tuning-java-virtual-machines.html) section and the [Java SE 6 HotSpot Virtual Machine Garbage Collection Tuning](http://java.sun.com/javase/technologies/hotspot/gc/gc_tuning_6.html) for detailed JVM tuning recommendations.
 
@@ -796,10 +796,10 @@ The `space-config.engine.cache_size` is set to a large value, to instruct the lo
 {% endtip %}
 
 # Primaries Space Distribution
-By default, when running GSCs on multiple machines and deploying a space with backups, GigaSpaces tries to provision primary spaces to all available GSCs across all the machines.
+By default, when running GSCs on multiple machines and deploying a space with backups, XAP tries to provision primary spaces to all available GSCs across all the machines.
 The `max-instances-per-vm` and the `max-instances-per-machine` deploy parameters should be set when deploying your Data-Grid, to determine how the deployed Processing Unit (e.g. space) is provisioned into the different running GSCs.
 
-Without setting the `max-instances-per-vm` and the `max-instances-per-machine`, GigaSpaces might provision a primary and a backup instance of the same partition into GSCs running on the same physical machine. To avoid this behavior, you should set the `max-instances-per-vm=1` and the `max-instances-per-machine=1`. This makes sure that the primary and backup instances of the same partition are provisioned into different GSCs running on different machines. If there is one machine running GSCs and `max-instances-per-machine=1`, **backup instances are not provisioned**.
+Without setting the `max-instances-per-vm` and the `max-instances-per-machine`, XAP might provision a primary and a backup instance of the same partition into GSCs running on the same physical machine. To avoid this behavior, you should set the `max-instances-per-vm=1` and the `max-instances-per-machine=1`. This makes sure that the primary and backup instances of the same partition are provisioned into different GSCs running on different machines. If there is one machine running GSCs and `max-instances-per-machine=1`, **backup instances are not provisioned**.
 
 Here is an example of how you should deploy a Data-Grid with 4 partitions, with a backup per partition (total of 8 spaces), where you have 2 spaces per GSC, and the primary and backup are not running on the same box (even when you have other GSCs running):
 
@@ -819,7 +819,7 @@ After a machine startup (where GSCs are started), when the ESM is not used to de
 # Rebalancing - Dynamic Data Redistribution
 
 ## Automatic Rebalancing
-GigaSpaces supports automatic discovery, rebalancing (aka Dynamic Redistribution of Data) and expansion/contraction of the IMDG **while the application is running**. When deploying an IMDG, the system partitions the data (and the collocated business logic) into logical partitions. You may choose the number of logical partitions or let GigaSpaces calculate this number.
+XAP supports automatic discovery, rebalancing (aka Dynamic Redistribution of Data) and expansion/contraction of the IMDG **while the application is running**. When deploying an IMDG, the system partitions the data (and the collocated business logic) into logical partitions. You may choose the number of logical partitions or let XAP calculate this number.
 
 The logical partitions may initially run on certain containers, and later get relocated to other containers (started after the data grid has been deployed) on other machines, thus allowing the system to expand and increase its memory and CPU capacity while the application is still running. The number of logical partitions and replicas per partition should be determined at deployment time.  The number of containers hosting the IMDG instances may be changed at runtime.
 
@@ -837,20 +837,29 @@ When using the [Elastic Processing Unit]({%latestjavaurl%}/elastic-processing-un
 ## Manual Rebalancing
 Production machines may be restarted every few days, may fail abnormally and then restarted, or new machines may be started and added to the grid. To allow even distribution of primary IMDG instances or to simply stretch the running instances across all available machines manually, you may use the [Rebalancing utility](/attachment_files/sbp/Rebalance.zip). The utility spreads primary and backup IMDG instances evenly across all the machines running GSCs. See full details how to run this utility, within the readme at the [Rebalance.zip](/attachment_files/sbp/Rebalance.zip).
 
-## How GigaSpaces rebalancing works?
-GigaSpaces runtime environments differentiates between a Container (GSC) or **Grid Node** that is running within a single JVM instance and an **IMDG Node**, also called a logical partition. A partition has one primary instance and zero or more backup instances.
+## How GigaSpaces XAP rebalancing works?
+GigaSpaces XAP runtime environments differentiates between a Container (GSC) or **Grid Node** that is running within a single JVM instance and an **IMDG Node**, also called a logical partition. A partition has one primary instance and zero or more backup instances.
 
-A grid node hosts zero or more IMDG nodes, typically both primary and backup instances that belong to different partitions. IMDG nodes (or any other deployed PU instance) may relocate between grid nodes at runtime. A GigaSpaces IMDG may expand its capacity or shrink its capacity at runtime by adding or removing grid nodes and relocating existing logical partitions to newly started containers.
+A grid node hosts zero or more IMDG nodes, typically both primary and backup instances that belong to different partitions. IMDG nodes (or any other deployed PU instance) may relocate between grid nodes at runtime. A GigaSpaces XAP IMDG may expand its capacity or shrink its capacity at runtime by adding or removing grid nodes and relocating existing logical partitions to newly started containers.
 
 If the system selects to relocate a primary instance, it will first switch its activity mode into a backup and the existing backup instance of the same logical partition will be switched into a primary mode. Once the new backup will be relocated, it will recover its data from the existing primary. This how the IMDG expands itself without disruption to the client application.
 
-GigaSpaces rebalancing allows you to have total control on which logical partition is moving, where it is moving to and whether to move a primary to a backup instance. You can increase the capacity or rebalance the IMDG automatically or manually. This is a very important capability in production environments. Without such control, the system might choose to move partitions into containers that are fully consumed or move too many instances into the same container. This will obviously crash the system.
+XAP rebalancing allows you to have total control on which logical partition is moving, where it is moving to and whether to move a primary to a backup instance. You can increase the capacity or rebalance the IMDG automatically or manually. This is a very important capability in production environments. Without such control, the system might choose to move partitions into containers that are fully consumed or move too many instances into the same container. This will obviously crash the system.
 
-GigaSpaces can adjust the high-availability SLA dynamically to cope with the current system memory resources. This means that if there is not sufficient memory capacity to instantiate all the backup instances, GigaSpaces will relax the SLA in runtime to allow the system to continue and run. Once the system identifies that there are enough resources to accommodate all the backups, it will start the missing backups automatically.
+XAP can adjust the high-availability SLA dynamically to cope with the current system memory resources. This means that if there is not sufficient memory capacity to instantiate all the backup instances, XAP will relax the SLA in runtime to allow the system to continue and run. Once the system identifies that there are enough resources to accommodate all the backups, it will start the missing backups automatically.
 
-The number of logical partitions is determined at deploy time, but the amount of hosting containers may be modified in runtime by adding or removing containers, automatically (based on SLA) or manually. When the ESM is used to deploy the IMDG, GigaSpaces calculates the number of logical partitions during the deploy time based on the IMDG SLA. When the ESM is not being used to deploy the IMDG, GigaSpaces does not provide a default value for the number of logical partitions, so you should provide such. You can pick any number that you may find relevant for your system. Usually, it will be a number that will match the amount of initial containers you have multiply with a scaling factor - a number that determines how much the IMDG might need to expand its capacity without any downtime. This allows the IMDG to scale while the client application is running.
+The number of logical partitions is determined at deploy time, but the amount of hosting containers may be modified in runtime by adding or removing containers, automatically (based on SLA) or manually. When the ESM is used to deploy the IMDG, XAP calculates the number of logical partitions during the deploy time based on the IMDG SLA. When the ESM is not being used to deploy the IMDG, XAP does not provide a default value for the number of logical partitions, so you should provide such. You can pick any number that you may find relevant for your system. Usually, it will be a number that will match the amount of initial containers you have multiply with a scaling factor - a number that determines how much the IMDG might need to expand its capacity without any downtime. This allows the IMDG to scale while the client application is running.
 
 {% endcomment %}
+
+# Failure Handling Strategy
+
+When deploying your XAP based system in production you should consider the following failure scenarios. These should address, GSC , Machine/VM and a complete Data-Center failure:
+
+1. **Single GSC Failure** - This is the simplest case - good for small deployment that are not mission critical and does not require continuous high-availability to survive multiple failures. You may consider running an extra empty GSC on each VM to accommodate a GSC failure. This assumes you are using static PU deployment.
+2. **Multiple GSCs Failures** - In this case you should deploy using the Elastic PU. This will start GSCs as needed on available VM/Machines to survive multiple failures and support dynamic scaling.
+3. **Complete VM/ Machine Failure** - Elastic PU deployment should be used together with XAP init.d setup. This will start the GigaSpaces XAP agent once the VM/Machine is restarted. Cloudify can be used to complete orchestration of the XAP installation and configuration.
+5. **Complete Data-Center Failure** - Elastic PU together with XAP init.d setup should be used; Data replication over the WAN using the WAN Gateway should be used. Cloudify can be used to complete orchestration of the XAP installation and configuration.
 
 # Storage Type - Controlling Serialization
 
@@ -887,7 +896,7 @@ You may control the Storage type at the space level, class level or field level.
 See the [Controlling Serialization]({%latestjavaurl%}/storage-types---controlling-serialization.html) for more details.
 
 # Runtime Files Location
-GigaSpaces generates some files while the system is running. You should change the location of the generated files location using the following system properties. See below how:
+GigaSpaces XAP generates some files while the system is running. You should change the location of the generated files location using the following system properties. See below how:
 
 {: .table .table-bordered .table-condensed}
 | System Property | Description | Default |
@@ -899,7 +908,7 @@ GigaSpaces generates some files while the system is running. You should change t
 |`com.gigaspaces.lib.platform.ext` | PUs shared classloader libraries folder. PU jars located within this folder loaded once into the **JVM system classloader** and shared between all the PU instances classloaders within the GSC. In most cases this is a better option than the `com.gs.pu-common` for JDBC drivers and other 3rd party libraries. This is useful option when you  want multiple processing units to share the same 3rd party jar files and do not want to repackage the processing unit jar whenever one of these 3rd party jars changes.| `<gigaspaces-xap root>\lib\platform\ext`|
 |`com.gs.pu-common`|The location of common classes used across multiple processing units. The libraries located within this folder **loaded into each PU instance classloader** (and not into the system classloader as with the `com.gigaspaces.lib.platform.ext`. |`<gigaspaces-xap root>\lib\optional\pu-common`|
 |`com.gigaspaces.grid.gsa.config-directory`|The location of the GSA configuration files. [The GigaSpaces Agent](/product_overview/service-grid.html#gsa) (GSA) manages different process types. Each process type is defined within this folder in an xml file that identifies the process type by its name. |`<gigaspaces-xap root>\config\gsa`|
-|`java.util.logging.config.file`| It indicates file path to the Java logging file location. Use it to enable finest logging troubleshooting of various GigaSpaces Services. You may control this setting via the `GS_LOGGING_CONFIG_FILE_PROP` environment variable.| `<gigaspaces-xap root>\config\gs_logging.properties`|
+|`java.util.logging.config.file`| It indicates file path to the Java logging file location. Use it to enable finest logging troubleshooting of various GigaSpaces XAP Services. You may control this setting via the `GS_LOGGING_CONFIG_FILE_PROP` environment variable.| `<gigaspaces-xap root>\config\gs_logging.properties`|
 
 {% note %}
 The `com.gigaspaces.lib.platform.ext` and the `com.gs.pu-common` are useful to decrease the deployment time in case your processing unit **contains a lot of 3rd party jars files**. In such case, each GSC will download the processing unit jar file (along with all the jars it depends on) to its local working directory from the GSM, and in case of large deployments spanning tens or hundreds of GSCs this can be quite time consuming. In such cases you should consider **placing the jars on which your processing unit depends on** in a shared location on your network, and then point the `com.gs.pu-common` or `com.gigaspaces.lib.platform.ext` directory to this location.
@@ -909,7 +918,7 @@ The `com.gigaspaces.lib.platform.ext` and the `com.gs.pu-common` are useful to d
 XAP generates log files for each running component . This includes GSA, GSC, GSM, Lookup service and client side. By default, these are created within the `<gigaspaces-xap-root>\logs` folder. After some time you might end up with a large number of files that are hard to maintain and search. You should backup old log files or delete these. You can use the [logging backup-policy]({%latestadmurl%}/logging-backing-custom-policy.html) to manage your log files.
 
 # Hardware Selection
-The general rule when selecting the HW to run GigaSpaces would be: The faster the better. Multi-core machines with large amount of memory would be most cost effective since these will allow GigaSpaces to provide ultimate performance leveraging large JVM heap size handling simultaneous requests with minimal thread context switch overhead.
+The general rule when selecting the HW to run GigaSpaces XAP would be: The faster the better. Multi-core machines with large amount of memory would be most cost effective since these will allow GigaSpaces XAP to provide ultimate performance leveraging large JVM heap size handling simultaneous requests with minimal thread context switch overhead.
 
 Running production systems with 30G-50G heap size is doable with some JVM tuning when leveraging multi-core machines. The recommended HW is [Intel Xeon Processor 5600 Series](http://ark.intel.com/ProductCollection.aspx?series=47915). Here is an example for [recommended server configuration](http://www.cisco.com/en/US/products/ps10280/prod_models_comparison.html):
 
@@ -931,11 +940,11 @@ Running production systems with 30G-50G heap size is doable with some JVM tuning
 Since most of the application activities are conducted in-memory, the CPU speed impacts your application performance fairly drastically. You might have a machine with plenty of CPU cores, but a slow CPU clock speed, which eventually slows down the application or the Data-Grid response time. So as a basic rule, pick the fastest CPU you can find. Since the Data-Grid itself and its container are highly multi-threaded components, it is important to use machines with more than a single core to host the GSC to run your Data-Grid or application. A good number for the amount of GSCs per machine is half of the total number of cores.
 
 ## Disk
-Prior to XAP 7.1, GigaSpaces Data-Grid did not overflow to a disk, and does not require a large disk space to operate.  Still, log files are generated, and for these you need at least 100M of free disk size per machine running GSC(s). Make sure you delete old log files or move them to some backup location. XAP Data-Grid may overflow data to disk when there is a long replication disconnection or delay, the location of the work directory should be on a local storage at each node in order to make this replication back log data always available to the node, this storage should have enough space to store the replication back log as explained in [Controlling the Replication Redo Log]({%latestadmurl%}/controlling-the-replication-redo-log.html) page.
+With any XAP based system log files will be generated. A good best practice would be to allocate at least 100MB of free disk size per machine running XAP. Make sure you delete old log files or move them to some backup location. XAP Data-Grid may overflow data into the `work directory` when there is a long replication disconnection or replication delay. The location of the `work directory` should be on a local storage on each XAP node in order to make this replication backlog data always available to the node. The storage should have enough disk space to store the replication backlog as explained in [Controlling the Replication Redo Log]({%latestadmurl%}/controlling-the-replication-redo-log.html) page.
 
 # Virtualized OS
 
-GigaSpaces supports VMWare vSphere 5+ running the following guest operating systems:
+GigaSpaces XAP supports VMWare vSphere 5+ running the following guest operating systems:
 
 - Windows 2008 Server SP2
 - Linux RHEL 5.x/6.x
