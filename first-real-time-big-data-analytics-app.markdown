@@ -193,7 +193,8 @@ Once the build is complete, a summary message similar to the following is displa
 Since the application is a Maven project, you can load it using your Java IDE and thus automatically configure all module and classpath configurations.
 
 - With [IntelliJ](http://www.intellij.com), simply click "File -> Open Project" and point to `<applicationRoot>/pom.xml`. IntelliJ will load the project and present the modules for you.
-- With [Eclipse](http://www.eclipse.org), install the [`M2Eclipse plugin`](http://eclipse.org/m2e/download/) and click "File -> Import" , "Maven -> Existing Maven Projects" , select the `streaming-bigdata` folder and click the `Finish` button.
+- With [Eclipse](http://www.eclipse.org), install the [M2Eclipse plugin](http://eclipse.org/m2e/m2e-downloads.html) and click "File -> Import" , "Maven -> Existing Maven Projects" , select the `streaming-bigdata` folder and click the `Finish` button.
+
 
 
 {%section%}
