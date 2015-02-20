@@ -77,5 +77,5 @@ The list itself is sorted by ISO country code. Find a half dozen servers that ar
 For all other cluster machines comment out the server entries and add only one, with the name of the local timeserver.
 
 {%refer%}
-For the curious, the [NIST](www.nist.gov/pml/div688/what-time.cfm) maintains a page explaining timekeeping in general, and on the Internet in particular.
+For the curious, the [NIST](http://www.nist.gov/pml/div688/what-time.cfm) maintains a page explaining timekeeping in general, and on the Internet in particular.
 {%endrefer%}
