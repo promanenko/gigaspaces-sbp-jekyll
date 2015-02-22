@@ -12,7 +12,7 @@ This step explains how to adjust your JPA domain model to the XAP JPA implementa
 
 # Working with JPA
 
-JPA stands for Java Persistence API. This API was created in order to standardize Object - Relational Mapping APIs, saving the developer the pain of learning specific implementations APIs
+JPA stands for Java Persistence API. This API was created in order to standardize Object - Relational Mapping APIs, saving the developer the pain of learning specific implementations APIs.
 If you are not familiar with JPA, it highly recommended making yourself acquainted with it [(This would be a good place to start)  ](http://download.oracle.com/javaee/5/tutorial/doc/bnbpz.html).
 GigaSpaces' JPA support is built on top of is actually an adapter layer between the JPA and JPQL APIs and the OpenSpaces API and XAP services.
 
