@@ -961,7 +961,7 @@ Other considerations:
 
 - Do not over-commit virtual memory
 - Reserve memory at the virtual machine level
-- When using asynchronous persistency with replication, use anti-affinity rules to ensure that primary and backup nodes do not share the same virtual machine host. For maximum reliability, ensure that no primary/backup pair is hosted on the same physical host machine.
+- When using replication, use [anti-affinity](https://pubs.vmware.com/vsphere-51/index.jsp#com.vmware.vsphere.resmgmt.doc/GUID-94FCC204-115A-4918-9533-BFC588338ECB.html?resultof=%2522%2541%256e%2574%2569%252d%2541%2566%2566%2569%256e%2569%2574%2579%2522%2520%2522%2552%2575%256c%2565%2573%2522%2520%2522%2572%2575%256c%2565%2522%2520) rules to ensure that primary and backup nodes do not share the same virtual and machine physical host. 
 - Reserve sufficient memory for the operating system (~2GB per VM)
 
 ## VM Tuning Guidelines
@@ -991,6 +991,8 @@ You may deploy a data-grid to provision multiple copies of the same data on any 
 Once you install XAP, place Vmware Distributed Resource Scheduler (DRS) in manual mode to prevent an automatic VMware vSphere® vMotion® migration that can impact XAP response times. vMotion can complement XAP features during scheduled maintenance to help minimize downtime impact due-to hardware and software upgrades. To speed up vMotion migration process it is recommended to trigger vMotion migrations over a 10GbE network interface.
 
 Avoid vMotion operations with a VM running the lookup service (LUS) as the latency introduced to this process can cause members of XAP cluster to falsely suspect that other members are unavailable.
+
+Avoid having vMotion moving multiple VMs in the same time. This might result a split brain and system instability.
 
 Use DRS clusters dedicated to XAP. If this is not an option and XAP has to run in a shared DRS cluster make sure that DRS rules are set up to prevent vMotion migrating XAP processes into virtual machines.
 
