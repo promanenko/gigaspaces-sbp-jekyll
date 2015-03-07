@@ -33,6 +33,7 @@ The patterns below are presented as is. While most of them are used in real life
 {: .table .table-bordered .table-condensed}
 | Pattern | Level | Description |
 |:--------------|:------|:------------|
+|[Spark Integration](./spark-integration.html) | Advanced | This pattern explains how to integrate XAP with Spark.|
 |[Storm Integration](./storm-integration.html) | Advanced | This pattern explains how to integrate XAP with Storm.|
 |[Kafka Integration](./kafka-integration.html) | Advanced | This pattern explains how to integrate XAP with Kafka.|
 |[DynaCache Integration](./ibm-websphere-cache.html) | Advanced | This pattern explains how to integrate IBM's DynaCache with XAP|
