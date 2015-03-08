@@ -45,12 +45,6 @@ The recommended way to get started using spring-data-xap in your project is with
             <artifactId>spring-data-xap</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>1.2.1.RELEASE</version>
-        </dependency>
     </dependencies>
 {%endhighlight%}
 
