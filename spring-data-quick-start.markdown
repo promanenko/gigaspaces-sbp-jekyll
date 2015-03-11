@@ -9,6 +9,10 @@ parent: spring-data.html
 
 {%summary%}{%endsummary%}
 
+{%warning%}
+This section of the documentation is under construction !
+{%endwarning%}
+
 This guide will walk you through the steps of building an application with GigaSpaces XAP. You will use the powerful Spring Data XAP library to store and retrieve POJOs.
 
 # Installation

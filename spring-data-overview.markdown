@@ -6,6 +6,10 @@ weight: 100
 parent: spring-data.html
 ---
 
+{%warning%}
+This section of the documentation is under construction !
+{%endwarning%}
+
 {%comment%}
 
 The Spring Data XAP applies Spring Framework concepts to the development of applications that use XAP In-Memory Data Grid (IMDG) as a data store. We support Spring Data high-level abstractions to simplify configuration and development.
