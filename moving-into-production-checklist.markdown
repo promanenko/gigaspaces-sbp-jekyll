@@ -809,12 +809,21 @@ gs deploy-space -cluster schema=partitioned-sync2backup total_members=4,1
 {% endhighlight %}
 
 {% tip %}
-To limit the amount of instances a GSC may host use the `com.gigaspaces.grid.gsc.serviceLimit` system property for the GSC JVM. This is very useful when you would like to have a single instance per GSC and avoid a situation the GSM might provision multiple instances into the same GSC after a failure event.
-{% endtip %}
-
-{% tip %}
 After a machine startup (where GSCs are started), when the ESM is not used to deploy the IMDG, spaces do not "re balance" across all the machines to have an even number of primaries per machine. You may have machines running more (or all) primaries, and another machine running only backups.
 {% endtip %}
+
+# Total Max Instances Per VM
+This parameter controls the total amount of PU instances that can be instantiated within a GSC. This is very different than the `max-instances-per-vm` that controls how many instances a partition may have within a GSC.  To control the Total Max PU Instances a GSC may host you should use `com.gigaspaces.grid.gsc.serviceLimit` system property and set its value before starting the GigaSpaces agent:
+ 
+{% highlight java %}
+set GSC_JAVA_OPTIONS=-Dcom.gigaspaces.grid.gsc.serviceLimit=1
+{% endhighlight %}
+
+Note the default value of the `com.gigaspaces.grid.gsc.serviceLimit` is **500** that may not work well for most production environments.
+
+With most production environments with static deployment configuration it is advised to keep the Total Max Instances Per VM value as **ONE**. Having multiple space instances within the same GSC makes it hard to handle failures, handle garbage collection and resource configuration such as LRMI thread pool , etc.
+
+By using `com.gigaspaces.grid.gsc.serviceLimit=1` you may avoid a scenario where a new space or failed space instance would be provisioned into a GSC that already hosting a space instance. This may result **Memory Shortage Exception** or **Out of Memory Error** that may cause a provisioning failure.
 
 # Rebalancing - Dynamic Data Redistribution
 
