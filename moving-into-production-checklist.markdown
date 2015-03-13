@@ -821,7 +821,7 @@ set GSC_JAVA_OPTIONS=-Dcom.gigaspaces.grid.gsc.serviceLimit=1
 
 Note the default value of the `com.gigaspaces.grid.gsc.serviceLimit` is **500** that may not work well for most production environments.
 
-With most production environments with static deployment configuration it is advised to keep the Total Max Instances Per VM value as **ONE**. Having multiple space instances within the same GSC makes it hard to handle failures, handle garbage collection and resource configuration such as LRMI thread pool , etc.
+With most production environments with static deployment configuration it is advised to keep the `com.gigaspaces.grid.gsc.serviceLimit` value to **ONE**. Having multiple space instances within the same GSC makes it hard to handle failures, handle garbage collection and resource configuration such as LRMI thread pool , etc.
 
 By using `com.gigaspaces.grid.gsc.serviceLimit=1` you may avoid a scenario where a new space or failed space instance would be provisioned into a GSC that already hosting a space instance. This may result **Memory Shortage Exception** or **Out of Memory Error** that may cause a provisioning failure.
 
