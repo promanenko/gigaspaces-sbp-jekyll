@@ -2,7 +2,7 @@
 layout: post
 title:  Quick Start
 categories: SBP
-weight: 200
+weight: 100
 parent: spring-data.html
 ---
 
