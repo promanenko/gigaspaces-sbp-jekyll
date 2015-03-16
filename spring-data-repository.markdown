@@ -9,14 +9,10 @@ parent: spring-data.html
 
 {%summary%}{%endsummary%}
 
-{%warning%}
-This section of the documentation is under construction !
-{%endwarning%}
 
 
 
-
-This part of the document explains how to configure and start using XAP Repositories with Spring Data. While one can try to directly operate with `GigaSpace` created from the [previous section](#support) to perform read and write operations, it is generally easier to use Spring Data Repositories for the same purposes. This approach significantly reduces the amount of boilerplate code from your data-access layer as well as gives you more flexibility and cleaner code which is easy to read and support. `GigaSpace` will be still available with `space()` method at `XapRepository` interface.
+This part of the document explains how to configure and using XAP Repositories with Spring Data. While one can try to directly operate with `GigaSpace` created from the previous section to perform read and write operations, it is generally easier to use Spring Data Repositories for the same purposes. This approach significantly reduces the amount of boilerplate code from your data-access layer as well as gives you more flexibility and cleaner code which is easy to read and support. `GigaSpace` will be still available with `space()` method at `XapRepository` interface.
 
 {%note%}
 Spring Data XAP supports all Spring Data Commons configuration features like exclude filters, standalone configuration, manual wiring, etc. For more details on how to apply them, please, refer to [Creating Repository Instances](http://docs.spring.io/spring-data/commons/docs/current/reference/html/#repositories.create-instances).
@@ -29,6 +25,7 @@ Spring Data XAP does not support `ignoreCase` and `nullHandling` in query expres
 {%endnote%}
 
 An example of such user-defined repository with no additional functionality is given below:
+
 {%highlight java %}
 public interface PersonRepository extends XapRepository<Person, String> {
 }
@@ -128,7 +125,7 @@ Here is an example of multi-space configuration in XML-based metadata:
 </beans>
 {%endhighlight%}
 
-In Java-based configuration you would have to separate groups of repositories into different sub-contexts:
+With the Java-based configuration you will have to separate groups of repositories into different sub-contexts:
 
 {%highlight java %}
 @Configuration

@@ -9,14 +9,13 @@ parent: spring-data.html
 
 {%summary%}{%endsummary%}
 
-{%warning%}
-This section of the documentation is under construction !
-{%endwarning%}
 
 
-# Appendix A: Supported Query Keywords
+{%anchor appendix-a%}
 
-The following table lists the keywords is supported by the Spring Data XAP repository query derivation mechanism:
+# Supported Query Keywords
+
+The following table lists the supported keywords by the Spring Data XAP repository query derivation mechanism:
 
 {: .table .table-bordered .table-condensed}
 Logical keyword | Keyword expressions
@@ -45,7 +44,7 @@ REGEX | Regex, MatchesRegex, Matches
 STARTING_WITH | StartingWith, IsStartingWith, StartsWith
 TRUE | True, IsTrue
 
-Next keywords are not supported in XAP Repositories:
+Keywords are not supported in XAP Repositories:
 
 {: .table .table-bordered .table-condensed}
 Logical keyword | Keyword expressions
@@ -54,9 +53,12 @@ EXISTS | Exists
 NEAR | Near, IsNear
 WITHIN | Within, IsWithin
 
-# Appendix B: Supported Querydsl Methods
+{%anchor appendix-b%}
 
-Next `Predicate` methods are supported by Spring Data XAP to build up Querydsl queries:<br>
+# Supported Querydsl Methods
+
+`Predicate` methods are supported by Spring Data XAP to build up Querydsl queries:<br>
+
 * number comparison: `eq`, `ne`, `lt`, `loe`, `goe`, `between`, `notBetween`    <br>
 * string comparison: `like`, `matches`, `isEmpty`, `isNotEmpty`, `contains`, `containsIgnoreCase`, `endsWith`, `endsWithIgnoreCase`, `startsWith`, `startsWithIgnoreCase`  <br>
 * other comparison: `isNull`, `isNotNull`, `in`, `notIn` <br>
@@ -67,16 +69,21 @@ Next `Predicate` methods are supported by Spring Data XAP to build up Querydsl q
 Note that `contains`, `startsWith`, `endWith` and their `...IgnoreCase` equivalents use the `Regular Expression` matches
 {%endnote%}
 
-# Appendix C: Supported Change API methods
+{%anchor appendix-c%}
 
-Next Change API methods are available while using Querydsl syntax (`QChangeSet` class):
+# Supported Change API methods
+
+`Change API` methods are available while using Querydsl syntax (`QChangeSet` class):
+
 * field: `set`, `unset`
 * numeric: `increment`, `decrement`
 * collections and maps: `addToCollection`, `addAllToCollection`, `removeFromCollection`, `putInMap`, `removeFromMap`
 * lease: `lease`
 * custom change: `custom`
 
-# Appendix D: Unsupported operations
+{%anchor appendix-d%}
+
+# Unsupported operations
 
 Although we try to support each and every Spring Data feature, sometimes native implementation is not possible using Space as a data source. Instead of providing workarounds, which are often slow, we decided to mark some features as unsupported, among them are:
 

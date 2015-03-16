@@ -9,16 +9,13 @@ parent: spring-data.html
 
 {%summary%}{%endsummary%}
 
-{%warning%}
-This section of the documentation is under construction !
-{%endwarning%}
 
 
-This section describes how to start using XAP Repositories by defining query methods. The basic concept is: user defines methods using a specific query syntax as method name, the XAP repository proxy then derives these methods into XAP queries. Full explanation of this mechanism can be found at [Spring Data Reference](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods). In this document only basic usage will be explained.
+This section describes how to define query methods. The basic concept: user defines methods using a specific query syntax as method name, the XAP repository proxy then derives these methods into XAP queries. A full explanation of this mechanism can be found at [Spring Data Reference](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods). In this document only basic usage will be explained.
 
 # Query Methods
 
-To start off, next declaration will allow application to search for objects by different field matches:
+Here is an example of a Repository declaration with different  methods:
 
 {%highlight java%}
 public interface PersonRepository extends XapRepository<Person, String> {
@@ -39,11 +36,11 @@ public interface PersonRepository extends XapRepository<Person, String> {
 }
 {%endhighlight%}
 
-As you can see, different keywords can be used and combined to create desired conditions. Full list of supported keywords can be found in [Appendix A](#appendix-a).
+As you can see, different keywords can be used and combined to create desired conditions. Full list of supported keywords can be found in [Appendix A](./spring-data-appendix.html#appendix-a).
 
 The process of deriving query methods into XAP Queries depends a lot on the query lookup strategy chosen for the repository. Spring XAP Data provides the support for all [common strategies](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods.query-lookup-strategies).
 
-The default strategy enables both deriving queries from method names and overriding them with custom defined queries. There are several ways to specify custom query for a method. First possibility is to apply `@Query` annotation on the method:
+The default strategy enables both deriving queries from method names and overriding them with custom defined queries. There are several ways to specify custom queries for a method. First possibility is to apply `@Query` annotation on the method:
 
 {%highlight java%}
 public interface PersonRepository extends XapRepository<Person, String> {
@@ -54,7 +51,11 @@ public interface PersonRepository extends XapRepository<Person, String> {
 }
 {%endhighlight%}
 
-The syntax used for `@Query` is similar to SQL queries. Refer to [SQLQuery](http://docs.gigaspaces.com/xap101/query-sql.html) for the full list of possibilities.
+The syntax used for `@Query` is similar to SQL queries.
+
+{%refer%}
+Refer to [SQLQuery]({%latestjavaurl%}/query-sql.html) for the full list of features.
+{%endrefer%}
 
 Another way would be to import named queries from external resource. Let's say we have `named-queries.properties` file in the classpath with next content:
 
@@ -92,9 +93,10 @@ public class ContextConfiguration {
 {%endhighlight%}
 
 
- #### <a name="custom"/>3.2 Custom Methods
+# Custom Methods
 
-It is often needed to add custom methods with your implementation to repository interfaces. Spring Data allows you to provide custom repository code and still utilize basic CRUD features and query method functionality. To extend your repository, you first define a separate interface with custom methods declarations:
+Custom methods can be added to repository interfaces. Spring Data allows you to provide custom repository code and still utilize basic CRUD features and query method functionality. To extend your repository, you first define a separate interface with custom methods declarations:
+
 {%highlight java%}
 public interface PersonRepositoryCustom {
 
@@ -113,11 +115,14 @@ public interface PersonRepositoryCustom {
  }
  {%endhighlight%}
 
- > Note that Spring Data recognizes an `Impl` suffix by default to look for custom methods implementations.
+{%note%}
+Note that Spring Data recognizes an `Impl` suffix by default to look for custom methods implementations.
+{%endnote%}
 
  The implementation itself does not depend on Spring Data, so you can inject other beans or property values into it using standard dependency injection. E.g. you could inject `GigaSpaces` and use it directly in your custom methods.
 
  The third step would be to apply interface with custom methods to your repository declaration:
+
  {%highlight java%}
  public interface PersonRepository extends XapRepository<Person, String>, PersonRepositoryCustom {
 
@@ -136,6 +141,7 @@ public interface PersonRepositoryCustom {
 {%endhighlight%}
 
  Or with `repositoryImplementationPostfix` in Java configuration:
+
 {%highlight java%}
  @Configuration
  @EnableXapRepositories(value = "com.yourcompany.foo.bar", repositoryImplementationPostfix = "FooBar")
@@ -144,7 +150,8 @@ public interface PersonRepositoryCustom {
  }
 {%endhighlight%}
 
- Another option would be to manually put the implementation into the context and use a proper name for it. In XML configuration it would look like this:
+Another option would be to manually put the implementation into the context and use a proper name for it. In XML configuration it would look like this:
+
 {%highlight xml%}
 <xap-data:repositories base-package="com.yourcompany.foo.bar"/>
 
@@ -154,16 +161,17 @@ public interface PersonRepositoryCustom {
 {%endhighlight%}
 
  And similarly in Java-based configuration:
- {%highlight java%}
- @Configuration
- @EnableXapRepositories("com.yourcompany.foo.bar")
- public class ContextConfiguration {
 
-     @Bean
-     public AnyClassHere personRepositoryImpl() {
-         // further configuration
-     }
+{%highlight java%}
+@Configuration
+@EnableXapRepositories("com.yourcompany.foo.bar")
+public class ContextConfiguration {
 
-     // other bean definitions omitted
- }
- {%endhighlight%}
+    @Bean
+    public AnyClassHere personRepositoryImpl() {
+        // further configuration
+    }
+
+    // other bean definitions omitted
+}
+{%endhighlight%}

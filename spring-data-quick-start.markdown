@@ -9,15 +9,11 @@ parent: spring-data.html
 
 {%summary%}{%endsummary%}
 
-{%warning%}
-This section of the documentation is under construction !
-{%endwarning%}
-
 This guide will walk you through the steps of building an application with GigaSpaces XAP. You will use the powerful Spring Data XAP library to store and retrieve POJOs.
 
 # Installation
 
-Before using this guide, you have to download GigaSpaces XAP and install the maven plugin. If you’re not familiar with Maven, refer to [Building Java Projects with Maven] (https://spring.io/guides/gs/maven/).
+Before using this guide, you have to download [GigaSpaces XAP](http://www.gigaspaces.com/xap-download) and install the maven plugin. If you’re not familiar with Maven, refer to [Building Java Projects with Maven](https://spring.io/guides/gs/maven/).
 
 
 To install the maven plugin run the next script:
@@ -54,8 +50,9 @@ The recommended way to get started using spring-data-xap in your project is with
 
 
 # Define a simple entity
-GigaSpaces XAP is in-memory data grid. It stores data into spaces, and each space can be configured in different manner(replicated, partitioned etc).
-For this guide you use an embedded space so you don't have to set up anything extra.
+
+GigaSpaces XAP is an In-Memory Data Grid. It stores data into Spaces, and each Space can be configured in different manner(replicated, partitioned etc).
+For this guide you use an `Embedded Space` so you don't have to set up anything extra.
 
 In this example, you store Book objects with a few annotations.
 
