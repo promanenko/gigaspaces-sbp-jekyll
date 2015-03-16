@@ -16,7 +16,7 @@ This guide will walk you through the steps of building an application with GigaS
 Before using this guide, you have to download [GigaSpaces XAP](http://www.gigaspaces.com/xap-download) and install the maven plugin. If you’re not familiar with Maven, refer to [Building Java Projects with Maven](https://spring.io/guides/gs/maven/).
 
 
-To install the maven plugin run the next script:
+To install the XAP maven plugin run the `installmavenrep` script:
 
 {%inittab%}
 {%tabcontent Windows%}
@@ -34,7 +34,7 @@ To install the maven plugin run the next script:
 
 {%endinittab%}
 
-Also you have to download spring-data-xap project and build it with maven using `mvn clean install`.
+Download the `spring-data-xap` project and build it with maven using `mvn clean install`.
 
 The recommended way to get started using spring-data-xap in your project is with a dependency management system – the snippet below can be copied and pasted into your build.
 
@@ -51,10 +51,9 @@ The recommended way to get started using spring-data-xap in your project is with
 
 # Define a simple entity
 
-GigaSpaces XAP is an In-Memory Data Grid. It stores data into Spaces, and each Space can be configured in different manner(replicated, partitioned etc).
-For this guide you use an `Embedded Space` so you don't have to set up anything extra.
+GigaSpaces XAP is IMC platform with a powerful In-Memory Data Grid. It stores data into Spaces, and each Space can be configured in different manner (replicated, partitioned etc). With this example we will use an `Embedded Space` that is running as part of your program. There is no need to run a seperate grid.
 
-In this example, you store Book objects with a few annotations.
+With this example, we store `Book` objects.
 
 {%highlight java%}
 
@@ -106,28 +105,6 @@ public class Book implements Serializable {
 
     public void setCopies(Integer copies) {
         this.copies = copies;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book book = (Book) o;
-
-        if (copies != null ? !copies.equals(book.copies) : book.copies != null) return false;
-        if (id != null ? !id.equals(book.id) : book.id != null) return false;
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (copies != null ? copies.hashCode() : 0);
-        return result;
     }
 
     @Override
@@ -185,8 +162,8 @@ You also have:
 
 Let's wire this up and see what it looks like!
 
-# Create an program
-Here you create an Program class with all the components.
+# Create your Program
+Here you create the Program class with all the components.
 
 {%highlight java%}
 
@@ -267,9 +244,7 @@ public class Application implements CommandLineRunner {
 {%endhighlight%}
 
 
-In the configuration, you need to add the `@EnableXapRepositories` annotation.
-
-XAP space is required to store all data. For that, you have Spring Data XAP convenient `SpaceClient` bean.
+In the configuration, you need to add the `@EnableXapRepositories` annotation. XAP space is required to store all data. For that, you have Spring Data XAP convenient `SpaceClient` bean.
 
 NOTE: In this guide, the space is created locally using built-in components and an evaluation license. For a production solution, Spring recommends the production version of XAP, where you can create distributed spaces across multiple nodes.
 
@@ -279,7 +254,7 @@ The `public static void main` uses Spring Boot's `SpringApplication.run()` to la
 
 The application autowires an instance of `BookRepository` that you just defined. Spring Data XAP will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations. This repository instance is the used by the `run()` method to demonstrate the functionality.
 
-# Write and read objects
+# Write and Read Objects
 In this guide, you are creating three local `Book` s, **SpringInAction**, **ThinkingInJava**, and **EffectiveJava**. Initially, they only exist in memory. After creating them, you have to save them to XAP.
 
 Now you run several queries. The first looks up books by author. Then you execute query to find less popular books and another query to find popular books or books written by specific author.
