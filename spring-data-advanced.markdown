@@ -13,9 +13,9 @@ This section describes some of the more advanced features available through XAP 
 
 # Projection API
 
-The Spring Data XAP supports [XAP Projection]({%latestjavaurl%}/query-partial-results.html) which allows to read only certain properties for the objects (a.k.a. delta read). This approach reduces network overhead, garbage memory generation and CPU overhead due to decreased serialization time.
+The Spring Data XAP supports [XAP Projection]({%latestjavaurl%}/query-partial-results.html) which allows to read only certain properties for the objects (delta read). This approach reduces network overhead,   memory consumption    and CPU overhead due to decreased serialization time.
 
-`XapRepository` interface provides you with basic `find` methods extended with `Projection` argument. Next code demonstrates how `findOne` method can be used to select only `name` field from `Person`:
+The `XapRepository` interface provides you with basic `find` methods extended with the `Projection` argument. The example demonstrates how the `findOne` method can be used to select only `name` field from `Person`:
 
 {%highlight java%}
 @Service
@@ -32,7 +32,7 @@ public class PersonServiceImpl implements PersonService {
 {%endhighlight%}
 
 {%note%}
-Note that if you are using [Querydsl support](#querydsl), you can apply projection using `QueryDslProjection`. This approach will let you avoid run-time errors when POJO field is renamed and projection fields are not since they are just strings.
+If you are using [Querydsl support](#querydsl), you can apply projection using `QueryDslProjection`. This approach will let you avoid run-time errors when the POJO field is renamed and projection fields are not since they are just strings.
 {%endnote%}
 
 You can also supply your query methods with `Projection`, just add an additional argument to the method declaration:
@@ -45,16 +45,18 @@ public interface PersonRepository extends XapRepository<Person, String> {
 }
 {%endhighlight%}
 
-To read more on projection concepts, please, refer to [Projection]({%latestjavaurl%}/query-partial-results.html) reference.
-
+{%refer%}
+To read more on projection refer to [Projection]({%latestjavaurl%}/query-partial-results.html) reference.
+{%endrefer%}
 
 {%anchor #querydsl%}
 
 # Querydsl Support
 
-The Querydsl framework let's you write type-safe queries in Java instead of using good old query strings. It gives you several advantages: code completion in your IDE, domain types and properties can be accessed in a type-safe manner which reduces the probability of query syntax errors during run-time. If you want to read more about `Querydsl`, please, proceed to [Querydsl website](http://www.querydsl.com/).
+The `Querydsl` framework let's you write type-safe queries in Java instead of using  query strings. It gives you several advantages: code completion in your IDE, domain types and properties can be accessed in a type-safe manner which reduces the probability of query syntax errors during run-time. If you want to read more about `Querydsl`, please, proceed to [Querydsl website](http://www.querydsl.com/).
 
-Several steps are needed to start using XAP Repositories Querydsl support. First, mark wanted repository as a `XapQueryDslPredicateExecutor` along with `XapRepository`:
+Several steps are needed to start using XAP Repositories `Querydsl` support. First, use the repository as a `XapQueryDslPredicateExecutor` along with `XapRepository`:
+
 {%highlight java%}
 public interface PersonRepository extends XapRepository<Person, String>, XapQueryDslPredicateExecutor<Person> {
 }
@@ -64,7 +66,8 @@ public interface PersonRepository extends XapRepository<Person, String>, XapQuer
 Note that you define the type of data to be accessed with Querydsl.
 {%endnote%}
 
-Then, add source processor to your maven build (`pom.xml`) using Maven Annotation Processing Tool plugin:
+Then, add the source processor to your maven build (`pom.xml`) using Maven Annotation Processing Tool plugin:
+
 {%highlight xml%}
 <project>
   <build>
@@ -116,14 +119,19 @@ public class PersonServiceImpl implements PersonService {
 }
 {%endhighlight%}
 
-Full list of supported `Predicate` methods can be found in [Appendix B](./spring-data-appendix.html#appendix-b).
+A full list of supported `Predicate` methods can be found in [Appendix B](./spring-data-appendix.html#appendix-b).
 
 
 # Change API
 
-The Spring Data XAP supports [XAP Change API]({%latestjavaurl%}/change-api.html) allowing to update existing objects in space by specifying only the required change instead of passing the entire updated object. It reduces network traffic between the client and the space. It also can prevent the need of reading the existing object prior to the change operation because the change operation can specify how to change the existing property without knowing its current value.
+The Spring Data XAP supports [XAP Change API]({%latestjavaurl%}/change-api.html) allowing to update existing objects in Space by specifying only the required change instead of passing the entire updated object. It reduces network traffic between the client and the Space. It also can prevent the need of reading the existing object prior to the change operation because the change operation can specify how to change the existing property without knowing its current value.
 
-There are two possible ways you can use Change API within Xap Repositories. The first option is to call native Change API by accessing `space()` in `XapRepository`. For that, `GigaSpace.change` methods along with `ChangeSet` class can be used. Full explanation and code examples can be found at [Change API]({%latestjavaurl%}/change-api.html).
+There are two possible ways you can use Change API within the Xap Repositories. The first option is to call the native Change API by accessing `space()` in `XapRepository`.
+For that, the `GigaSpace.change` methods along with `ChangeSet` class can be used.
+
+{%refer%}
+Full explanation and code examples can be found at [Change API]({%latestjavaurl%}/change-api.html).
+{%endrefer%}
 
 The second option would be to use `XapQueryDslPredicateExecutor.change` method built in `Querydsl` style. It accepts `QChangeSet` argument that is literally a `ChangeSet` with `Querydsl` syntax:
 
@@ -143,11 +151,11 @@ public class PersonServiceImpl implements PersonService {
 }
 {%endhighlight%}
 
-{%note%}
+{%refer%}
 To start using Querydsl Change API syntax, refer to [Querydsl Support](#querydsl)
-{%endnote%}
+{%endrefer%}
 
-Full list of supported change methods can be found in [Appendix C](./spring-data-appendix.html#appendix-c).
+The full list of supported change methods can be found in [Appendix C](./spring-data-appendix.html#appendix-c).
 
 # Take Operations
 
@@ -172,7 +180,7 @@ public class PersonServiceImpl implements PersonService {
 
 #  Lease Time
 
-Spring XAP Data comes with a support of defining lease time for new objects in the repository. The basic idea behind it is limiting the time an object is reachable in space. To use this feature, you can specify lease time (in any time units) when saving with `save(...)` methods. These overloaded methods will return a special `LeaseContext` object that allows you to track, renew and cancel the lease.
+Spring XAP Data comes with a support of defining lease time for new objects in the repository. The basic idea behind it is limiting the time an object lives in Space. To use this feature, you can specify the lease time (in any time units) when saving with `save(...)` methods. These overloaded methods will return a special `LeaseContext` object that allows you to track, renew and cancel the lease.
 
 The essential idea behind a lease is fairly simple.
 * When creating a resource, the requestor creates the resource with a limited life span.
@@ -182,7 +190,9 @@ The essential idea behind a lease is fairly simple.
 * Successfully renewing a lease extends the time period during which the lease is in effect.
 * Cancelling the lease drops the lease immediately.
 
-To read more about this feature, please, refer to [Lease Time]({%latestjavaurl%}/leases-automatic-expiration.html).
+{%refer%}
+To read more about this feature refer to [Lease Time]({%latestjavaurl%}/leases-automatic-expiration.html).
+{%endrefer%}
 
 
 # Transactions
@@ -235,12 +245,14 @@ public class PersonServiceImpl implements PersonService {
 }
 {%endhighlight%}
 
-To read more on configuring XAP transactions and transaction managers, please, refer to [Transactions Reference]({%latestjavaurl%}/transaction-overview.html).
+{%refer%}
+To read more about transaction support  refer to [Transactions Reference]({%latestjavaurl%}/transaction-overview.html).
+{%endrefer%}
 
 
 #  Document Storage Support
 
-The [XAP Document API]({%latestjavaurl%}/document-api.html) exposes the space as Document Store. A document, which is represented by the class `SpaceDocument`, is a collection of key-value pairs, where the keys are strings and the values are primitives, `String`, `Date`, other documents, or collections thereof. Most importantly, the Space is aware of the internal structure of a document, and thus can index document properties at any nesting level and expose rich query semantics for retrieving documents.
+The [XAP Document API]({%latestjavaurl%}/document-api.html) exposes the Space as Document Store. A document, which is represented by the class `SpaceDocument`, is a collection of key-value pairs, where the keys are strings and the values are primitives, `String`, `Date`, other documents, or collections thereof. Most importantly, the Space is aware of the internal structure of a document, and thus can index document properties at any nesting level and expose rich query semantics for retrieving documents.
 
 While using Spring Data XAP you can declare one or more of your repositories to be a Document Repository. To do so, first, you have to add a schema definition of the document type into the Space configuration in context:
 
@@ -343,7 +355,9 @@ public interface PersonDocumentRepository extends XapDocumentRepository<PersonDo
 Note that domain class of `PersonDocumentRepository` is now set to `PersonDocument` instead of `SpaceDocument`. Also, type name for `PersonDocument` is reused in `@SpaceDocumentName` annotation for the repository.
 {%endnote%}
 
-If you want to read more on the concept of wrapping the `SpaceDocument`, please, refer to [Extended Document]({%latestjavaurl%}/document-extending.html).
+{%refer%}
+For more information about the  `SpaceDocument` refer to [Extended Document]({%latestjavaurl%}/document-extending.html).
+{%endrefer%}
 
 You can supply your Document Repository with query methods. But be aware that due to dynamic nature of `SpaceDocument` there is no way for Spring Data to automatically derive query method names into queries. The only possibility to declare a method is to use `@Query` annotation or load queries from external resources.  Here is an example of Document Repository supplied with search and sorting methods:
 
@@ -375,7 +389,7 @@ public interface PersonDocumentRepository extends XapDocumentRepository<PersonDo
 {%endhighlight%}
 
 {%note%}
-Note that you don't have to declare document properties to use them in queries, which allows dynamically adding and removing the properties.
+You don't have to declare document properties to use them in queries, which allows dynamically adding and removing the properties.
 {%endnote%}
 
 Document Repositories do not support `Querydsl` syntax due to dynamic nature of `SpaceDocument` properties.

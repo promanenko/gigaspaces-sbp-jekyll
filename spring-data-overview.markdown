@@ -10,7 +10,7 @@ parent: spring-data.html
 
 
 
-While developing XAP application using Spring we need to configure a connection to the active Space inside the Spring IoC container. We will show you how a basic connection can be created using XML or Java based Spring configurations.
+When developing an XAP application using Spring we need to configure a connection to the active Space inside the Spring IoC container. We will show you how a basic connection can be created using XML or Java based Spring configurations.
 
 You can start an `Embedded Space` or set up a `Service Grid`. When using the [Embedded Space]({%latestjavatuturl%}/java-tutorial-part1.html) you don't need to start any additional processes in your environment.
 
@@ -237,11 +237,11 @@ The class is marked with `@SpaceClass` annotation - it allows Spring XAP to look
 
 # Modeling your data
 
-Spring Data XAP comes with the transparent support of XAP native features. Additional configurations can be applied to your POJOs to boost up the performance, reduce memory usage or just ease the model understanding. When building the data model using Spring Data XAP you might want to consider some of the following features:
+Spring Data XAP comes with the transparent support of XAP native features. Additional configurations can be applied to your POJOs to boost the performance and reduce memory usage. When building the data model using Spring Data XAP you might want to consider some of the following features:
 
 ##  Indexing
 
-The most well-known data store function that allows to boost up common queries performance is index support. XAP provides several options here: basic, compound and unique indexes. All of these features can be applied by simply annotating POJO classes or their fields, e.g. with `@SpaceIndex` or `@CompoundSpaceIndex` annotations.
+The most well-known data store function that allows to boost common queries performance is index support. XAP provides several options: basic, compound and unique indexes. All of these features can be applied by simply annotating POJO classes or their fields, e.g. with `@SpaceIndex` or `@CompoundSpaceIndex` annotations.
 
 {%refer%}
 Please, refer to [Indexing]({%latestjavaurl%}/indexing-overview.html) for more details and examples of POJO classes.
@@ -249,7 +249,7 @@ Please, refer to [Indexing]({%latestjavaurl%}/indexing-overview.html) for more d
 
 ## Storage Types
 
-You can define the form in which objects will be stored in Space either with annotations on each POJO in your model or with defining default Storage Type for the whole Space. This is done to save up time on serialization/de-serialization, reduce memory usage or to define schema that will change in time. Three Storage Types are available for POJOs: `OBJECT`, `BINARY` and `COMPRESSED`. Again, whole configuration can be applied just by annotation your model classes.
+You can define the form in which objects will be stored in Space either with annotations on each POJO in your model or with defining default Storage Type for the  Space. This is done to save up time on serialization/de-serialization, reduce memory usage or to define schema that will change in time. Three Storage Types are available for POJOs: `OBJECT`, `BINARY` and `COMPRESSED`.
 
 {%refer%}
 To read more on this feature, please, refer to [Storage Types]({%latestjavaurl%}/storage-types---controlling-serialization.html).
@@ -261,8 +261,6 @@ You can mark some POJO properties with `@SpaceExclude` to disable writing their 
 
 ##  Other Annotation-based Features
 
-There are lots of other useful annotation-based configuration possibilities available to you.
-
 {%refer%}
-For the full list of them, please, refer to [Annotation based Metadata]({%latestjavaurl%}/pojo-annotation-overview.html).
+For the full list of available annotations, please, refer to [Annotation based Metadata]({%latestjavaurl%}/pojo-annotation-overview.html).
 {%endrefer%}

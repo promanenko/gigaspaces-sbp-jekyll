@@ -11,7 +11,7 @@ parent: spring-data.html
 
 
 
-This section describes how to define query methods. The basic concept: user defines methods using a specific query syntax as method name, the XAP repository proxy then derives these methods into XAP queries. A full explanation of this mechanism can be found at [Spring Data Reference](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods). In this document only basic usage will be explained.
+This section describes how to define query methods. The basic concept: user defines methods using a specific query syntax as method name, the XAP repository proxy derives these methods into XAP queries. A full explanation of this mechanism can be found at [Spring Data Reference](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods). In this document only basic usage will be explained.
 
 # Query Methods
 
@@ -36,11 +36,13 @@ public interface PersonRepository extends XapRepository<Person, String> {
 }
 {%endhighlight%}
 
-As you can see, different keywords can be used and combined to create desired conditions. Full list of supported keywords can be found in [Appendix A](./spring-data-appendix.html#appendix-a).
+As you can see, different keywords can be used and combined to create desired conditions. A full list of supported keywords can be found in [Appendix A](./spring-data-appendix.html#appendix-a).
 
-The process of deriving query methods into XAP Queries depends a lot on the query lookup strategy chosen for the repository. Spring XAP Data provides the support for all [common strategies](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods.query-lookup-strategies).
+The process of deriving query methods into XAP Queries depends a lot on the query lookup strategy chosen for the repository. XAP Spring Data provides the support for all [common strategies](http://docs.spring.io/spring-data/data-commons/docs/1.9.1.RELEASE/reference/html/#repositories.query-methods.query-lookup-strategies).
 
-The default strategy enables both deriving queries from method names and overriding them with custom defined queries. There are several ways to specify custom queries for a method. First possibility is to apply `@Query` annotation on the method:
+The default strategy enables both deriving queries from method names and overriding them with custom defined queries. There are several ways to specify custom queries for a method.
+
+#### The `@Query` annotation on the method:
 
 {%highlight java%}
 public interface PersonRepository extends XapRepository<Person, String> {
@@ -57,7 +59,9 @@ The syntax used for `@Query` is similar to SQL queries.
 Refer to [SQLQuery]({%latestjavaurl%}/query-sql.html) for the full list of features.
 {%endrefer%}
 
-Another way would be to import named queries from external resource. Let's say we have `named-queries.properties` file in the classpath with next content:
+####  Import named queries from an external resource.
+
+Let's say we have `named-queries.properties` file in the classpath with next content:
 
 {%highlight java%}
 Person.findByNameOrdered=name = ? order by name asc
@@ -95,7 +99,7 @@ public class ContextConfiguration {
 
 # Custom Methods
 
-Custom methods can be added to repository interfaces. Spring Data allows you to provide custom repository code and still utilize basic CRUD features and query method functionality. To extend your repository, you first define a separate interface with custom methods declarations:
+Custom methods can be added to repository interfaces. Spring Data allows you to provide custom repository code and still utilize basic CRUD features and query method functionality. To extend your repository, you first define a separate interface with custom methods:
 
 {%highlight java%}
 public interface PersonRepositoryCustom {
@@ -116,7 +120,7 @@ public interface PersonRepositoryCustom {
  {%endhighlight%}
 
 {%note%}
-Note that Spring Data recognizes an `Impl` suffix by default to look for custom methods implementations.
+Spring Data recognizes an `Impl` suffix by default to look for custom methods implementations.
 {%endnote%}
 
  The implementation itself does not depend on Spring Data, so you can inject other beans or property values into it using standard dependency injection. E.g. you could inject `GigaSpaces` and use it directly in your custom methods.
@@ -132,7 +136,7 @@ Note that Spring Data recognizes an `Impl` suffix by default to look for custom 
 
  This will combine basic CRUD methods and your custom functionality and make it available to clients.
 
- So, how did it really work? Spring Data looks for implementations of custom method among all classes located under `base-package` attribute in XML or `basePackages` in Java configuration. It searches for `<custom interface name><suffix>` classes, where `suffix` is `Impl` by default. If your project conventions tell you to use another suffix for the implementations, you can specify it with `repository-impl-postfix` attribute in XML configuration:
+How does it really work? Spring Data looks for implementations of custom methods among all classes located under the `base-package` attribute in XML or `basePackages` in Java configuration. It searches for `<custom interface name><suffix>` classes, where `suffix` is `Impl` by default. If your project conventions tell you to use another suffix for the implementations, you can specify it with `repository-impl-postfix` attribute in XML configuration:
 
  {%highlight xml%}
  <xap-data:repositories

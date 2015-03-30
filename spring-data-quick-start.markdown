@@ -9,7 +9,7 @@ parent: spring-data.html
 
 {%summary%}{%endsummary%}
 
-This guide will walk you through the steps of building an application with GigaSpaces XAP. You will use the powerful Spring Data XAP library to store and retrieve POJOs.
+This guide will walk you through the steps of building a Spring Data application with   XAP. You will use the   Spring Data XAP library to store and retrieve POJOs.
 
 # Installation
 
@@ -51,7 +51,7 @@ The recommended way to get started using spring-data-xap in your project is with
 
 # Define a simple entity
 
-GigaSpaces XAP is IMC platform with a powerful In-Memory Data Grid. It stores data into Spaces, and each Space can be configured in different manner (replicated, partitioned etc). With this example we will use an `Embedded Space` that is running as part of your program. There is no need to run a seperate grid.
+GigaSpaces XAP is an IMC platform with a powerful In-Memory Data Grid. It stores data in Spaces, and each Space can be configured in a different manner (replicated, partitioned etc). With this example we will use an `Embedded Space` that is running as part of your program. There is no need to run a separate grid.
 
 With this example, we store `Book` objects.
 
@@ -120,17 +120,16 @@ public class Book implements Serializable {
 
 Here you have a `Book` class with three attributes, the `id`, the `author` and the `copies`. You also have the constructor to populate the entities when creating a new instance and the default constructor.
 
-Notice that this class is annotated `@SpaceClass`. This annotation is not mandatory, you can write netity to the space without it, but it's used to provide an additional metadata.
-This class also has getter for `id` marked with `@SpaceId`. This property uniquely identifies the entity within the space, and is similar to a primary key in a database.
+Notice that this class is annotated `@SpaceClass`. This annotation is not mandatory, you can write objects to the Space without it, but it's used to provide an additional [metadata]({%latestjavaurl%}/modeling-your-data.html).
+This class also has a getter for `id` marked with `@SpaceId`. This property uniquely identifies the object within the Space, and is similar to a primary key in a database.
 
-The next important piece is the number of book's copies. Later in this guide, you will use it to fashion some queries.
-
+The next important piece is the number of book copies. Later in this guide, you will use it to demonstrate some queries.
 The convenient `toString()` method will print out the book's id, author and copies.
 
 # Create simple queries
-Spring Data XAP focuses on storing data in XAP. It also inherits powerful functionality from the Spring Data Commons project, such as the ability to derive queries. Essentially, you don't have to learn the query language of GigaSpaces XAP; you can simply write a handful of methods and the queries are written for you.
+Spring Data XAP focuses on storing data in XAP. It also inherits powerful functionality from the `Spring Data Commons` project, such as the ability to derive queries. Essentially, you don't have to learn the query language of   XAP; you can simply write a handful of methods and the queries are generated for you.
 
-To see how this works, create an interface that queries `Book` space objects.
+To see how this works, lets create an interface that queries `Book` space objects.
 
 {%highlight java%}
 
@@ -151,7 +150,7 @@ public interface BookRepository extends CrudRepository<Book, String> {
 }
 {%endhighlight%}
 
-`BookRepository` extends the `CrudRepository` interface and plugs in the type of values and keys it works with: `Book` and `String`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete).
+`BookRepository` extends the `CrudRepository` interface and plugs in the type of values and keys with: `Book` and `String`. Out-of-the-box, this interface comes with many operations, including standard CRUD (create-read-update-delete).
 
 You can define other queries as needed by simply declaring their method signature. In this case, you add `findByAuthor`, which essentially seeks entities of type `Book` and find the ones that matches on `Author`.
 
@@ -244,20 +243,24 @@ public class Application implements CommandLineRunner {
 {%endhighlight%}
 
 
-In the configuration, you need to add the `@EnableXapRepositories` annotation. XAP space is required to store all data. For that, you have Spring Data XAP convenient `SpaceClient` bean.
+- In the configuration, you need to add the `@EnableXapRepositories` annotation. The XAP Space is required to store all data. For that, you have the Spring Data XAP   `SpaceClient` bean. <br>
+- The types are `<String, Book>`, matching the key type (`String`) with the value type (`Book`). <br>
+- The `public static void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships. <br>
+- The application autowires an instance of `BookRepository` that you just defined. Spring Data XAP will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations. This repository instance is the used by the `run()` method to demonstrate the functionality.
 
-NOTE: In this guide, the space is created locally using built-in components and an evaluation license. For a production solution, Spring recommends the production version of XAP, where you can create distributed spaces across multiple nodes.
-
-NOTE: The types are `<String, Book>`, matching the key type (`String`) with the value type (`Book`).
-
-The `public static void main` uses Spring Boot's `SpringApplication.run()` to launch the application and invoke the `CommandLineRunner` that builds the relationships.
-
-The application autowires an instance of `BookRepository` that you just defined. Spring Data XAP will dynamically create a concrete class that implements that interface and will plug in the needed query code to meet the interface's obligations. This repository instance is the used by the `run()` method to demonstrate the functionality.
+{%note%}
+The Space is created locally using built-in components and an evaluation license. For a production solutions, it is recommends that you use the production version of XAP, where you can create distributed Spaces across multiple nodes.
+{%endnote%}
 
 # Write and Read Objects
-In this guide, you are creating three local `Book` s, **SpringInAction**, **ThinkingInJava**, and **EffectiveJava**. Initially, they only exist in memory. After creating them, you have to save them to XAP.
 
-Now you run several queries. The first looks up books by author. Then you execute query to find less popular books and another query to find popular books or books written by specific author.
+Lets create some `Book` instances, **SpringInAction**, **ThinkingInJava**, and **EffectiveJava**. Initially, they only exist in memory. After creating them, we store them in the Space.
+
+Now we are ready to run some query:
+
+- look up books by author<br>
+- execute query to find less popular books<br>
+- query to find popular books or books written by specific author
 
 You should see something like this:
 
