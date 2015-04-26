@@ -1,5 +1,5 @@
 ---
-layout: post100
+layout: post
 title:  Your First .NET XAP Application
 categories: SBP
 weight: 1100
