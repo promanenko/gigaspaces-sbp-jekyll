@@ -21,6 +21,10 @@ weight: 600
 The [attached example](/attachment_files/sbp/JMXSTAT.zip) illustrates usage of the JMX API, getting the JVM statistics and the Space statistics. The example collects statistics and generates a consolidated report of the space and its JVM activity.
 This example supports both clustered and single space. For clustered space the report will include statistics for all cluster space members.
 
+{%note%}
+As of version 10.1 and higher some functionality was removed from the JMX API. You should use the [Admin API]({%latestjavaurl%}/administration-and-monitoring-api.html)
+{%endnote%}
+
 The report will include the following columns:
 
 - Time
