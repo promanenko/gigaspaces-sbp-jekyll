@@ -11,7 +11,7 @@ weight: 1550
 {% tip %}
 **Author**: Shay Hassidim, Deputy CTO, GigaSpaces<br/>
 **Recently tested with GigaSpaces version**: XAP 9.7<br/>
-**Last Update:** May  2014<br/>
+**Last Update:** March 2015<br/>
 {% endtip %}
 
 # Moving from Centralized to Distributed Data Model
@@ -944,11 +944,283 @@ return authors;
 
 {% endinittab %}
 
+## Many-to-Many Relationship
+
+With this example there is Many-to-Many relationship between the **Author** and the **Book** entity - an Author may write many Books, a Book may be written by many Authors.
+
+Users may search for:
+
+- All **Book** titles written by an **Author** with a specific last name (there may be multiple matching Authors).
+- An Author with a specific **Book**.
+
+To model this in SQL, you would need an additional table that would link an Author and his or her Books (or in other words a Book and its Authors) - each entry in such a table would contain a foreign key to Author table and a foreign key to Book table. When using JDBC to query for all the **Books** written by an **Author** with a specific last name your SQL query would look like this:
+
+{% highlight java %}
+select Book.id, Author.id, Author.lastName from Book, Author, AuthorBookLink WHERE Author.lastName='AuthorX' AND Author.id = AuthorBookLink.authorId AND AuthorBookLink.bookId = Book.id
+{% endhighlight %}
+
+The main problem with this approach is the execution time. The more Books or Authors you have the time to execute the query will grow. Using the Space API with the non-embedded model will provide much better performance that will not be affected when having large amount of Books or Authors.
+
+Let’s compare the JDBC approach to the embedded and non-embedded model:
+
+### Embedded Model
+
+With the embedded model the root Space object is the **Author**. It has a **Book** collection embedded. The representation of these Entities looks like this:
+
+{% accordion id=acc5%}
+{% accord title=Java | parent=acc5%}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight java %}
+@SpaceClass
+public class Author {
+    Integer id;
+    String lastName;
+    List<Book> books;
+
+    @SpaceId
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@SpaceIndex
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@SpaceIndex(path = "[*].title")
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% tabcontent The Embedded Book Entity %}
+{% highlight java %}
+public class Book implements Serializable {
+	Integer id;
+	String title;
+
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% endinittab %}
+{% endaccord %}
+{% accord title=C# | parent=acc5%}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID]
+    public int Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+
+    [SpaceIndex(Path="[*].Title")]
+    [SpaceProperty(StorageType = StorageType.Document)]
+    public IList<Book> Books { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% tabcontent The Embedded Book Entity %} 
+{% highlight c# %}
+[Serializable]
+public class Book
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% endinittab %}
+{% endaccord %}
+
+{% endaccordion %}
+
+### Non-Embedded Model
+
+With the non-Embedded model the **Author** and the **Book** would look like this. Note that there additional entity expressing relation between **Author** and **Book** - **AuthorBookLink**. In this model **Books** are stored as separate Space objects:
+
+{% accordion id=acc6%}
+{% accord title=Java | parent=acc6%}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight java %}
+@SpaceClass
+public class Author {
+    Integer id;
+    String lastName;
+
+    @SpaceId
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@SpaceIndex
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent The Book Entity %}
+{% highlight java %}
+@SpaceClass
+public class Book {
+	Integer id;
+	String title;
+
+	@SpaceId
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@SpaceIndex
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent The AuthorBookLink Entity %}
+{% highlight java %}
+@SpaceClass
+public class AuthorBookLink {
+	Integer id;
+    Integer authorId;
+    Integer bookId;
+
+	@SpaceId
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+    @SpaceIndex
+    public Integer getAuthorId() {
+        return authorId;
+    }
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
+    @SpaceIndex
+    public Integer getBookId() {
+        return bookId;
+    }
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% endinittab %}
+{% endaccord %}
+
+{% accord title=C# | parent=acc6%}
+{% inittab %}
+{% tabcontent The Author Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Author
+{
+    [SpaceID]
+    public int? Id { get; set; }
+
+    [SpaceIndex]
+    public string LastName { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+
+{% tabcontent The Book Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class Book
+{
+	[SpaceID]
+    public int? Id { get; set; }
+
+	[SpaceIndex]
+    public string Title { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% tabcontent The AuthorBookLink Entity %}
+{% highlight c# %}
+[SpaceClass]
+public class AuthorBookLink
+{
+	[SpaceID]
+    public int? Id { get; set; }
+
+	[SpaceIndex]
+    public int? AuthorId { get; set; }
+    
+	[SpaceIndex]
+    public int? BookId { get; set; }
+}
+{% endhighlight %}
+{% endtabcontent %}
+{% endinittab %}
+{% endaccord %}
+
+{% endaccordion %}
+
+{% tip %}
+See the [Id Queries]({%latestjavaurl%}/query-by-id.html) page for more details how `readByIds` can be used.
+{% endtip %}
+
 {% tip %}
 **More Examples**
 See the [SQLQuery]({%latestjavaurl%}/query-sql.html) section for details about embedded entities query and indexing.
 See the [Parent Child Relationship](./parent-child-relationship.html) for an example for non-embedded relationships.
 {% endtip %}
+
 
 ## Real World Example
 
