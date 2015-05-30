@@ -295,5 +295,5 @@ cacheService.putAll(map);
 # Further reading
 
 - [Modeling and Accessing Your Data]({%latestjavaurl%}/modeling-your-data.html)
-- [Deploying and Interacting with the Space]({%latestjavaurl%}/deploying-and-interacting-with-the-space.html)
+- [Deploying and Interacting with the Space](./deploying-and-interacting-with-the-space.html)
 

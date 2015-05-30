@@ -117,7 +117,7 @@ The only noticeable effect may be a slight delay in the space response time to t
 **Install GigaSpaces**
 
 {% note %}
-After going through the previous tutorial [Step Two - Creating the Hello World Application](./first-xap-app-step-2.html), you should have GigaSpaces installed and the Hello World sample application environment set. If not, please [download GigaSpaces and set up your development environment]({%latestjavaurl%}/installation-guide.html) to work with GigaSpaces - this is needed to run the tutorial sample application.
+After going through the previous tutorial [Step Two - Creating the Hello World Application](./first-xap-app-step-2.html), you should have GigaSpaces installed and the Hello World sample application environment set. If not, please [download GigaSpaces and set up your development environment]({%latestjavaurl%}/installation.html) to work with GigaSpaces - this is needed to run the tutorial sample application.
 {%endnote%}
 
 {% anchor Start Service Grid %}
