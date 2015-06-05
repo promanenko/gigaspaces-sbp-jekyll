@@ -528,6 +528,14 @@ The two most common GigaSpaces XAP deployment configurations are referred to as 
 In either configuration, the data grid (or any deployed business logic) is distributed across all available machines.  Each machine hosts a set of GSCs and there are at least two GSMs and two LUSs running.  When deploying regular (static) PU, you may have spare GSCs available on each machine to accommodate a failure.  If a machine becomes unavailable, the backup PU instance corresponding to the primary nodes on that machine become primaries and the GSM provision a new backup in one of the spare GSCs.  In this case you may need to call the rebalance utility to distribute primary and backups evenly across all GSCs. This failover is transparent to clients of the application and business logic running within it.
 When deploying elastic PU, GSCs will be created on the fly , where missing PU instances will be provisioned into these newly started GSCs. In this case primary and backup instances will be automatically distributed evenly across all machines. 
 
+## Grid Failure Handling Strategy
+
+When deploying your XAP based system in production you should consider the following failure scenarios. These should address, GSC , Machine/VM and a complete Data-Center failure:
+
+1. **Single GSC Failure** - This is the simplest case - good for small deployment that are not mission critical and does not require continuous high-availability to survive multiple failures. You may consider running an extra empty GSC on each VM to accommodate a GSC failure. This assumes you are using static PU deployment.
+2. **Multiple GSCs Failures** - In this case you should deploy using the Elastic PU. This will start GSCs as needed on available VM/Machines to survive multiple failures and support dynamic scaling.
+3. **Complete VM/ Machine Failure** - Elastic PU deployment should be used together with XAP init.d setup. This will start the GigaSpaces XAP agent once the VM/Machine is restarted. Cloudify can be used to complete orchestration of the XAP installation and configuration.
+5. **Complete Data-Center Failure** - Elastic PU together with XAP init.d setup should be used; Data replication over the WAN using the WAN Gateway should be used. Cloudify can be used to complete orchestration of the XAP installation and configuration.
 
 ## Guaranteed Notifications
 
@@ -929,15 +937,6 @@ XAP can adjust the high-availability SLA dynamically to cope with the current sy
 The number of logical partitions is determined at deploy time, but the amount of hosting containers may be modified in runtime by adding or removing containers, automatically (based on SLA) or manually. When the ESM is used to deploy the IMDG, XAP calculates the number of logical partitions during the deploy time based on the IMDG SLA. When the ESM is not being used to deploy the IMDG, XAP does not provide a default value for the number of logical partitions, so you should provide such. You can pick any number that you may find relevant for your system. Usually, it will be a number that will match the amount of initial containers you have multiply with a scaling factor - a number that determines how much the IMDG might need to expand its capacity without any downtime. This allows the IMDG to scale while the client application is running.
 
 {% endcomment %}
-
-# Failure Handling Strategy
-
-When deploying your XAP based system in production you should consider the following failure scenarios. These should address, GSC , Machine/VM and a complete Data-Center failure:
-
-1. **Single GSC Failure** - This is the simplest case - good for small deployment that are not mission critical and does not require continuous high-availability to survive multiple failures. You may consider running an extra empty GSC on each VM to accommodate a GSC failure. This assumes you are using static PU deployment.
-2. **Multiple GSCs Failures** - In this case you should deploy using the Elastic PU. This will start GSCs as needed on available VM/Machines to survive multiple failures and support dynamic scaling.
-3. **Complete VM/ Machine Failure** - Elastic PU deployment should be used together with XAP init.d setup. This will start the GigaSpaces XAP agent once the VM/Machine is restarted. Cloudify can be used to complete orchestration of the XAP installation and configuration.
-5. **Complete Data-Center Failure** - Elastic PU together with XAP init.d setup should be used; Data replication over the WAN using the WAN Gateway should be used. Cloudify can be used to complete orchestration of the XAP installation and configuration.
 
 # Storage Type - Controlling Serialization
 
