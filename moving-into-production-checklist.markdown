@@ -515,7 +515,7 @@ gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
 Note that with XAP 7.1.1 new variables provided that allows you to set different JVM arguments for GSC,GSM,LUS,GSA separately (GSA_JAVA_OPTIONS , GSC_JAVA_OPTIONS , GSM_JAVA_OPTIONS , LUS_JAVA_OPTIONS).
 
 
-# Failover Consideations
+# Failover Considerations
 
 GigaSpaces XAP provides continuous high-availability even when the infrastructure processes or entire (physical/virtual) machines fail.  This capability is provided **out of the box** but does require some attention to configuration to meet the needs of your specific application.
 
@@ -527,6 +527,13 @@ The two most common GigaSpaces XAP deployment configurations are referred to as 
 
 In either configuration, the data grid (or any deployed business logic) is distributed across all available machines.  Each machine hosts a set of GSCs and there are at least two GSMs and two LUSs running.  When deploying regular (static) PU, you may have spare GSCs available on each machine to accommodate a failure.  If a machine becomes unavailable, the backup PU instance corresponding to the primary nodes on that machine become primaries and the GSM provision a new backup in one of the spare GSCs.  In this case you may need to call the rebalance utility to distribute primary and backups evenly across all GSCs. This failover is transparent to clients of the application and business logic running within it.
 When deploying elastic PU, GSCs will be created on the fly , where missing PU instances will be provisioned into these newly started GSCs. In this case primary and backup instances will be automatically distributed evenly across all machines. 
+
+
+## Guaranteed Notifications
+
+When using notifications (notify container, session messaging API) you should enable Guaranteed Notifications to address a primary space failure while sending notifications. This allows the backup once promoted into a primary, to continue the notification delivery. The Guaranteed Notifications managed on the client side. 
+
+When considering a notify container that is embedded with the space, please note the guaranteed notifications are not supported in this scenario – This means that upon failure notifications that has been send might not be fully processed. In this case blocking read/asyc read should be considered as an alternative to notifications.
 
 ## Balanced Primary-Backups Provisioning
 
@@ -553,6 +560,7 @@ The GSM responsible for deployment and provisioning of deployed PUs(stateless , 
 ## ESM Failure
 
 The ESM responsible for elastic PU provisioning when deployed and addressing space instances rebalance once PU should scale up/down/in/out or when GSA failed or started. When ESM fails it will be restarted automatically using one of the existing agents. 
+
 
 
 ## XAP Distributed Transactions
