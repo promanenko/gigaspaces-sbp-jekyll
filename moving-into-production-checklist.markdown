@@ -217,7 +217,7 @@ or by lowering the `com.gs.transport_protocol.lrmi.max-conn-pool` value.
 The LRMI connection thread pool is a server side component. It is in charge of executing the incoming LRMI invocations. It is a single thread pool within the JVM that executes all the invocations, from all the clients and all the replication targets.
 
 {% tip %}
-In some cases you might need to increase the LRMI Connection thread pool maximum size. Without this tuning activity, the system might hang in case there would be large amount of concurrent access. See the [LRMI Configuration]({%latestadmurl%}/tuning-communication-protocol.html#LRMI+Configuration) for details about the GigaSpaces XAP Communication Protocol options. Using a value as **1024** for the LRMI Connection Thread Pool should be sufficient for most large scale systems.
+In some cases you might need to increase the LRMI Connection thread pool maximum size. Without this tuning activity, the system might hang in case there would be large amount of concurrent access. See the [LRMI Configuration]({%failoer%}/tuning-communication-protocol.html#LRMI+Configuration) for details about the GigaSpaces XAP Communication Protocol options. Using a value as **1024** for the LRMI Connection Thread Pool should be sufficient for most large scale systems.
 {% endtip %}
 
 # Lookup Locators and Groups
@@ -268,6 +268,7 @@ See below for examples of [Space URL]({%latestjavaurl%}/the-space-configuration.
 
 - `/./space?groups=A,B` - this space URL means that the started space registers itself with group A and B. To access such a space via a remote client, it needs to use the following space URL: `jini://*/*/space?groups=A` or `jini://*/*/space?groups=B`.
 
+
 ## Space Configuration with Unit Tests
 
 When running unit tests, you might want these set up so that no remote client can access the space they are running. This includes regular clients or the GS-UI.
@@ -293,7 +294,7 @@ Here is a simple configuration you should place within your pu.xml to disable th
 {%endhighlight%}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
-In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces XAP runtime environment]({%latestadmurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
+In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces XAP runtime environment]({%failover%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
 
 You should plan the initial number of GSCs and GSMs based on the application memory footprint, and the amount of processing you might need. The most basic deployment should include 2 GSMs (running on different machines), 2 Lookup services (running on different machines), and 2 GSCs (running on each machine). These host your Data-Grid or any other application components (services, web servers, Mirror) that you deploy.
 
@@ -513,7 +514,67 @@ gs-agent.sh gsa.global.lus 0 gsa.lus 0 gsa.global.gsm 0 gsa.gsm 0 gsa.gsc 2
 
 Note that with XAP 7.1.1 new variables provided that allows you to set different JVM arguments for GSC,GSM,LUS,GSA separately (GSA_JAVA_OPTIONS , GSC_JAVA_OPTIONS , GSM_JAVA_OPTIONS , LUS_JAVA_OPTIONS).
 
+
+# Failover Consideations
+
+GigaSpaces XAP provides continuous high-availability even when the infrastructure processes or entire (physical/virtual) machines fail.  This capability is provided **out of the box** but does require some attention to configuration to meet the needs of your specific application.
+
+## N + 1 and N + 2 Configurations
+
+Determining the optimal high availability configuration for your particular application requires balancing the cost of additional hardware (or virtual machines) against the risk of downtime.  In most cases it pays off having additional resources available to avoid downtime, compromising system health, instability, poor reliability , no durability and incompleteness.
+
+The two most common GigaSpaces XAP deployment configurations are referred to as **N + 1** and **N + 2**.  This refers to the number of machines running XAP that can fail without compromising the data grid and its applications to deliver reasonable performance and to stay in good health.  In an **N + 1** configuration, the core N machines have sufficient RAM and CPU power to run the application if one of the **N + 1** machines fail.  In an **N + 2** configuration, the same is true if two of the machines fail or become unavailable.
+
+In either configuration, the data grid (or any deployed business logic) is distributed across all available machines.  Each machine hosts a set of GSCs and there are at least two GSMs and two LUSs running.  When deploying regular (static) PU, you may have spare GSCs available on each machine to accommodate a failure.  If a machine becomes unavailable, the backup PU instance corresponding to the primary nodes on that machine become primaries and the GSM provision a new backup in one of the spare GSCs.  In this case you may need to call the rebalance utility to distribute primary and backups evenly across all GSCs. This failover is transparent to clients of the application and business logic running within it.
+When deploying elastic PU, GSCs will be created on the fly , where missing PU instances will be provisioned into these newly started GSCs. In this case primary and backup instances will be automatically distributed evenly across all machines. 
+
+## Balanced Primary-Backups Provisioning
+
+When having a failure of the data grid nodes or a machine running XAP you should consider having even distribution of the primary and backups instances across all existing machines running XAP. This ensure balanced CPU utilization across all XAP machines. The Elastic processing unit should be used to deploy the data grid – it support even primary/backup distribution automatically when XAP machine fails and when a new one added to the grid. In this case spare GSCs on each XAP machine are not required. 
+
+## CPU Utilization
+
+CPU utilization should not exceed the 40 % in average to support complete machine/VM failure. This headroom will enable the machines running XAP to cope with the additional capacity required when one or more machines running the grid will fail or go through maintenance.
+
+## LUS Failure
+
+To support LUS (lookup service) failure at least two LUS should be started. You may run in Global or local [LUS configuration]({%latestadmurl%}/lus-configuration.html) that ensures two LUS will be running. Running Global LUS configuration (recommended when using multicast lookup discovery configuration) ensure you will have two LUS running on two different machines even if a machine running a LUS fails. When using unicast lookup discovery configuration and a LUS failed the clients and service grid components may throw exceptions as internally they will be trying to perform lookup discovery frequently for the missing lookup. You may configure the lookup discovery intervals using the `com.gigaspaces.unicast.interval` property.
+
+
+## GSA Failure
+
+The GSA acting as a process manager, watching the GSC , LUS , ESM and GSM processes.  Having the GSA failed is a very rare scenario. If it happens you should look for unusual HW , OS or JDK failure that may cause it. To address GSA failure you should run it as a service. This how the OS will restart it automatically once failed. See how you can run it as a Windows Service or a Linux Service.
+
+## GSM Failure
+
+The GSM responsible for deployment and provisioning of deployed PUs(stateless , statefull). It is utilized at the deploy time, PU failure and PU migration from one GSC to another GSC. To support HA you should have two GSMs started per grid. You may Global or local [GSM configuration]({%latestadmurl%}/gsm-configuration.html) that ensures two GSM will be running. In most cases Global GSM configuration is recommended unless you require hot deploy functionality.
+
+
+## ESM Failure
+
+The ESM responsible for elastic PU provisioning when deployed and addressing space instances rebalance once PU should scale up/down/in/out or when GSA failed or started. When ESM fails it will be restarted automatically using one of the existing agents. 
+
+
+## XAP Distributed Transactions
+
+XAP Distributed Transactions involves XAP remote or local Distributed Transaction Manager and one or more data grid. With a remote Distributed Transaction Manager you should consider running at least two remote transaction managers. It is recommended to use a local Distributed Transaction Manager as it makes the overall architecture simpler.
+
+## XA Transactions
+
+XA Transactions involves the XA transaction manager, XAP data grid node(s) and some additional participant(s). The transaction manager usually deployed independently. The transaction manager might fail, so it should be deployed in some HA configuration. Client code should support transaction manager failure by caching relevant transaction exception, and retry the activity by aborting the old transaction, starting a new transaction , executing relevant operations and committing. The recommended transaction manager XAP certified with is Atomikos and JBoss.
+
+## Mirror Service Failure
+
+The Mirror Service like the WAN Gateway acting as a broker, responsible to persist activities conducted at the data grid into external data source such as a database.
+
+The Mirror Service does not hold state so its failure would not result any data lose, but its failure means data will not be stored into the external data source. You do not need to deploy the mirror in a clustered configuration (aka primary-backup). By default XAP will try to start the mirror service in case it failed. Since in many cases the Mirror service accessing a database, you might have the database accepting connection only from specific machine with specific ports. To address this, you should configure the database to allow connections from all machines that may run the mirror service – by default all machines running XAP. 
+
+## WAN Gateway Failure
+
+The WAN gateway like the mirror service acting as a broker, responsible to replicate activities conducted at the local data grid into another (remote) data grid. The WAN Gateway does not hold state so its failure would not result any data lose, but its failure means data will not be replicated between source and destination data grid. You do not need to deploy the WAN Gateway in a clustered configuration (aka primary-backup). By default XAP will try to start a WAN Gateway in case it failed. Since WAN Gateway usually configured to use specific port on specific machine(s), you should configure the WAN Gateway PU to be provisioned into specific machine(s).
+
 # Capacity Planning
+
 In order to estimate the amount of total RAM and CPU required for your application, you should take the following into consideration:
 
 - The Object Footprint within the space.
