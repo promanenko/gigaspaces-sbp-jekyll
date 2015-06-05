@@ -217,7 +217,7 @@ or by lowering the `com.gs.transport_protocol.lrmi.max-conn-pool` value.
 The LRMI connection thread pool is a server side component. It is in charge of executing the incoming LRMI invocations. It is a single thread pool within the JVM that executes all the invocations, from all the clients and all the replication targets.
 
 {% tip %}
-In some cases you might need to increase the LRMI Connection thread pool maximum size. Without this tuning activity, the system might hang in case there would be large amount of concurrent access. See the [LRMI Configuration]({%failoer%}/tuning-communication-protocol.html#LRMI+Configuration) for details about the GigaSpaces XAP Communication Protocol options. Using a value as **1024** for the LRMI Connection Thread Pool should be sufficient for most large scale systems.
+In some cases you might need to increase the LRMI Connection thread pool maximum size. Without this tuning activity, the system might hang in case there would be large amount of concurrent access. See the [LRMI Configuration]({%latestadmurl%}/tuning-communication-protocol.html#LRMI+Configuration) for details about the GigaSpaces XAP Communication Protocol options. Using a value as **1024** for the LRMI Connection Thread Pool should be sufficient for most large scale systems.
 {% endtip %}
 
 # Lookup Locators and Groups
@@ -294,7 +294,7 @@ Here is a simple configuration you should place within your pu.xml to disable th
 {%endhighlight%}
 
 # The Runtime Environment - GSA, LUS, GSM and GSCs
-In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [GigaSpaces XAP runtime environment]({%failover%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
+In a dynamic environment where you want to start [GSCs](/product_overview/service-grid.html#gsc) and [GSM](/product_overview/service-grid.html#gsm) remotely, manually or dynamically, the [GSA](/product_overview/service-grid.html#gsa) is the only component you should have running on the machine that is hosting the [XAP runtime environment]({%latestadmurl%}/the-runtime-environment.html). This lightweight service acts as an agent and starts a GSC/GSM/LUS when needed.
 
 You should plan the initial number of GSCs and GSMs based on the application memory footprint, and the amount of processing you might need. The most basic deployment should include 2 GSMs (running on different machines), 2 Lookup services (running on different machines), and 2 GSCs (running on each machine). These host your Data-Grid or any other application components (services, web servers, Mirror) that you deploy.
 
