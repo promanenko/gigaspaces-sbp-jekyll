@@ -532,7 +532,7 @@ When deploying elastic PU, GSCs will be created on the fly , where missing PU in
 
 When deploying your XAP based system in production you should consider the following failure scenarios. These should address, GSC , Machine/VM and a complete Data-Center failure:
 
-1. **Single GSC Failure** - This is the simplest case - good for small deployment that are not mission critical and does not require continuous high-availability to survive multiple failures. You may consider running an extra empty GSC on each VM to accommodate a GSC failure. This assumes you are using static PU deployment.
+1. **Single GSC Failure** - This is the simplest case - good for small deployment that are not mission critical and does not require continuous high-availability to survive multiple failures. The GSA will manage the GSC life-cycle locally or globally and accomadate GSC failure. This assumes you are using static PU deployment.
 2. **Multiple GSCs Failures** - In this case you should deploy using the Elastic PU. This will start GSCs as needed on available VM/Machines to survive multiple failures and support dynamic scaling.
 3. **Complete VM/ Machine Failure** - Elastic PU deployment should be used together with XAP init.d setup. This will start the GigaSpaces XAP agent once the VM/Machine is restarted. Cloudify can be used to complete orchestration of the XAP installation and configuration.
 5. **Complete Data-Center Failure** - Elastic PU together with XAP init.d setup should be used; Data replication over the WAN using the WAN Gateway should be used. Cloudify can be used to complete orchestration of the XAP installation and configuration.
