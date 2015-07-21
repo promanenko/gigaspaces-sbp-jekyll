@@ -10,7 +10,7 @@ weight: 50
 
 {% tip %}
  **Author**:Shay Hasidim, John Burke, Christos Erototcritou, Pavlo Romanenko<br/>
- **Recently tested with GigaSpaces version**: XAP 9.7<br/>
+ **Recently tested with GigaSpaces version**: XAP 10.1.1<br/>
  **Last Update:** Apr 2014<br/>
 {% endtip %}
 
@@ -35,12 +35,11 @@ Please [install the OpenSpaces Maven plugin]({%latestjavaurl%}/maven-plugin.html
 
 ##### Step 2: Deploy a space and write some data
 
-- modify `<gsVersion>` within the `Export_Tool\pom.xml` to include the right XAP release - below example having XAP 9.7 (9.7.0-10496-RELEASE) as the `<gsVersion>` value:
+- modify `<gsVersion>` within the `ImportExportTool\pom.xml` to include the right XAP release - below example having XAP 10.1.1 (10.1.1-12800-RELEASE) as the `<gsVersion>` value:
 
 {% highlight xml %}
 <properties>
-        <gsVersion>9.7.0-10496-RELEASE</gsVersion>
-        <springVersion>3.1.3.RELEASE</springVersion>
+        <gsVersion>10.1.1-12800-RELEASE</gsVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 </properties>
 {% endhighlight %}
