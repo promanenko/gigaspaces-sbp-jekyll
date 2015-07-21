@@ -11,7 +11,7 @@ weight: 50
 {% tip %}
  **Author**:Shay Hasidim, John Burke, Christos Erototcritou, Pavlo Romanenko<br/>
  **Recently tested with GigaSpaces version**: XAP 10.1.1<br/>
- **Last Update:** Apr 2014<br/>
+ **Last Update:** July 2015<br/>
 {% endtip %}
 
 # Introduction
